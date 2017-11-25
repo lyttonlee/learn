@@ -1,6 +1,8 @@
 # learn
 
-> A Vue.js project
+> A Vue vuex vue-router element-ui axios learn project
+
+>目前完成：登录、注册、商品页面的基本功能
 
 ## Build Setup
 

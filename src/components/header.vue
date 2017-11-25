@@ -28,7 +28,7 @@
           </el-menu-item>
 
           <!-- 循环有children的路由 -->
-          <el-submenu v-else :index="route.path">
+          <el-submenu v-else :index="route.path" :key="route.path">
             <template slot="title">{{ route.name }}</template>
             <el-menu-item 
               v-for="child in route.children" 
@@ -46,8 +46,8 @@
       <!-- 根据logined值的真假来判断是显示登录按钮还是用户信息
       以后根据登录状态来改变 -->
       <el-button-group v-if="!user" >
-        <el-button  class="button" @click.native="tologin" type="danger" size="small" round >login</el-button>
-        <el-button  class="button" @click.native="toregin" type="success" size="small" round >regin</el-button>
+        <el-button  class="button" @click.native="tologin" type="danger" size="small" round >登录</el-button>
+        <el-button  class="button" @click.native="toregin" type="success" size="small" round >注册</el-button>
       </el-button-group>
       <div v-else>
         <el-dropdown>
@@ -154,6 +154,9 @@ export default {
   left: 0;
   z-index: 999;
   box-shadow: 0 0 25px #666;
+}
+.el-button {
+  width: 50%;
 }
 .logo img {
   width:60px;

@@ -1,5 +1,5 @@
 <template>
-  <el-main>
+  
     <el-form 
       :model="LoginForm" 
       ref="LoginForm" 
@@ -44,7 +44,7 @@
         <p>还没有账号，马上去<span class="to" @click="toregin">注册</span></p>
       </el-form-item>
     </el-form>
-  </el-main>
+  
 </template>
 
 <script>
@@ -132,7 +132,7 @@ export default {
 
 <style scoped>
 .login-form {
-  margin: 20px auto;
+  margin: 120px auto;
   width: 310px;
   background: #fff;
   box-shadow: 0 0 35px #B4BCCC;

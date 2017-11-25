@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Adapter from 'axios-mock-adapter'
-import {users} from './data'
+import {users, products} from './data'
 import avatarDefault from '../assets/logo.png'
 export default {
   init () {
@@ -38,17 +38,82 @@ export default {
 
     // 模拟注册接口
     mock.onPost('/regin').reply(config => {
-      let {username, password, email, tel, name} = config.params
-      users.push({
+      // console.log(config)
+      // console.log(config.data)
+      let {username, password, tel, email, name} = JSON.parse(config.data)
+      let adduser = {
         username: username,
         password: password,
         email: email,
         name: name,
         tel: tel,
-        avatar: avatarDefault
+        avatar: avatarDefault,
+        time: new Date()
+      }
+      users.push(adduser)
+      adduser.password = ''
+      return new Promise((resolve, reject) => {
+        resolve([200, {adduser}])
+      })
+    })
+    // 模拟获取商品列表
+    mock.onGet('/productlist').reply(config => {
+      let productclass = config.params
+      // console.log(productclass)
+      let productlist = products.filter(p => {
+        if (productclass === '') {
+          return true
+        } else if (p.productclass === productclass) {
+          return true
+        } else {
+          return false
+        }
+      })
+      // console.log(productlist)
+      return new Promise((resolve, reject) => {
+        resolve([200, {
+          productlist
+        }])
+      })
+    })
+    // 模拟查询列表
+    mock.onGet('/search').reply(config => {
+      let searchname = config.params
+      // console.log(searchname)
+      let searchRes = []
+      products.forEach(p => {
+        if (p.productname.indexOf(searchname) !== -1) {
+          searchRes.push(p)
+        }
+      })
+      // console.log(searchRes)
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (searchRes.length > 0) {
+            resolve([200, {
+              code: 200,
+              searchRes
+            }])
+          } else {
+            resolve([200, {
+              code: 500,
+              msg: '很抱歉没有查询到结果，请确定商品名'
+            }])
+          }
+        }, 500)
+      })
+    })
+    // 商品详情
+    mock.onGet('/product').reply(config => {
+      let {productclass, productname} = config.params
+      let curproduct = {}
+      products.forEach(p => {
+        if (p.productclass === productclass && p.productname === productname) {
+          curproduct = p
+        }
       })
       return new Promise((resolve, reject) => {
-        resolve(config.data)
+        resolve([200, {curproduct}])
       })
     })
   }

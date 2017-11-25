@@ -1,5 +1,5 @@
 <template>
-  <el-main>
+  
     <el-form 
       :model="ReginForm"
       ref="ReginForm"
@@ -78,7 +78,7 @@
       </el-form-item>
 
     </el-form>
-  </el-main>
+  
 </template>
 <script>
 // 引入api接口
@@ -183,6 +183,7 @@ export default {
           }
           // 调用借口，执行axios请求获取返回的数据
           ReginUser(ReginParams).then(res => {
+            console.log(res)
             // 让注册按钮不要在转了
             this.logining = false
             // 让页面给个提示
@@ -190,7 +191,7 @@ export default {
               type: 'success',
               message: '注册成功'
             })
-            let user = res.data
+            let user = res.data.adduser
             // console.log(user)
             // 将返回的数据注入内存
             sessionStorage.setItem('user', JSON.stringify(user))
@@ -217,7 +218,7 @@ export default {
 
 <style scoped>
 .regform {
-  margin: 20px auto;
+  margin: 120px auto;
   width: 310px;
   background: #fff;
   box-shadow: 0 0 10px #B4BCCC;

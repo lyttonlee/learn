@@ -11,6 +11,8 @@ import Manger from '@/components/page/manger'
 import My from '@/components/page/manger/my'
 import Send from '@/components/page/manger/send'
 import MyHistory from '@/components/page/manger/history'
+import ProductList from '@/components/page/product/productlist'
+import ProductContent from '@/components/page/product/productcontent'
 
 Vue.use(Router)
 
@@ -27,16 +29,30 @@ export default new Router({
       path: '/products',
       name: '商品',
       class: 'el-icon-goods',
-      component: Products
+      component: Products,
+      redirect: '/product/all',
+      // 这里不要加haschild = true,不然这个路由会出错
+      children: [
+        {
+          // 这里用的动态路由，需要一个冒号：
+          path: '/product/:class',
+          component: ProductList
+        }
+      ]
+    },
+    {
+      path: '/product/:class/:productname',
+      hidden: true,
+      component: ProductContent
     },
     {
       path: '/FAQ',
-      name: 'FAQ使用文档',
+      name: '文档',
       component: FAQ
     },
     {
       path: '/manger',
-      name: '我的工作台',
+      name: '工作台',
       redirect: '/manger/my',
       component: Manger,
       hasChild: true,

@@ -19,15 +19,5 @@ export default {
       return this.$store.state.user
     }
   }
-  // mounted () {
-  //   // 从内存取出数据
-  //   let user = sessionStorage.getItem('user')
-  //   // 判断数据是否存在
-  //   if (user) {
-  //     user = JSON.parse(user)
-  //     this.username = user.name
-  //     console.log(user)
-  //   }
-  // }
 }
 </script>

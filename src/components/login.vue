@@ -135,7 +135,7 @@ export default {
   margin: 120px auto;
   width: 310px;
   background: #fff;
-  box-shadow: 0 0 35px #B4BCCC;
+  box-shadow: 0 0 10px #B4BCCC;
   padding: 30px 30px 0 30px;
   border-radius: 25px; 
 }

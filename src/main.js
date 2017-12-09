@@ -9,12 +9,16 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 引入vuex
 import Vuex from 'vuex'
 import store from './vuex/store'
+// 引入fastclick
+// import FastClick from 'fastclick'
+// import 'hover.css'
 // 引入mock并初始化
 import Mock from './data/mock'
 Mock.init()
 // use
 Vue.use(ElementUi)
 Vue.use(Vuex)
+// FastClick.attach(document.body)
 
 Vue.config.productionTip = false
 // 这个官方名字叫导航守卫，挺形象的

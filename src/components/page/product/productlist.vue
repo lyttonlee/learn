@@ -4,31 +4,28 @@
       <h1 v-text="$route.params.class"></h1>
     </div>
     <!-- <p>共{{productlist.length}}个商品</p> -->
-    <ul>
+    <el-row class="main">
       <template v-for="(item, index) in productlist">
-        <el-row  class="item" :key="item.productclass">
+        <el-col :span="7" :xs="22"  class="item hvr-float-shadow" :key="item.productclass">
+          <router-link
+            :to="'/product/'+item.productclass+'/'+item.productname"
+            :key="item.productclass">
+            <img class="hvr-bob" :src="item.productimage" >
+          </router-link>
+          <h3>{{item.productname}}</h3>
+          <p class="intro">{{item.productintro}}</p>
           <router-link 
             :to="'/product/'+item.productclass+'/'+item.productname"
             :key="item.productclass">
-            <el-col :span="8">
-              <img :src="item.productimage" >
-            </el-col>
-          </router-link>  
-          <el-col :span="16">
-            <h3>{{item.productname}}</h3>
-            <p class="intro">{{item.productintro}}</p>
-            <router-link 
-              :to="'/product/'+item.productclass+'/'+item.productname"
-              :key="item.productclass">
-              <p class="link">了解详情...</p>
-            </router-link>
-            <p class="sellnum">累计发货<span>{{item.productsells}}</span>件</p>
-            <p class="price">全国包邮价<span>{{item.productprice}}</span>元</p>
-            <!-- <el-input-number size="mini" v-model="addnum"></el-input-number> -->
-          </el-col>
-        </el-row>
+            <p class="link">了解详情...</p>
+          </router-link>
+          <p class="sellnum">累计发货<span>{{item.productsells}}</span>件</p>
+          <p class="price">全国包邮价<span>{{item.productprice}}</span>元</p>
+          <!-- <el-input-number size="mini" v-model="addnum"></el-input-number> -->
+          
+        </el-col> 
       </template>
-    </ul>
+    </el-row>
   </div>
 </template>
 <script>
@@ -82,7 +79,8 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
+@import '../../../common/css/hover.css';
 a {
   text-decoration: none;
   color: #999;
@@ -99,25 +97,25 @@ a:hover {
   padding-left:20px; 
   line-height: 60px;
 }
-ul {
-  padding: 0;
-  margin: 0 15px;
+.main {
+  .item {
+    margin: 25px 10px;
+    /* background: #f2f3f2; */
+    box-shadow: 0 5px 5px #ccc;
+    border-top: 1px solid #ccc; 
+    /* border: 1px solid #ccc; */
+    border-radius: 15px;
+    img {
+      width: 90%;
+      padding: 10px;
+      border-radius: 15px; 
+    }
+  }
 }
-.item {
-  margin: 25px 0;
-  /* background: #f2f3f2; */
-  box-shadow: 0 0 30px #ccc;
-  border-radius: 15px; 
-}
-.item:hover {
-  /* border: 1px solid silver;  */
-  background: #eee;
-}
-img {
-  width: 100%;
-  max-width: 500px;
-  padding: 10px;
-  border-radius: 15px; 
+
+.intro {
+  height: 90px;
+  overflow: hidden;
 }
 .intro,.price,.sellnum {
   margin: 0 15px 0 25px;

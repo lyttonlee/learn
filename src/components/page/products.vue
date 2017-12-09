@@ -115,7 +115,7 @@ export default {
 <style scoped>
 .el-input {
   margin: 20px 0;
-  width: 70%;
+  width: 60%;
 }
 .el-button {
   width: 25%;

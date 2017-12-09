@@ -13,6 +13,7 @@
 <style scoped>
 .footer {
   background: #eee;
+  margin-left: 25%; 
 }
 img {
   width: 80px;

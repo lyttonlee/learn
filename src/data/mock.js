@@ -27,12 +27,14 @@ export default {
           }
         })
         // 如果有这么一个人
-        if (hasUser) {
-          resolve([200, { code: 200, msg: '登录成功', user }])
-          // 如果没有这个人
-        } else {
-          resolve([200, { code: 500, msg: '账号或密码错误' }])
-        }
+        setTimeout(() => {
+          if (hasUser) {
+            resolve([200, { code: 200, msg: '登录成功', user }])
+            // 如果没有这个人
+          } else {
+            resolve([200, { code: 500, msg: '账号或密码错误' }])
+          }
+        }, 1500)
       })
     })
 

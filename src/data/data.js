@@ -26,7 +26,20 @@ Mock.Random.extend({
   productclass: function () {
     let classes = ['pomegranate', 'pine', 'ham', 'other']
     return this.pick(classes)
+  },
+  status: function (stat) {
+    let states = ['待发货', '正在发货', '已发货', '已签收']
+    return this.pick(states)
+  },
+  bename: function (be) {
+    let benames = ['李小白', '张三']
+    return this.pick(benames)
   }
+  // sendprod: function () {
+  //   let prods = products.productname
+  //   console.log(prods)
+  //   return this.pick(prods)
+  // }
 })
 for (let index = 0; index < 25; index++) {
   products.push(Mock.mock({
@@ -39,5 +52,23 @@ for (let index = 0; index < 25; index++) {
     producrselling: Mock.Random.boolean()
   }))
 }
+const sends = []
+for (let i = 0; i < 45; i++) {
+  sends.push(Mock.mock({
+    bename: Mock.Random.bename(),
+    sendname: Mock.Random.cname(),
+    sendaddr: Mock.Random.city(),
+    'sendtel|0-9': 11,
+    recepname: Mock.Random.cname(),
+    recepaddr: Mock.Random.city(),
+    'receptel|0-9': 11,
+    sendprod: Mock.Random.ctitle(),
+    'sendprice|100-200': 1,
+    sendmsg: Mock.Random.ctitle(),
+    sendstatus: Mock.Random.status(),
+    'sendcode|1-9': 13,
+    date: Mock.Random.date()
+  }))
+}
 
-export {users, products}
+export {users, products, sends}

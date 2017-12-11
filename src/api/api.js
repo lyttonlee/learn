@@ -23,3 +23,11 @@ export const SearchProductList = params => {
 export const GetProduct = params => {
   return axios.get(`${base}/product`, {params: params})
 }
+// 个人待发货接口
+export const GetPresend = params => {
+  return axios.get(`${base}/presend`, {params: params})
+}
+// 个人已发货接口
+export const GetSended = params => {
+  return axios.get(`${base}/sended`, {params: params})
+}

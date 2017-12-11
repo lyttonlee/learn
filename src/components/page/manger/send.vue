@@ -19,8 +19,23 @@
   </div>
 </template>
 <script>
+import {GetPresend} from '../../../api/api'
 export default {
   // ..
+  computed: {
+    user () {
+      return this.$store.state.user
+    }
+  },
+  mounted () {
+    let presendparams = {
+      bename: this.user.name,
+      status: '待发货'
+    }
+    GetPresend(presendparams).then(res => {
+      console.log(res)
+    })
+  }
 }
 </script>
 <style lang="less" scoped>

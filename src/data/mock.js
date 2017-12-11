@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Adapter from 'axios-mock-adapter'
-import {users, products} from './data'
+import {users, products, sends} from './data'
 import avatarDefault from '../assets/logo.png'
 export default {
   init () {
@@ -116,6 +116,48 @@ export default {
       })
       return new Promise((resolve, reject) => {
         resolve([200, {curproduct}])
+      })
+    })
+    // 获取个人待发货列表
+    mock.onGet('/presend').reply(config => {
+      // console.log(config)
+      // console.log(sends)
+      let {bename, status} = config.params
+      // console.log(bename, status)
+      let presend = sends.filter(pre => {
+        // console.log(pre)
+        if (pre.bename === bename && pre.sendstatus === status) {
+          return true
+        } else {
+          return false
+        }
+      })
+      // console.log(presend)
+      return new Promise((resolve, reject) => {
+        if (presend.length > 0) {
+          resolve([200, {presend}])
+        } else {
+          resolve([200, {
+            msg: '还没有发货列表'
+          }])
+        }
+      })
+    })
+    // 获取个人已发货列表
+    mock.onGet('/sended').reply(config => {
+      let {bename, status} = config.params
+      let sended = sends.filter(ed => {
+        if (ed.bename === bename && ed.status !== status) {
+          return true
+        }
+      })
+      console.log(sended)
+      return new Promise((resolve, reject) => {
+        if (sended.length > 0) {
+          resolve([200, {sended}])
+        } else {
+          resolve([200, {msg: '没有记录'}])
+        }
       })
     })
   }

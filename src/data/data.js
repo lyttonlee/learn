@@ -1,5 +1,6 @@
 import avatarLee from '../assets/avatar.jpg'
 import avatarZhang from '../assets/avatar2.jpg'
+import {dateArray} from '../common/js/common'
 import Mock from 'mockjs'
 const users = [
   {
@@ -21,19 +22,34 @@ const users = [
     avatar: avatarZhang
   }
 ]
-const products = []
+// 。。。。。。。。。。。。
+const prodnames = []
+for (let index = 0; index < 25; index++) {
+  prodnames.push(Mock.mock(
+    Mock.Random.ctitle()
+  ))
+}
+
+// 数据扩展
 Mock.Random.extend({
   productclass: function () {
-    let classes = ['pomegranate', 'pine', 'ham', 'other']
+    let classes = ['石榴', '松子', '火腿', '其它']
     return this.pick(classes)
   },
-  status: function (stat) {
+  status: function () {
     let states = ['待发货', '正在发货', '已发货', '已签收']
     return this.pick(states)
   },
-  bename: function (be) {
+  bename: function () {
     let benames = ['李小白', '张三']
     return this.pick(benames)
+  },
+  senddate: function () {
+    let senddate = dateArray
+    return this.pick(senddate)
+  },
+  prodname: function () {
+    return this.pick(prodnames)
   }
   // sendprod: function () {
   //   let prods = products.productname
@@ -41,9 +57,31 @@ Mock.Random.extend({
   //   return this.pick(prods)
   // }
 })
-for (let index = 0; index < 25; index++) {
-  products.push(Mock.mock({
-    productname: Mock.Random.ctitle(),
+const products = [
+  {
+    class: 'pomegranate',
+    name: '石榴',
+    prods: []
+  },
+  {
+    class: 'pine',
+    name: '松子',
+    prods: []
+  },
+  {
+    class: 'ham',
+    name: '火腿',
+    prods: []
+  },
+  {
+    class: 'other',
+    name: '其它',
+    prods: []
+  }
+]
+for (let index = 0; index < 4; index++) {
+  products[index].prods.push(Mock.mock({
+    productname: Mock.Random.prodname(),
     productclass: Mock.Random.productclass(),
     'productprice|100-200': 1,
     productintro: Mock.Random.cparagraph(),
@@ -62,12 +100,13 @@ for (let i = 0; i < 45; i++) {
     recepname: Mock.Random.cname(),
     recepaddr: Mock.Random.city(),
     'receptel|0-9': 11,
-    sendprod: Mock.Random.ctitle(),
+    sendprod: Mock.Random.prodname(),
     'sendprice|100-200': 1,
     sendmsg: Mock.Random.ctitle(),
     sendstatus: Mock.Random.status(),
     'sendcode|1-9': 13,
-    date: Mock.Random.date()
+    date: Mock.Random.senddate(),
+    sendprodtype: Mock.Random.productclass()
   }))
 }
 

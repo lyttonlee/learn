@@ -1,0 +1,8 @@
+table {
+  font-size: 14px;
+}
+@media screen and (max-width: 768px) {
+  table {
+    font-size: 2px;
+  }
+}

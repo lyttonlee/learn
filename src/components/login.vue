@@ -92,6 +92,7 @@ export default {
           }
           // 调用axios登录接口
           LoginUser(LoginParams).then(res => {
+            console.log(res)
             this.logining = false
             // 根据返回的code判断是否成功
             let {code, msg, user} = res.data

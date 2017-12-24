@@ -1,12 +1,12 @@
 import axios from 'axios'
-let base = ''
+let base = '/learn'
 // 注册接口
 export const ReginUser = params => {
   return axios.post(`${base}/regin`, params)
 }
 // 登录接口
 export const LoginUser = params => {
-  return axios.post(`${base}/login`, params)
+  return axios.get(`${base}/login`, {params: params})
 }
 
 // 获取商品列表接口

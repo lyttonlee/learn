@@ -8,7 +8,7 @@
           :default-active="$router.path"
           router>
             <el-menu-item 
-              v-for="(item, index) in $router.options.routes[4].children"
+              v-for="item in $router.options.routes[4].children"
               :key="item.path"
               :index="item.path">
               {{item.name}}
@@ -23,55 +23,49 @@
               <img class="avatar" :src="user.avatar" alt="">
             </el-col>
             <el-col :span="16" :xs="24">
-              <h3>{{user.name}}</h3>
-              <p>代理级别：{{role}}</p>
-              <p>共发货{{total}}件</p>
-              <p>离达到{{next}}还需再发货{{num}}件</p>
+              <h4>{{user.name}}</h4>
+              <p>代理级别：<span class="text-color">{{sender.role}}</span>，折扣<span class="text-color">{{sender.zhekou}}折</span></p>
+              <p>共发货<span class="text-color">{{sender.total}}</span>件</p>
+              <p>离达到<span class="text-color">{{sender.next}}</span>还需再发货<span class="text-color">{{sender.num}}</span>件</p>
             </el-col>
           </el-row>
         </div>
         <transition name="el-zoom-in-center">
-          <router-view></router-view>
+          <router-view :key="key"></router-view>
         </transition>
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
-import {GetSended} from '../../api/api'
+// import {GetSended} from '../../api/api'
+// import bus from '../../common/js/bus'
 export default {
   data () {
     return {
       role: '',
       total: '',
       next: '',
-      num: ''
+      num: '',
+      zhekou: ''
     }
   },
   computed: {
     user () {
       return this.$store.state.user
+    },
+    key () {
+      return this.$route.path
+    },
+    sended () {
+      return this.$store.state.sended
+    },
+    sender () {
+      return this.$store.getters.sender
     }
   },
   mounted () {
-    let pars = {
-      bename: this.user.name,
-      status: '待发货'
-    }
-    GetSended(pars).then(res => {
-      this.total = res.data.sended.length
-      if (res.data.sended.length < 10) {
-        this.role = '初出茅庐'
-        this.next = '渐入佳境'
-        this.num = 10 - res.data.sended.length
-      } else if (res.data.sended.length < 100 && res.data.sended.length >= 10) {
-        this.role = '渐入佳境'
-        this.next = '炉火纯青'
-        this.num = 100 - res.data.sended.length
-      } else {
-        this.role = '炉火纯青'
-      }
-    })
+    this.$store.dispatch('sended')
   }
 }
 </script>
@@ -112,7 +106,11 @@ export default {
       width: 100px;
       height: 100px;
       border-radius: 50px;
-      margin: 10px 0 5px 0;  
+      margin: 30px 0 5px 0;
+    }
+    .text-color {
+      color: @color;
+      font-size: 16px;
     }
   }
 }

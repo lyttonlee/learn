@@ -10,7 +10,7 @@
         background-color="#fff"
         text-color="#267943"
         active-text-color="#000">
-        <el-menu-item v-for="(item, index) in productclass" 
+        <el-menu-item v-for="item in productclass" 
           :index="'/product/'+item.class"
           :key="'/product/'+item.class"
           v-text="item.name">
@@ -51,28 +51,7 @@ export default {
       searchName: '',
       isactive: false,
       loading: false,
-      productclass: [
-        {
-          class: 'all',
-          name: '全部商品'
-        },
-        {
-          class: 'pomegranate',
-          name: '石榴'
-        },
-        {
-          class: 'pine',
-          name: '松子'
-        },
-        {
-          class: 'ham',
-          name: '火腿'
-        },
-        {
-          class: 'other',
-          name: '其它商品'
-        }
-      ]
+      productclass: []
     }
   },
   computed: {

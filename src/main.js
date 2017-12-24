@@ -11,13 +11,15 @@ import Vuex from 'vuex'
 import store from './vuex/store'
 // 引入fastclick
 // import FastClick from 'fastclick'
-// import 'hover.css'
+// 引入echarts,最好是按需引入
+// import ECharts from 'echarts'
 // 引入mock并初始化
-import Mock from './data/mock'
-Mock.init()
+// import Mock from './data/mock'
+// Mock.init()
 // use
 Vue.use(ElementUi)
 Vue.use(Vuex)
+// Vue.prototype.$echarts = ECharts
 // FastClick.attach(document.body)
 
 Vue.config.productionTip = false

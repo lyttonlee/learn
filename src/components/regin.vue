@@ -179,7 +179,8 @@ export default {
             password: this.ReginForm.password,
             tel: this.ReginForm.tel,
             email: this.ReginForm.email,
-            name: this.ReginForm.name
+            name: this.ReginForm.name,
+            date: new Date()
           }
           // 调用借口，执行axios请求获取返回的数据
           ReginUser(ReginParams).then(res => {

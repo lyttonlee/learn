@@ -147,11 +147,11 @@ export default {
     mock.onGet('/sended').reply(config => {
       let {bename, status} = config.params
       let sended = sends.filter(ed => {
-        if (ed.bename === bename && ed.status !== status) {
+        if (ed.bename === bename && ed.sendstatus !== status) {
           return true
         }
       })
-      console.log(sended)
+      // console.log(sended)
       return new Promise((resolve, reject) => {
         if (sended.length > 0) {
           resolve([200, {sended}])

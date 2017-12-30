@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// 引入组件
+// 引入前端组件
 import Home from '@/components/home'
 import Login from '@/components/login'
 import Regin from '@/components/regin'
@@ -13,6 +13,8 @@ import Send from '@/components/page/manger/send'
 import MyHistory from '@/components/page/manger/history'
 import ProductList from '@/components/page/product/productlist'
 import ProductContent from '@/components/page/product/productcontent'
+// 引入后端管理组件
+import Admin from '@/admin/admin'
 
 Vue.use(Router)
 
@@ -73,6 +75,14 @@ export default new Router({
       name: '',
       hidden: true,
       component: Regin
+    },
+    {
+      path: '/admin',
+      name: '管理首页',
+      component: Admin,
+      type: 'admin',
+      hidden: true,
+      children: []
     },
     {
       path: '*',

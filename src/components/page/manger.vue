@@ -43,11 +43,6 @@
 export default {
   data () {
     return {
-      role: '',
-      total: '',
-      next: '',
-      num: '',
-      zhekou: ''
     }
   },
   computed: {

@@ -27,8 +27,8 @@ require('echarts/lib/chart/pie')
 // 引入提示框和title等组件
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
-require('echarts/lib/component/markpoint')
-require('echarts/lib/component/markline')
+// require('echarts/lib/component/markpoint')
+// require('echarts/lib/component/markline')
 require('echarts/lib/component/legend')
 export default {
   data () {
@@ -53,18 +53,18 @@ export default {
         series: [{
           name: '发货',
           type: 'line',
-          data: this.sendedlast,
-          markPoint: {
-            data: [
-                {type: 'max', name: '最大值'},
-                {type: 'min', name: '最小值'}
-            ]
-          },
-          markLine: {
-            data: [
-                {type: 'average', name: '平均值'}
-            ]
-          }
+          data: this.sendedlast
+          // markPoint: {
+          //   data: [
+          //       {type: 'max', name: '最大值'},
+          //       {type: 'min', name: '最小值'}
+          //   ]
+          // },
+          // markLine: {
+          //   data: [
+          //       {type: 'average', name: '平均值'}
+          //   ]
+          // }
         }]
       },
       alloption: {

@@ -120,8 +120,8 @@ export default {
           {
             required: true,
             max: 14,
-            min: 7,
-            message: '用户名是必须的，长度为7-14位',
+            min: 3,
+            message: '用户名是必须的，长度为3-14位',
             trigger: 'blur'
           }
         ],

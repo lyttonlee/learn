@@ -16,7 +16,7 @@ import store from './vuex/store'
 // 引入mock并初始化
 // import Mock from './data/mock'
 // Mock.init()
-// use
+
 Vue.use(ElementUi)
 Vue.use(Vuex)
 // Vue.prototype.$echarts = ECharts

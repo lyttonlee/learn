@@ -8,8 +8,8 @@
       <!-- 中间导航区域 -->
       <el-col class="main" :span="16">
         <el-menu :default-active="$route.path" class="menu" router mode="horizontal" @select="handleSelect" active-text-color="#000">
-          <!-- 循环写的路由，其中路由中有  hidden：true 的就不加入循环 -->
-          <template v-for="route in $router.options.routes" v-if="!route.hidden">
+          <!-- 循环写的前端路由，其中路由中有  hidden：true 的就不加入循环 -->
+          <template v-for="route in $router.options.routes[0].children" v-if="!route.hidden">
 
             <!-- 循环没有children的路由 -->
             <el-menu-item v-if="!route.hasChild" :key="route.path" :index="route.path">
@@ -61,8 +61,8 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
               <el-menu :default-active="$route.path" class="menu" router  @select="handleSelect" active-text-color="#000">
-                <!-- 循环写的路由，其中路由中有  hidden：true 的就不加入循环 -->
-                <template v-for="route in $router.options.routes" v-if="!route.hidden">
+                <!-- 循环写的前段路由，其中路由中有  hidden：true 的就不加入循环 -->
+                <template v-for="route in $router.options.routes[0].children" v-if="!route.hidden">
 
                   <!-- 循环没有children的路由 -->
                   <el-menu-item v-if="!route.hasChild" :key="route.path" :index="route.path">

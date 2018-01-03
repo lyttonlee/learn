@@ -8,15 +8,16 @@ Vue.use(Vuex)
 // 创建基本状态
 const state = {
   user: JSON.parse(sessionStorage.getItem('user')) || '',
-  sended: []
+  sended: [],
+  adminer: JSON.parse(sessionStorage.getItem('adminer')) || ''
 }
 // 创建改变状态的方法
 const mutations = {
-  // 登录
+  // 用户登录
   LOGIN (state) {
     state.user = JSON.parse(sessionStorage.getItem('user'))
   },
-  // 登出
+  // 用户登出
   LOGOUT (state) {
     state.user = ''
   },
@@ -29,6 +30,10 @@ const mutations = {
     GetSended(pars).then(res => {
       state.sended = res.data.sended
     })
+  },
+  // 管理员登录
+  ADMINLOGIN (state) {
+    state.adminer = JSON.parse(sessionStorage.getItem('adminer'))
   }
 }
 // getters
@@ -88,17 +93,22 @@ const getters = {
 }
 // 创建驱动actions可以使得mutations得以启动
 const actions = {
+  // 用户登录
   // 这里先来一个驱动LOGIN的东西就叫login吧
   login ({commit}) {
     commit('LOGIN')
   },
-  // 同样来个logout
+  // 用户登出
   logout ({commit}) {
     commit('LOGOUT')
   },
-  // sended
+  // 用户发货统计
   sended ({commit}) {
     commit('SENDED')
+  },
+  // 管理员登录
+  adminlogin ({commit}) {
+    commit('ADMINLOGIN')
   }
 }
 

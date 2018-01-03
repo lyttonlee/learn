@@ -15,7 +15,7 @@
     <!-- 内容区 -->
     <el-row class="main">
       <!-- 左边导航菜单 -->
-      <el-col class="menu" :span="8">
+      <el-col class="menu" :span="6">
         <p></p>
         <el-menu 
           class="admin-menu"
@@ -30,7 +30,7 @@
           </el-menu>
       </el-col>
       <!-- 右边操作区域 -->
-      <el-col class="content" :span="16">
+      <el-col class="content" :span="18">
         <transition name="el-zoom-in-center">
           <router-view></router-view>
         </transition>

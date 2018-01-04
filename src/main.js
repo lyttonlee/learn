@@ -9,6 +9,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 引入vuex
 import Vuex from 'vuex'
 import store from './vuex/store'
+// 引入mavon-editor
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 // 引入fastclick
 // import FastClick from 'fastclick'
 // 引入echarts,最好是按需引入
@@ -19,6 +22,7 @@ import store from './vuex/store'
 
 Vue.use(ElementUi)
 Vue.use(Vuex)
+Vue.use(mavonEditor)
 // Vue.prototype.$echarts = ECharts
 // FastClick.attach(document.body)
 

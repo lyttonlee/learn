@@ -8,7 +8,10 @@ export const ReginUser = params => {
 export const LoginUser = params => {
   return axios.get(`${base}/login`, {params: params})
 }
-
+// 上传图片接口
+export const UploadFile = params => {
+  return axios.post(`${base}/upload`, params)
+}
 // 获取商品列表接口
 export const GetProductList = params => {
   return axios.get(`${base}/productlist`, {params: params})

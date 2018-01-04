@@ -9,6 +9,17 @@
       <el-form-item label="价格" prop="price">
         <el-input v-model.number="addprod.price" placeholder="请输入商品价格"></el-input>
       </el-form-item>
+      <el-form-item label="商品主图" prop="image">
+        <el-upload
+          class="prod-image"
+          action="/learn/upload"
+          :show-file-list="false"
+          :on-success="handleAvatarSuccess"
+          :before-upload="beforeAvatarUpload">
+          <img v-if="imageUrl" :src="imageUrl" class="cur-image">
+          <i v-else class="el-icon-plus prod-uploader-icon"></i>
+        </el-upload>
+      </el-form-item>
       <el-form-item label="商品类别" prop="type">
         <el-select v-model="addprod.type" placeholder="请选择商品类别">
           <el-option label="石榴" value="shiliu"></el-option>
@@ -24,21 +35,27 @@
       <el-form-item label="商品简介" prop="desc">
         <el-input type="textarea" v-model="addprod.desc" placeholder="请请输入商品简介"></el-input>
       </el-form-item>
+
+      <el-form-item label="商品详情" prop="info">
+        <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="addprod.info"></mavon-editor>
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" @click="newprod">立即添加</el-button>
-        <el-button>取消</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 <script>
+import {UploadFile} from '../../../api/api'
 export default {
   data () {
     return {
+      imageUrl: '',
       addprod: {
         name: '',
         price: '',
-        type: [],
+        type: '',
         selling: '',
         desc: ''
       },
@@ -95,6 +112,44 @@ export default {
           return false
         }
       })
+    },
+    // 图片上传并替换地址
+    // 绑定@imgAdd event
+    $imgAdd (pos, $file) {
+      // 第一步.将图片上传到服务器.
+      let formdata = new FormData()
+      formdata.append('image', $file)
+      let uploadparams = {
+        data: formdata,
+        headers: { 'Content-Type': 'multipart/form-data' }
+      }
+      console.log('pos: ' + pos, formdata, $file)
+      UploadFile(uploadparams)
+      .then(url => {
+        console.log(url)
+        // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
+        this.$refs.md.$img2Url(pos, url)
+      })
+    },
+    $imgDel (pos) {
+      delete this.img_file[pos]
+    },
+    handleAvatarSuccess (res, file) {
+      // this.imageUrl = URL.createObjectURL(file.raw)
+      console.log(res)
+    },
+    beforeAvatarUpload (file) {
+      console.log(file)
+      const isPIC = file.type === 'image/jpeg' || 'image/png'
+      const isLt5M = file.size / 1024 / 1024 < 5
+
+      if (!isPIC) {
+        this.$message.error('上传图片只能是 JPG或PNG 格式!')
+      }
+      if (!isLt5M) {
+        this.$message.error('上传图片大小不能超过 5MB!')
+      }
+      return isPIC && isLt5M
     }
   }
 }
@@ -110,6 +165,26 @@ export default {
     }
     .el-switch {
       margin: 10px 0 0 0;
+    }
+    .prod-image {
+      width: 200px;
+      height: 200px;
+      border: 1px dashed #d9d9d9;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      .cur-image {
+        width: 100%;
+      }
+      .prod-uploader-icon {
+        font-size: 45px;
+        color: #8c939d;
+        width: 200px;
+        height: 200px;
+        line-height: 200px;
+        text-align: center;
+      }
     }
   }
 }

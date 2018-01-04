@@ -22,6 +22,12 @@ import MangerAdmin from '@/admin/views/mangeradmin'
 import MangerProds from '@/admin/views/mangerprods'
 import MangerSends from '@/admin/views/mangersends'
 import MangerUser from '@/admin/views/mangeruser'
+// 引入后端子组件
+// 商品类组件
+import AddType from '@/admin/views/prods/addtype'
+import AddProd from '@/admin/views/prods/addprod'
+import AllProds from '@/admin/views/prods/allprods'
+import EditProd from '@/admin/views/prods/editprod'
 
 Vue.use(Router)
 
@@ -93,7 +99,30 @@ export default new Router({
         {
           path: '/admin/mangeprods',
           name: '商品管理',
-          component: MangerProds
+          component: MangerProds,
+          redirect: '/admin/mangeprods/allprods',
+          children: [
+            {
+              path: '/admin/mangeprods/allprods',
+              name: '全部商品',
+              component: AllProds
+            },
+            {
+              path: '/admin/mangeprods/addprodstype',
+              name: '添加商品分类',
+              component: AddType
+            },
+            {
+              path: '/admin/mangeprods/addprod',
+              name: '新增商品',
+              component: AddProd
+            },
+            {
+              path: '/admin/mangeprods/editprod',
+              name: '修改商品',
+              component: EditProd
+            }
+          ]
         },
         {
           path: '/admin/mangesends',

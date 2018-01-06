@@ -14,8 +14,8 @@
           class="prod-image"
           action="/learn/upload"
           :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload">
+          :on-success="handleSuccess"
+          :before-upload="beforeUpload">
           <img v-if="imageUrl" :src="imageUrl" class="cur-image">
           <i v-else class="el-icon-plus prod-uploader-icon"></i>
         </el-upload>
@@ -57,7 +57,8 @@ export default {
         price: '',
         type: '',
         selling: '',
-        desc: ''
+        desc: '',
+        info: ''
       },
       prodrules: {
         name: [
@@ -106,7 +107,9 @@ export default {
     newprod () {
       this.$refs.addprod.validate(valid => {
         if (valid) {
-          console.log('add prod!')
+          // console.log('add prod!')
+          const prodFd = new FormData()
+          prodFd.append('name', this.addprod.name)
         } else {
           console.log('请先完成验证')
           return false
@@ -118,27 +121,28 @@ export default {
     $imgAdd (pos, $file) {
       // 第一步.将图片上传到服务器.
       let formdata = new FormData()
-      formdata.append('image', $file)
-      let uploadparams = {
-        data: formdata,
-        headers: { 'Content-Type': 'multipart/form-data' }
-      }
-      console.log('pos: ' + pos, formdata, $file)
-      UploadFile(uploadparams)
+      formdata.append('file', $file)
+      // let uploadparams = {
+      //   data: formdata,
+      //   headers: { 'Content-Type': 'multipart/form-data' }
+      // }
+      // console.log('pos: ' + pos, formdata, $file)
+      UploadFile(formdata)
       .then(url => {
-        console.log(url)
+        // console.log(url)
+        console.log(this.addprod.info)
         // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
-        this.$refs.md.$img2Url(pos, url)
+        this.$refs.md.$img2Url(pos, url.data)
       })
     },
     $imgDel (pos) {
       delete this.img_file[pos]
     },
-    handleAvatarSuccess (res, file) {
-      // this.imageUrl = URL.createObjectURL(file.raw)
-      console.log(res)
+    handleSuccess (res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw)
+      console.log(file.raw)
     },
-    beforeAvatarUpload (file) {
+    beforeUpload (file) {
       console.log(file)
       const isPIC = file.type === 'image/jpeg' || 'image/png'
       const isLt5M = file.size / 1024 / 1024 < 5

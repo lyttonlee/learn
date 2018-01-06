@@ -1,5 +1,8 @@
 import axios from 'axios'
+// dev
 let base = '/learn'
+// // build
+// let base = ''
 // 注册接口
 export const ReginUser = params => {
   return axios.post(`${base}/regin`, params)
@@ -10,7 +13,12 @@ export const LoginUser = params => {
 }
 // 上传图片接口
 export const UploadFile = params => {
-  return axios.post(`${base}/upload`, params)
+  return axios({
+    url: base + '/upload',
+    method: 'post',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    data: params
+  })
 }
 // 获取商品列表接口
 export const GetProductList = params => {

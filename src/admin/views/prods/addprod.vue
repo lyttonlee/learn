@@ -122,11 +122,6 @@ export default {
       // 第一步.将图片上传到服务器.
       let formdata = new FormData()
       formdata.append('file', $file)
-      // let uploadparams = {
-      //   data: formdata,
-      //   headers: { 'Content-Type': 'multipart/form-data' }
-      // }
-      // console.log('pos: ' + pos, formdata, $file)
       UploadFile(formdata)
       .then(url => {
         // console.log(url)
@@ -140,10 +135,8 @@ export default {
     },
     handleSuccess (res, file) {
       this.imageUrl = URL.createObjectURL(file.raw)
-      console.log(file.raw)
     },
     beforeUpload (file) {
-      console.log(file)
       const isPIC = file.type === 'image/jpeg' || 'image/png'
       const isLt5M = file.size / 1024 / 1024 < 5
 

@@ -143,7 +143,7 @@ export default new Router({
     },
     // 登录注册以及404页面路由
     {
-      path: '/admin/login',
+      path: '/adminer/login',
       hidden: true,
       component: AdminLogin
     },

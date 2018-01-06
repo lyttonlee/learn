@@ -34,6 +34,10 @@ const mutations = {
   // 管理员登录
   ADMINLOGIN (state) {
     state.adminer = JSON.parse(sessionStorage.getItem('adminer'))
+  },
+  // 管理员退出
+  ADMINLOGOUT (state) {
+    state.adminer = ''
   }
 }
 // getters
@@ -109,6 +113,10 @@ const actions = {
   // 管理员登录
   adminlogin ({commit}) {
     commit('ADMINLOGIN')
+  },
+  // 管理员登录
+  adminlogout ({commit}) {
+    commit('ADMINLOGOUT')
   }
 }
 

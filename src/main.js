@@ -37,9 +37,19 @@ router.beforeEach((to, from, next) => {
     // this.$store.dispatch('logout')
     store.dispatch('logout')
   }
-  let user = JSON.parse(sessionStorage.getItem('user'))
+  if (to.path === '/adminer/login') {
+    sessionStorage.removeItem('adminer')
+    store.dispatch('logout')
+  }
+  let user = store.state.user
+  let adminer = store.state.adminer
   if (!user && (to.path === '/manger/my' || to.path === '/manger/send' || to.path === '/manger/history')) {
     next({ path: '/login' })
+  } else {
+    next()
+  }
+  if (!adminer && to.path === '/admin/^') {
+    next({ path: '/adminer/login' })
   } else {
     next()
   }

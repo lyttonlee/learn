@@ -48,10 +48,12 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
-  if (!adminer && to.path === '/admin/^') {
-    next({ path: '/adminer/login' })
-  } else {
-    next()
+  if (to.meta.requireAdminer) {
+    if (adminer !== '') {
+      next()
+    } else {
+      next({ path: '/adminer/login' })
+    }
   }
 })
 

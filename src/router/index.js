@@ -90,36 +90,57 @@ export default new Router({
       component: Admin,
       type: 'admin',
       hidden: true,
+      meta: {
+        requireAdminer: true
+      },
       children: [
         {
           path: '/admin',
+          meta: {
+            requireAdminer: true
+          },
           component: AdminHome,
           name: '管理首页'
         },
         {
           path: '/admin/mangeprods',
           name: '商品管理',
+          meta: {
+            requireAdminer: true
+          },
           component: MangerProds,
           redirect: '/admin/mangeprods/allprods',
           children: [
             {
               path: '/admin/mangeprods/allprods',
               name: '全部商品',
+              meta: {
+                requireAdminer: true
+              },
               component: AllProds
             },
             {
               path: '/admin/mangeprods/addprodstype',
               name: '添加商品分类',
+              meta: {
+                requireAdminer: true
+              },
               component: AddType
             },
             {
               path: '/admin/mangeprods/addprod',
               name: '新增商品',
+              meta: {
+                requireAdminer: true
+              },
               component: AddProd
             },
             {
               path: '/admin/mangeprods/editprod',
               name: '修改商品',
+              meta: {
+                requireAdminer: true
+              },
               component: EditProd
             }
           ]
@@ -127,16 +148,25 @@ export default new Router({
         {
           path: '/admin/mangesends',
           name: '订单管理',
+          meta: {
+            requireAdminer: true
+          },
           component: MangerSends
         },
         {
           path: '/admin/mangeuser',
           name: '用户管理',
+          meta: {
+            requireAdminer: true
+          },
           component: MangerUser
         },
         {
           path: '/admin/mangeadmin',
           name: '管理员账户',
+          meta: {
+            requireAdminer: true
+          },
           component: MangerAdmin
         }
       ]

@@ -8,7 +8,13 @@
       </el-col>
       <!-- 管理员 -->
       <el-col :span="16">
-        <img class="avatar" :src="adminer.avatar" alt="">
+        <el-dropdown>
+          <img class="avatar" :src="adminer.avatar" alt="">
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item @click.native="toset">设置</el-dropdown-item>
+            <el-dropdown-item @click.native="logout" divided>退出登录</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <p class="adminname">{{adminer.name}}</p>
       </el-col>
     </el-row>
@@ -49,6 +55,34 @@ export default {
   computed: {
     adminer () {
       return this.$store.state.adminer
+    }
+  },
+  methods: {
+    toset () {
+      console.log('to set')
+    },
+    // 管理员退出登录
+    logout () {
+      this.$confirm('退出后将返回管理员登录界面, 是否退出登录?', '真的要退出吗？', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        sessionStorage.removeItem('adminer')
+        // 在这里挂上，官方说的分发，登出的action
+        // 应该这样就行了把
+        this.$store.dispatch('adminlogout')
+        this.$router.push('/adminer/login')
+        this.$message({
+          type: 'danger',
+          message: '退出成功!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消退出'
+        })
+      })
     }
   }
 }

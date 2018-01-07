@@ -108,15 +108,15 @@ export default {
       this.$refs.addprod.validate(valid => {
         if (valid) {
           // console.log('add prod!')
-          const prodFd = new FormData()
-          prodFd.append('name', this.addprod.name)
+          // const prodFd = new FormData()
+          // prodFd.append('name', this.addprod.name)
         } else {
           console.log('请先完成验证')
           return false
         }
       })
     },
-    // 图片上传并替换地址
+    // mavoneditor图片上传并替换地址
     // 绑定@imgAdd event
     $imgAdd (pos, $file) {
       // 第一步.将图片上传到服务器.
@@ -133,9 +133,11 @@ export default {
     $imgDel (pos) {
       delete this.img_file[pos]
     },
+    // 获取商品主图上传成功后返回的图片
     handleSuccess (res, file) {
       this.imageUrl = URL.createObjectURL(file.raw)
     },
+    // 商品主图再上传前对文件进行判断
     beforeUpload (file) {
       const isPIC = file.type === 'image/jpeg' || 'image/png'
       const isLt5M = file.size / 1024 / 1024 < 5

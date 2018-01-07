@@ -52,7 +52,10 @@ router.beforeEach((to, from, next) => {
     if (adminer !== '') {
       next()
     } else {
-      next({ path: '/adminer/login' })
+      next({
+        path: '/adminer/login',
+        query: {redirect: to.fullPath}
+      })
     }
   }
 })

@@ -4,7 +4,7 @@
       <h3>{{this.$route.name}}</h3>
     </div>
     <!-- 商品管理路由 -->
-    <div class="prodmenu">\
+    <div class="prodmenu">
       <el-menu
         mode="horizontal"
         :default-active="$router.path"

@@ -21,7 +21,7 @@
     <!-- 内容区 -->
     <el-row class="main">
       <!-- 左边导航菜单 -->
-      <el-col class="menu" :span="6">
+      <el-col class="menu" :span="4">
         <p></p>
         <el-menu 
           class="admin-menu"
@@ -36,7 +36,7 @@
           </el-menu>
       </el-col>
       <!-- 右边操作区域 -->
-      <el-col class="content" :span="18">
+      <el-col class="content" :span="20">
         <transition name="el-zoom-in-center">
           <router-view></router-view>
         </transition>
@@ -93,7 +93,13 @@ export default {
 .admin {
   .header {
     height: 60px;
+    width: 100%;
+    background: #fff;
     box-shadow: 0 0 10px @color;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
     .logo {
       margin: 0 5px;
       width: 60px;
@@ -117,7 +123,7 @@ export default {
     .menu {
       .admin-menu {
         position: fixed;
-        width: 25%;
+        width: 16%;
         top: 65px;
         bottom: 0;
         background: rgb(255, 255, 255);
@@ -136,7 +142,7 @@ export default {
       }
     }
     .content {
-
+      margin: 65px 0 0 0;
     }
   }
 }

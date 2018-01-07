@@ -28,7 +28,9 @@ import AddType from '@/admin/views/prods/addtype'
 import AddProd from '@/admin/views/prods/addprod'
 import AllProds from '@/admin/views/prods/allprods'
 import EditProd from '@/admin/views/prods/editprod'
-
+// 管理员类子组件
+import AllAdminer from '@/admin/views/adminer/alladminer'
+import NewAdminer from '@/admin/views/adminer/newadminer'
 Vue.use(Router)
 
 export default new Router({
@@ -85,6 +87,7 @@ export default new Router({
       ]
     },
     // 后端页面路由
+    // 后端主路由
     {
       path: '/admin',
       component: Admin,
@@ -94,6 +97,7 @@ export default new Router({
         requireAdminer: true
       },
       children: [
+        // 后端首页
         {
           path: '/admin',
           meta: {
@@ -102,6 +106,7 @@ export default new Router({
           component: AdminHome,
           name: '管理首页'
         },
+        // 商品管理
         {
           path: '/admin/mangeprods',
           name: '商品管理',
@@ -145,6 +150,7 @@ export default new Router({
             }
           ]
         },
+        // 订单管理
         {
           path: '/admin/mangesends',
           name: '订单管理',
@@ -153,6 +159,7 @@ export default new Router({
           },
           component: MangerSends
         },
+        // 用户管理
         {
           path: '/admin/mangeuser',
           name: '用户管理',
@@ -161,13 +168,33 @@ export default new Router({
           },
           component: MangerUser
         },
+        // 管理员账户管理
         {
           path: '/admin/mangeadmin',
           name: '管理员账户',
           meta: {
             requireAdminer: true
           },
-          component: MangerAdmin
+          component: MangerAdmin,
+          redirect: '/admin/mangeadmin/alladminers',
+          children: [
+            {
+              path: '/admin/mangeadmin/alladminers',
+              name: '管理员列表',
+              meta: {
+                requireAdminer: true
+              },
+              component: AllAdminer
+            },
+            {
+              path: '/admin/mangeadmin/newadminer',
+              name: '新增管理员',
+              meta: {
+                requireAdminer: true
+              },
+              component: NewAdminer
+            }
+          ]
         }
       ]
     },

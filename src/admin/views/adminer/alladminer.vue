@@ -14,14 +14,12 @@
     <el-table-column
       min-width="20%"
       prop="time"
-      label="添加日期"
-      width="180">
+      label="添加日期">
     </el-table-column>
     <el-table-column
       min-width="20%"
       prop="name"
-      label="管理员姓名"
-      width="180">
+      label="管理员姓名">
     </el-table-column>
     <el-table-column
       min-width="20%"
@@ -114,6 +112,7 @@ export default {
     }
   },
   methods: {
+    // 搜索管理员
     SerchAdminer () {
       let SerchParams = {
         name: this.adminerName
@@ -171,6 +170,7 @@ export default {
     }
   },
   mounted () {
+    // 获取所有管理员
     const adminparams = {
       type: 'all'
     }

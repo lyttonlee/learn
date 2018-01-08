@@ -22,8 +22,9 @@
       </el-form-item>
       <el-form-item label="商品类别" prop="type">
         <el-select v-model="addprod.type" placeholder="请选择商品类别">
-          <el-option label="石榴" value="shiliu"></el-option>
-          <el-option label="火腿" value="ham"></el-option>
+          <template v-for="item in products">
+            <el-option :label="item.name" :value="item._id" :key="item.type"></el-option>
+          </template>
         </el-select>
       </el-form-item>
       
@@ -48,10 +49,12 @@
 </template>
 <script>
 import {UploadFile} from '../../../api/api'
+import {GetProducts, NewProd} from '../../../api/adminApi'
 export default {
   data () {
     return {
       imageUrl: '',
+      products: [],
       addprod: {
         name: '',
         price: '',
@@ -104,12 +107,35 @@ export default {
     }
   },
   methods: {
+    // 获取所有商品分类
+    getproducts () {
+      let getproductspar = {
+        type: 'all'
+      }
+      GetProducts(getproductspar).then(res => {
+        this.products = res.data.products
+      })
+    },
+    // 新增一个商品
     newprod () {
       this.$refs.addprod.validate(valid => {
         if (valid) {
-          // console.log('add prod!')
           // const prodFd = new FormData()
           // prodFd.append('name', this.addprod.name)
+          let addprodpar = {
+            id: this.addprod.type,
+            prod: {
+              name: this.addprod.name,
+              price: this.addprod.price,
+              image: this.imageUrl,
+              desc: this.addprod.desc,
+              selling: this.addprod.selling,
+              info: this.addprod.info
+            }
+          }
+          NewProd(addprodpar).then(res => {
+            console.log(res)
+          })
         } else {
           console.log('请先完成验证')
           return false
@@ -150,6 +176,9 @@ export default {
       }
       return isPIC && isLt5M
     }
+  },
+  mounted () {
+    this.getproducts()
   }
 }
 </script>

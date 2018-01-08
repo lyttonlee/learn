@@ -32,3 +32,19 @@ export const GetAdminer = params => {
 export const EditAdminer = params => {
   return axios.post(`${base}/admin/editadminer`, params)
 }
+// 添加商品类
+export const NewProducts = params => {
+  return axios.post(`${base}/admin/newproducts`, params)
+}
+// 获取商品分类
+export const GetProducts = params => {
+  return axios.get(`${base}/admin/getproducts`, {params: params})
+}
+// 修改商品分类
+export const EditProduct = params => {
+  return axios.post(`${base}/admin/editproduct`, params)
+}
+// 添加一个商品
+export const NewProd = params => {
+  return axios.post(`${base}/admin/newprod`, params)
+}

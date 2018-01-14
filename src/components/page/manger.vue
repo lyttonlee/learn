@@ -61,6 +61,8 @@ export default {
   },
   mounted () {
     this.$store.dispatch('sended')
+    this.$store.dispatch('products')
+    this.$store.dispatch('prods')
   }
 }
 </script>
@@ -70,7 +72,6 @@ export default {
 .container {
   .menu {
     position: fixed;
-    left: 20px;
     top: 200px;
     background: @color;
     width: 20%;
@@ -79,6 +80,7 @@ export default {
     .el-menu {
       background: @color;
       border: none;
+      text-align: center;
       .el-menu-item {
         color: #ccc;
         &:hover {

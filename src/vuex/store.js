@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 // import
 import {GetSended} from '../api/api'
+import {GetProds, GetProducts} from '../api/adminApi'
 import {dateArray} from '../common/js/common'
 
 Vue.use(Vuex)
@@ -9,7 +10,9 @@ Vue.use(Vuex)
 const state = {
   user: JSON.parse(sessionStorage.getItem('user')) || '',
   sended: [],
-  adminer: JSON.parse(sessionStorage.getItem('adminer')) || ''
+  adminer: JSON.parse(sessionStorage.getItem('adminer')) || '',
+  products: [],
+  prods: []
 }
 // 创建改变状态的方法
 const mutations = {
@@ -38,6 +41,18 @@ const mutations = {
   // 管理员退出
   ADMINLOGOUT (state) {
     state.adminer = ''
+  },
+  // 商品分类
+  PRODUCTS (state) {
+    GetProducts({type: 'all'}).then(res => {
+      state.products = res.data.products
+    })
+  },
+  // 商品
+  PRODS (state) {
+    GetProds({type: 'all'}).then(res => {
+      state.prods = res.data.prods
+    })
   }
 }
 // getters
@@ -117,6 +132,14 @@ const actions = {
   // 管理员登录
   adminlogout ({commit}) {
     commit('ADMINLOGOUT')
+  },
+  // 商品分类
+  products ({commit}) {
+    commit('PRODUCTS')
+  },
+  // 商品
+  prods ({commit}) {
+    commit('PRODS')
   }
 }
 

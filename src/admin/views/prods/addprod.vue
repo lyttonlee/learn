@@ -20,12 +20,16 @@
           <i v-else class="el-icon-plus prod-uploader-icon"></i>
         </el-upload>
       </el-form-item>
-      <el-form-item label="商品类别" prop="type">
-        <el-select v-model="addprod.type" placeholder="请选择商品类别">
+      <el-form-item label="商品类别" prop="typename">
+        <el-select v-model="addprod.typename" placeholder="请选择商品类别">
           <template v-for="item in products">
-            <el-option :label="item.name" :value="item._id" :key="item.type"></el-option>
+            <el-option :label="item.name" :value="item.name" :key="item.type"></el-option>
           </template>
         </el-select>
+      </el-form-item>
+
+      <el-form-item label="商品类名">
+        <el-input v-model="addprod.type" disabled></el-input>
       </el-form-item>
       
       <el-form-item label="是否上架">
@@ -59,6 +63,7 @@ export default {
         name: '',
         price: '',
         type: '',
+        typename: '',
         selling: '',
         desc: '',
         info: ''
@@ -106,6 +111,19 @@ export default {
       }
     }
   },
+  watch: {
+    'addprod.typename': function (val) {
+      // console.log(val)
+      // console.log(this.products)
+      const CurProduct = this.products.filter(p => {
+        return p.name === this.addprod.typename
+      })
+      // console.log(CurProduct)
+      this.addprod.type = CurProduct[0].type
+      // console.log(this.addprod.type)
+    },
+    deep: true
+  },
   methods: {
     // 获取所有商品分类
     getproducts () {
@@ -123,22 +141,44 @@ export default {
           // const prodFd = new FormData()
           // prodFd.append('name', this.addprod.name)
           let addprodpar = {
-            id: this.addprod.type,
-            prod: {
-              name: this.addprod.name,
-              price: this.addprod.price,
-              image: this.imageUrl,
-              desc: this.addprod.desc,
-              selling: this.addprod.selling,
-              info: this.addprod.info
-            }
+            // 一种写法
+            // id: this.addprod.type,
+            // prod: {
+            //   name: this.addprod.name,
+            //   price: this.addprod.price,
+            //   image: this.imageUrl,
+            //   desc: this.addprod.desc,
+            //   selling: this.addprod.selling,
+            //   info: this.addprod.info
+            // }
+            // 另一种写法
+            name: this.addprod.name,
+            price: this.addprod.price,
+            image: this.imageUrl,
+            desc: this.addprod.desc,
+            type: this.addprod.type,
+            typename: this.addprod.typename,
+            selling: this.addprod.selling,
+            info: this.addprod.info
           }
           NewProd(addprodpar).then(res => {
-            console.log(res)
+            // console.log(res)
+            this.$notify({
+              title: '成功',
+              type: 'success',
+              message: res.data.msg,
+              offset: 200
+            })
+            this.$refs.addprod.resetFields()
+            this.$router.push('/admin/mangeprods/allprods')
           })
         } else {
-          console.log('请先完成验证')
-          return false
+          this.$notify({
+            title: '警告!',
+            type: 'warning',
+            message: '请先完成验证',
+            offset: 200
+          })
         }
       })
     },
@@ -151,7 +191,7 @@ export default {
       UploadFile(formdata)
       .then(url => {
         // console.log(url)
-        console.log(this.addprod.info)
+        // console.log(this.addprod.info)
         // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
         this.$refs.md.$img2Url(pos, url.data)
       })
@@ -161,7 +201,10 @@ export default {
     },
     // 获取商品主图上传成功后返回的图片
     handleSuccess (res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
+      // console.log('res', res)
+      // console.log('file', file)
+      // this.imageUrl = URL.createObjectURL(file.raw)
+      this.imageUrl = res
     },
     // 商品主图再上传前对文件进行判断
     beforeUpload (file) {

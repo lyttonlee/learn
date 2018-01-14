@@ -11,8 +11,8 @@
         text-color="#267943"
         active-text-color="#000">
         <el-menu-item v-for="item in productclass" 
-          :index="'/product/'+item.class"
-          :key="'/product/'+item.class"
+          :index="'/product/'+item.type"
+          :key="'/product/'+item.type"
           v-text="item.name">
         </el-menu-item>
       </el-menu>
@@ -44,6 +44,7 @@
 
 </template>
 <script>
+import {GetProducts} from '../../api/adminApi'
 import {SearchProductList} from '../../api/api'
 export default {
   data () {
@@ -67,6 +68,18 @@ export default {
     }
   },
   methods: {
+    // 获取商品类列表
+    getproducts () {
+      GetProducts({type: 'all'}).then(res => {
+        let addtype = {
+          name: '全部商品',
+          type: 'all'
+        }
+        res.data.products.unshift(addtype)
+        this.productclass = res.data.products
+      })
+    },
+    // 搜索商品
     search () {
       this.loading = true
       let searchparams = this.searchName
@@ -88,6 +101,9 @@ export default {
         }
       })
     }
+  },
+  mounted () {
+    this.getproducts()
   }
 }
 </script>

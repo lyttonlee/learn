@@ -27,7 +27,6 @@ import MangerUser from '@/admin/views/mangeruser'
 import AddType from '@/admin/views/prods/addtype'
 import AddProd from '@/admin/views/prods/addprod'
 import AllProds from '@/admin/views/prods/allprods'
-import EditProd from '@/admin/views/prods/editprod'
 // 管理员类子组件
 import AllAdminer from '@/admin/views/adminer/alladminer'
 import NewAdminer from '@/admin/views/adminer/newadminer'
@@ -139,14 +138,6 @@ export default new Router({
                 requireAdminer: true
               },
               component: AddProd
-            },
-            {
-              path: '/admin/mangeprods/editprod',
-              name: '修改商品',
-              meta: {
-                requireAdminer: true
-              },
-              component: EditProd
             }
           ]
         },

@@ -5,22 +5,22 @@
     </div>
     <!-- <p>共{{productlist.length}}个商品</p> -->
     <el-row class="main">
-      <template v-for="(item, index) in productlist">
+      <template v-for="item in productlist">
         <el-col :span="7" :xs="22"  class="item hvr-float-shadow" :key="item.productclass">
           <router-link
-            :to="'/product/'+item.productclass+'/'+item.productname"
+            :to="'/product/'+item.type+'/'+item.name"
             :key="item.productclass">
-            <img class="hvr-bob" :src="item.productimage" >
+            <img class="hvr-bob" :src="item.image" >
           </router-link>
-          <h3>{{item.productname}}</h3>
-          <p class="intro">{{item.productintro}}</p>
+          <h3>{{item.name}}</h3>
+          <p class="intro">{{item.desc}}</p>
           <router-link 
-            :to="'/product/'+item.productclass+'/'+item.productname"
-            :key="item.productclass">
+            :to="'/product/'+item.type+'/'+item.name"
+            :key="item.typename">
             <p class="link">了解详情...</p>
           </router-link>
           <p class="sellnum">累计发货<span>{{item.productsells}}</span>件</p>
-          <p class="price">全国包邮价<span>{{item.productprice}}</span>元</p>
+          <p class="price">全国包邮价<span>{{item.price}}</span>元</p>
           <!-- <el-input-number size="mini" v-model="addnum"></el-input-number> -->
           
         </el-col> 
@@ -29,7 +29,8 @@
   </div>
 </template>
 <script>
-import {GetProductList, SearchProductList} from '../../../api/api'
+import {SearchProductList} from '../../../api/api'
+import {GetProds} from '../../../api/adminApi'
 export default {
   data () {
     return {
@@ -69,11 +70,13 @@ export default {
       if (this.$route.params.class === 'all') {
         params = ''
       } else {
-        params = this.$route.params.class
+        params = {
+          type: this.$route.params.class
+        }
       }
-      GetProductList(params).then(res => {
+      GetProds(params).then(res => {
         // console.log(res)
-        this.productlist = res.data.productlist
+        this.productlist = res.data.prods
       })
     }
   }

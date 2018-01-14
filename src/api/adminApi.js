@@ -48,3 +48,13 @@ export const EditProduct = params => {
 export const NewProd = params => {
   return axios.post(`${base}/admin/newprod`, params)
 }
+
+// 获取商品
+export const GetProds = params => {
+  return axios.get(`${base}/admin/getprods`, {params: params})
+}
+
+// 修改商品
+export const EditProd = params => {
+  return axios.post(`${base}/admin/editprod`, params)
+}

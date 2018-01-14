@@ -25,7 +25,14 @@ export const UploadFile = params => {
 export const GetProductList = params => {
   return axios.get(`${base}/productlist`, {params: params})
 }
-
+// 添加待发货
+export const newPreSend = params => {
+  return axios.post(`${base}/newpresend`, params)
+}
+// 删除一条待发货记录
+export const DeleteSend = params => {
+  return axios.delete(`${base}/deletesend`, {params: params})
+}
 // 获取查询商品接口
 export const SearchProductList = params => {
   return axios.get(`${base}/search`, {params: params})
@@ -36,8 +43,8 @@ export const GetProduct = params => {
   return axios.get(`${base}/product`, {params: params})
 }
 // 个人待发货接口
-export const GetPresend = params => {
-  return axios.get(`${base}/presend`, {params: params})
+export const GetPresends = params => {
+  return axios.get(`${base}/presends`, {params: params})
 }
 // 个人已发货接口
 export const GetSended = params => {

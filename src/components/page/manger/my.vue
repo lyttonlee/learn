@@ -151,6 +151,7 @@ export default {
   }
   .last {
     margin: 20px 0;
+    border-bottom: 1px solid @color;
   }
 }
 </style>

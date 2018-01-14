@@ -33,7 +33,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="商品价格">
-            <el-input v-model="sendprod.sendprice " disabled placeholder="价格"></el-input>
+            <el-input v-model.number="sendprod.sendprice " disabled placeholder="价格"></el-input>
           </el-form-item>
           <el-form-item label="发货留言">
             <el-input v-model="sendprod.sendmsg" placeholder="发货留言"></el-input>
@@ -46,12 +46,79 @@
       </div>
     </div>
     <div class="presend">
-
+      <h4>待发货清单</h4>
+      <el-table
+        :data="presends"
+        style="width: 100%">
+        <el-table-column type="expand" min-width="10%">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="table-expand">
+              <el-form-item label="发件时间">
+                <span>{{ props.row.date }}</span>
+              </el-form-item>
+              <el-form-item label="发件人姓名">
+                <span>{{ props.row.sendname }}</span>
+              </el-form-item>
+              <el-form-item label="发件人地址">
+                <span>{{ props.row.sendaddr }}</span>
+              </el-form-item>
+              <el-form-item label="发件人电话">
+                <span>{{ props.row.sendtel }}</span>
+              </el-form-item>
+              <el-form-item label="收件人姓名">
+                <span>{{ props.row.recepname }}</span>
+              </el-form-item>
+              <el-form-item label="收件人地址">
+                <span>{{ props.row.recepaddr }}</span>
+              </el-form-item>
+              <el-form-item label="收件人电话">
+                <span>{{ props.row.receptel }}</span>
+              </el-form-item>
+              <el-form-item label="商品名称">
+                <span>{{ props.row.sendprod }}</span>
+              </el-form-item>
+              <el-form-item label="商品价格">
+                <span>{{ props.row.sendprice }}</span>
+              </el-form-item>
+              <el-form-item label="发货留言">
+                <span>{{ props.row.sendmsg }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="日期"
+          min-width="22%"
+          prop="date">
+        </el-table-column>
+        <el-table-column
+          label="收件人"
+          min-width="22%"
+          prop="recepname">
+        </el-table-column>
+        <el-table-column
+          label="状态"
+          min-width="22%"
+          prop="sendstatus">
+        </el-table-column>
+        <el-table-column
+          label="操作"
+          min-width="22%">
+          <template slot-scope="scope">
+            <el-button
+              type="primary"
+              @click="EditSend(scope.$index, scope.row)">修改</el-button>
+            <el-button
+              type="danger"
+              @click="DelSend(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
   </div>
 </template>
 <script>
-import {GetPresend} from '../../../api/api'
+import {GetPresends, newPreSend, DeleteSend} from '../../../api/api'
 export default {
   // ..
   data () {
@@ -78,6 +145,7 @@ export default {
         sendprice: '',
         sendmsg: ''
       },
+      presends: [],
       sendrules: {
         sendname: [
           {
@@ -156,10 +224,46 @@ export default {
     }
   },
   methods: {
+    // 获取待发货清单
+    getpresends () {
+      let pars = {
+        sender: this.user.name,
+        sendstatus: '待发货'
+      }
+      GetPresends(pars).then(res => {
+        console.log(res)
+      })
+    },
+    // 新增发货
     addsendlist () {
       this.$refs.sendprod.validate(valid => {
         if (valid) {
-          console.log('ke yi fahuo')
+          let sendpar = {
+            sendname: this.sendprod.sendname,
+            sendaddr: this.sendprod.sendaddr,
+            sendtel: this.sendprod.sendtel,
+            recename: this.sendprod.recename,
+            receaddr: this.sendprod.recetel,
+            sendprod: this.sendprod.sendprod,
+            sendprice: this.sendprod.sendprice,
+            sendmsg: this.sendprod.sendmsg,
+            sender: this.user.name,
+            sendstauts: '待发货'
+          }
+          newPreSend(sendpar).then(res => {
+            console.log(res)
+            let newsend = res.data.newsend
+            if (newsend) {
+              this.$notify({
+                title: '成功！',
+                type: 'success',
+                message: '新增发货成功！',
+                offset: 200
+              })
+              this.presends.unshift(newsend)
+              this.$refs.sendprod.resetFields()
+            }
+          })
         } else {
           this.$notify({
             title: '警告',
@@ -170,8 +274,22 @@ export default {
         }
       })
     },
+    // 重置发货表单
     reset () {
       this.$refs.sendprod.resetFields()
+    },
+    // 修改发货内容
+    EditSend () {
+      console.log('edit')
+    },
+    // 删除该条发货
+    DelSend (row, rowIndex) {
+      let deletePar = {
+        id: rowIndex._id
+      }
+      DeleteSend(deletePar).then(res => {
+        console.log(res)
+      })
     }
   },
   computed: {
@@ -197,18 +315,13 @@ export default {
     deep: true
   },
   mounted () {
-    let presendparams = {
-      bename: this.user.name,
-      status: '待发货'
-    }
-    GetPresend(presendparams).then(res => {
-      console.log(res)
-    })
+    this.getpresends()
   }
 }
 </script>
 <style lang="less" scoped>
 @import '../../../common/less/index.less';
+@import '../../../common/css/init.css';
 .box {
   .head {
     .leftborder
@@ -230,6 +343,21 @@ export default {
       .el-form {
         .el-select {
           width: 100%;
+        }
+      }
+    }
+  }
+  .presend {
+    .learncontent;
+    .el-table {
+      .table-expand {
+        font-size: 0;
+        .el-form-item {
+          color: @color;
+          width: 30%;
+          @media screen and (max-width: 768px) {
+            width: 100%;
+          }
         }
       }
     }

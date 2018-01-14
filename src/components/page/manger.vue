@@ -72,30 +72,36 @@ export default {
 .container {
   .menu {
     position: fixed;
-    top: 200px;
-    background: @color;
+    top: 62px;
+    // background: @color;
     width: 20%;
-    box-shadow:  2px 0 5px #E0E0E0;
+    bottom: 0;
+    box-shadow: 1px 0 1px #ccc;
     z-index: 3;
     .el-menu {
-      background: @color;
+      // background: @color;
       border: none;
-      text-align: center;
+      margin-top: 100px;
       .el-menu-item {
-        color: #ccc;
+        color: @color;
+        text-align: center;
+        padding: 0 !important;
+        padding-left: 0 !important;
         &:hover {
+          color: #eee;
+          // font-weight: bold !important;
           background: @color;
         }
       }
     }
     .is-active {
       color: #eee !important;
-      font-weight: bold !important;
+      // font-weight: bold !important;
       background: @color !important;
     }
   }
   .user {
-    box-shadow: 0 4px 2px @color;
+    box-shadow: 0 2px 2px @color;
     border-radius: 10px;
     border-top: 1px solid #ccc;  
     margin: 0 15px;

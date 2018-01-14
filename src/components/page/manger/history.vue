@@ -35,7 +35,7 @@
                 <span>{{ props.row.sendprod }}</span>
               </el-form-item>
               <el-form-item label="商品价格">
-                <span>{{ Math.ceil(props.row.sendprice * zhekou * 0.1) }}</span>
+                <span>{{ props.row.sendprice }}</span>
               </el-form-item>
               <el-form-item label="发货留言">
                 <span>{{ props.row.sendmsg }}</span>

@@ -27,8 +27,8 @@ const mutations = {
   // 个人已发货
   SENDED (state) {
     let pars = {
-      bename: state.user.name,
-      status: '待发货'
+      sender: state.user.name,
+      sendstatus: {'$ne': '待发货'}
     }
     GetSended(pars).then(res => {
       state.sended = res.data.sended
@@ -62,7 +62,7 @@ const getters = {
     let sendnum = []
     for (let i = 0; i < dateArray.length; i++) {
       let nums = state.sended.filter(num => {
-        return num.date === dateArray[i]
+        return num.senddate === dateArray[i]
       })
       sendnum.push(nums.length)
     }

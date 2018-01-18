@@ -33,6 +33,10 @@ export const newPreSend = params => {
 export const DeleteSend = params => {
   return axios.delete(`${base}/deletesend`, {params: params})
 }
+// 修改一条待发货记录
+export const EditSend = params => {
+  return axios.post(`${base}/editsend`, params)
+}
 // 获取查询商品接口
 export const SearchProductList = params => {
   return axios.get(`${base}/search`, {params: params})
@@ -49,4 +53,8 @@ export const GetPresends = params => {
 // 个人已发货接口
 export const GetSended = params => {
   return axios.get(`${base}/sended`, {params: params})
+}
+// 修改付款后发货单状态为正在发货
+export const UpdateSends = params => {
+  return axios.post(`${base}/updatesends`, params)
 }

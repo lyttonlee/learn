@@ -101,10 +101,7 @@ export default {
     }
   }
   .user {
-    box-shadow: 0 2px 2px @color;
-    border-radius: 10px;
-    border-top: 1px solid #ccc;  
-    margin: 0 15px;
+    .learncontent;
     .avatar {
       width: 100px;
       height: 100px;

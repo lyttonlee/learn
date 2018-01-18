@@ -20,12 +20,20 @@
             <p class="link">了解详情...</p>
           </router-link>
           <p class="sellnum">累计发货<span>{{item.productsells}}</span>件</p>
-          <p class="price">全国包邮价<span>{{item.price}}</span>元</p>
+          <p class="price">全国包邮价<span :class="old">{{item.price}}</span><span class="textOld" v-if="sender">{{item.price * sender.zhekou * 0.1}}</span>元</p>
           <!-- <el-input-number size="mini" v-model="addnum"></el-input-number> -->
-          
         </el-col> 
       </template>
     </el-row>
+    <!-- 分页 -->
+    <!-- <div class="page">
+      <el-pagination
+        layout="prev, pager, next"
+        :total="50"
+        @current-change="handleCurrentChange"
+        :page-size="12">
+      </el-pagination>
+    </div> -->
   </div>
 </template>
 <script>
@@ -38,13 +46,23 @@ export default {
       addnum: 0
     }
   },
-  // methods: {
-  //   formatClass () {
-  //     if (this.$route.params.class === 'all' || 'ham' || 'ham' || 'ham') {
-
-  //     }
-  //   }
-  // },
+  methods: {
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`)
+    }
+  },
+  computed: {
+    sender () {
+      return this.$store.getters.sender
+    },
+    old () {
+      if (this.sender) {
+        return 'textThr'
+      } else {
+        return 'textOld'
+      }
+    }
+  },
   mounted () {
     if (this.$route.query.name) {
       // 获取查询列表
@@ -67,11 +85,13 @@ export default {
     } else {
       // 获取分类列表
       let params = null
-      if (this.$route.params.class === 'all') {
-        params = ''
+      if (this.$route.params.class === '全部商品') {
+        params = {
+          type: 'all'
+        }
       } else {
         params = {
-          type: this.$route.params.class
+          typename: this.$route.params.class
         }
       }
       GetProds(params).then(res => {
@@ -135,9 +155,14 @@ a:hover {
 .price,.sellnum {
   color: gray;
 }
-.price span {
+.textOld {
   color: red;
   font-size: 25px;
+}
+.textThr {
+  // color: #290c09;
+  // font-size: 20px;
+  text-decoration: line-through;
 }
 </style>
 

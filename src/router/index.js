@@ -30,6 +30,9 @@ import AllProds from '@/admin/views/prods/allprods'
 // 管理员类子组件
 import AllAdminer from '@/admin/views/adminer/alladminer'
 import NewAdminer from '@/admin/views/adminer/newadminer'
+// 发货管理类子组件
+import SubmitSends from '@/admin/views/sends/submitsends'
+import HasSends from '@/admin/views/sends/hassends'
 Vue.use(Router)
 
 export default new Router({
@@ -52,7 +55,7 @@ export default new Router({
           name: '商品',
           class: 'el-icon-goods',
           component: Products,
-          redirect: '/product/all',
+          redirect: '/product/全部商品',
           children: [
             {
               // 这里用的动态路由，需要一个冒号：
@@ -148,7 +151,26 @@ export default new Router({
           meta: {
             requireAdminer: true
           },
-          component: MangerSends
+          component: MangerSends,
+          redirect: '/admin/mangesends/submitsends',
+          children: [
+            {
+              path: '/admin/mangesends/submitsends',
+              name: '打印发货运单',
+              meta: {
+                requireAdminer: true
+              },
+              component: SubmitSends
+            },
+            {
+              path: '/admin/mangesends/hassends',
+              name: '已发货订单',
+              meta: {
+                requireAdminer: true
+              },
+              component: HasSends
+            }
+          ]
         },
         // 用户管理
         {

@@ -34,7 +34,6 @@ export default {
   }
   .prodmenu {
     margin: 0 15px;
-
   }
 }
 </style>

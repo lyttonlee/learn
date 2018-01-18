@@ -26,13 +26,16 @@ const mutations = {
   },
   // 个人已发货
   SENDED (state) {
-    let pars = {
-      sender: state.user.name,
-      sendstatus: {'$ne': '待发货'}
+    if (state.user !== '') {
+      let pars = {
+        sender: state.user.name,
+        sendstatus: '待发货'
+      }
+      GetSended(pars).then(res => {
+        // console.log(res)
+        state.sended = res.data.sended
+      })
     }
-    GetSended(pars).then(res => {
-      state.sended = res.data.sended
-    })
   },
   // 管理员登录
   ADMINLOGIN (state) {
@@ -70,44 +73,63 @@ const getters = {
   },
   // 用户代理等级折扣信息
   sender: state => {
-    let sender = {
-      total: state.sended.length,
-      role: '',
-      zhekou: '',
-      num: '',
-      next: ''
-    }
-    if (state.sended.length < 10) {
-      sender.role = '初出茅庐'
-      sender.zhekou = '10'
-      sender.next = '渐入佳境'
-      sender.num = 10 - state.sended.length
-    } else if (state.sended.length < 100 && state.sended.length >= 10) {
-      sender.role = '渐入佳境'
-      sender.zhekou = '9.5'
-      sender.next = '炉火纯青'
-      sender.num = 100 - state.sended.length
-    } else if (state.sended.length < 1000 && state.sended.length >= 100) {
-      sender.role = '炉火纯青'
-      sender.zhekou = '9'
-      sender.next = '登峰造极'
-      sender.num = 1000 - state.sended.length
+    if (state.user !== '') {
+      let sender = {
+        total: state.sended.length,
+        role: '',
+        zhekou: '',
+        num: '',
+        next: ''
+      }
+      if (state.sended.length < 10) {
+        sender.role = '初出茅庐'
+        sender.zhekou = '10'
+        sender.next = '渐入佳境'
+        sender.num = 10 - state.sended.length
+      } else if (state.sended.length < 100 && state.sended.length >= 10) {
+        sender.role = '渐入佳境'
+        sender.zhekou = '9.5'
+        sender.next = '炉火纯青'
+        sender.num = 100 - state.sended.length
+      } else if (state.sended.length < 1000 && state.sended.length >= 100) {
+        sender.role = '炉火纯青'
+        sender.zhekou = '9'
+        sender.next = '登峰造极'
+        sender.num = 1000 - state.sended.length
+      } else {
+        sender.role = '登峰造极'
+        sender.zhekou = '8.5'
+        sender.next = '已经是最高等级'
+        sender.num = 10000 - state.sended.length
+      }
+      return sender
     } else {
-      sender.role = '登峰造极'
-      sender.zhekou = '8.5'
-      sender.next = '已经是最高等级'
-      sender.num = 10000 - state.sended.length
+      return ''
     }
-    return sender
+  },
+  // 商品分类名
+  sendedallleg: state => {
+    let legend = []
+    for (let i = 0; i < state.products.length; i++) {
+      legend.push(state.products[i].name)
+    }
+    // console.log(legend)
+    return legend
   },
   // 用户发货分类统计
   sendedall: state => {
-    console.log(state.sended)
     let sendedall = []
-    sendedall.push({
-      name: state.sended.sendprodtype
-    })
-    return true
+    for (let i = 0; i < state.products.length; i++) {
+      let nums = state.sended.filter(num => {
+        return num.sendtype === state.products[i].name
+      })
+      sendedall.push({
+        value: nums.length,
+        name: state.products[i].name
+      })
+    }
+    // console.log(sendedall)
+    return sendedall
   }
 }
 // 创建驱动actions可以使得mutations得以启动

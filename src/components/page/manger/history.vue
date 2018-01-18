@@ -11,7 +11,13 @@
           <template slot-scope="props">
             <el-form label-position="left" inline class="table-expand">
               <el-form-item label="发件时间">
-                <span>{{ props.row.date }}</span>
+                <span>{{ props.row.senddate }}</span>
+              </el-form-item>
+              <el-form-item label="商品名称">
+                <span>{{ props.row.sendprod }}</span>
+              </el-form-item>
+              <el-form-item label="商品价格">
+                <span>{{ props.row.sendprice }}</span>
               </el-form-item>
               <el-form-item label="发件人姓名">
                 <span>{{ props.row.sendname }}</span>
@@ -23,19 +29,13 @@
                 <span>{{ props.row.sendtel }}</span>
               </el-form-item>
               <el-form-item label="收件人姓名">
-                <span>{{ props.row.recepname }}</span>
+                <span>{{ props.row.recename }}</span>
               </el-form-item>
               <el-form-item label="收件人地址">
-                <span>{{ props.row.recepaddr }}</span>
+                <span>{{ props.row.receaddr }}</span>
               </el-form-item>
               <el-form-item label="收件人电话">
-                <span>{{ props.row.receptel }}</span>
-              </el-form-item>
-              <el-form-item label="商品名称">
-                <span>{{ props.row.sendprod }}</span>
-              </el-form-item>
-              <el-form-item label="商品价格">
-                <span>{{ props.row.sendprice }}</span>
+                <span>{{ props.row.recetel }}</span>
               </el-form-item>
               <el-form-item label="发货留言">
                 <span>{{ props.row.sendmsg }}</span>
@@ -49,12 +49,12 @@
         <el-table-column
           label="日期"
           min-width="22%"
-          prop="date">
+          prop="senddate">
         </el-table-column>
         <el-table-column
           label="收件人"
           min-width="22%"
-          prop="recepname">
+          prop="recename">
         </el-table-column>
         <el-table-column
           label="状态"

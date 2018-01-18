@@ -113,7 +113,7 @@ export default {
               this.$store.dispatch('login')
               // console.log(user)
               // 跳转到我的信息的页面
-              this.$router.push('/manger/my')
+              this.$router.push('/manger/send')
             }
           })
         } else {

@@ -11,8 +11,8 @@
         text-color="#267943"
         active-text-color="#000">
         <el-menu-item v-for="item in productclass" 
-          :index="'/product/'+item.type"
-          :key="'/product/'+item.type"
+          :index="'/product/'+item.name"
+          :key="'/product/'+item.name"
           v-text="item.name">
         </el-menu-item>
       </el-menu>

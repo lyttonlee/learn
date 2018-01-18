@@ -58,3 +58,28 @@ export const GetProds = params => {
 export const EditProd = params => {
   return axios.post(`${base}/admin/editprod`, params)
 }
+
+// 获取用户
+export const GetUsers = params => {
+  return axios.get(`${base}/admin/getusers`, {params: params})
+}
+
+// 获取用户发货量
+export const UserSendNum = params => {
+  return axios.get(`${base}/admin/sendunm`, {params: params})
+}
+
+// 获取所有正在发货订单
+export const Sendsing = params => {
+  return axios.get(`${base}/admin/sendsing`, {params: params})
+}
+
+// 更新订单状态
+export const UpdateSends = params => {
+  return axios.post(`${base}/admin/updatesends`, params)
+}
+
+// 获取所有正在发货订单
+export const Sendsed = params => {
+  return axios.get(`${base}/admin/sendsed`, {params: params})
+}

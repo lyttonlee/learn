@@ -9,13 +9,13 @@
         mode="horizontal"
         :default-active="$router.path"
         router>
-          <el-menu-item 
-            v-for="item in $router.options.routes[1].children[4].children"
-            :key="item.path"
-            :index="item.path">
-            {{item.name}}
-          </el-menu-item>
-        </el-menu>
+        <el-menu-item 
+          v-for="item in $router.options.routes[1].children[4].children"
+          :key="item.path"
+          :index="item.path">
+          {{item.name}}
+        </el-menu-item>
+      </el-menu>
     </div>
     <transition name="el-zoom-in-center">
       <router-view></router-view>
@@ -28,6 +28,9 @@
 .box {
   .head {
     .leftborder;
+  }
+  .adminermenu {
+    margin: 0 15px;
   }
 }
 </style>

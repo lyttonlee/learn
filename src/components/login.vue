@@ -1,5 +1,8 @@
 <template>
-  
+  <div class="section">
+    <div class="top">
+      <Back></Back>
+    </div>
     <el-form 
       :model="LoginForm" 
       ref="LoginForm" 
@@ -44,13 +47,19 @@
         <p>还没有账号，马上去<span class="to" @click="toregin">注册</span></p>
       </el-form-item>
     </el-form>
+  </div>
+    
   
 </template>
 
 <script>
+import Back from '@/components/back'
 import {LoginUser} from '../api/api'
 export default {
   // ....
+  components: {
+    Back
+  },
   data () {
     return {
       LoginForm: {
@@ -132,8 +141,14 @@ export default {
 </script>
 
 <style scoped>
+.top {
+  width: 370px;
+  margin: 100px auto 0;
+  border-radius: 15px;
+  box-shadow: 0 0 1px #B4BCCC;
+}
 .login-form {
-  margin: 120px auto;
+  margin: 20px auto;
   width: 310px;
   background: #fff;
   box-shadow: 0 0 10px #B4BCCC;

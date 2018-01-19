@@ -1,5 +1,8 @@
 <template>
-  
+  <div class="section">
+    <div class="top">
+      <Back></Back>
+    </div>
     <el-form 
       :model="ReginForm"
       ref="ReginForm"
@@ -78,12 +81,18 @@
       </el-form-item>
 
     </el-form>
+  </div>
+    
   
 </template>
 <script>
+import Back from '@/components/back'
 // 引入api接口
 import {ReginUser} from '../api/api'
 export default {
+  components: {
+    Back
+  },
   data () {
     let confirmpasswordCheck = (rule, value, callback) => {
       if (value === '') {
@@ -217,8 +226,14 @@ export default {
 </script>
 
 <style scoped>
+.top {
+  width: 370px;
+  margin: 100px auto 0;
+  border-radius: 15px;
+  box-shadow: 0 0 1px #B4BCCC;
+}
 .regform {
-  margin: 120px auto;
+  margin: 20px auto;
   width: 310px;
   background: #fff;
   box-shadow: 0 0 10px #B4BCCC;

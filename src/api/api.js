@@ -58,3 +58,7 @@ export const GetSended = params => {
 export const UpdateSends = params => {
   return axios.post(`${base}/updatesends`, params)
 }
+// 获取商品
+export const GetProd = params => {
+  return axios.get(`${base}/getprod`, {params: params})
+}

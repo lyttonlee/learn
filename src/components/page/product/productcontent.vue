@@ -12,21 +12,22 @@
           <div class="info">
             <p class="price">价  格：<span :class="hasuser">￥{{prod.price}}</span></p>
             <p v-if="user">折扣价：<span class="yprice">￥{{prod.price * user.zhekou * 0.1}}</span></p>
-            <p>历史销量：{{prod.num}}</p>
+            <p>历史销量：{{prod.sellnum}}</p>
             <div>
               <p v-if="prod.selling" class="hot">热销中</p>
-              <p v-else class="nhot">暂停销售，每年销售时间{{prod.selltime}}</p>
+              <p v-else class="nhot">暂停销售，销售时间{{prod.selltime}}</p>
             </div>
           </div>
           <div class="action">
-            <el-button type="danger">立刻去发货</el-button>
-            <el-button type="info">返回浏览其它商品</el-button>
+            <el-button type="danger" @click="tosend" :disabled="disabled">立刻去发货</el-button>
+            <el-button type="info" @click="back">返回浏览其它商品</el-button>
           </div>
          </el-col>
      </el-row>
    </div>
    <!-- body -->
    <div class="body">
+     <h4 class="tit">产品详情</h4>
      <mavon-editor
      class="md"
      :value="prop.value"
@@ -69,6 +70,13 @@ export default {
       } else {
         return 'yprice'
       }
+    },
+    disabled () {
+      if (this.prod.selling) {
+        return false
+      } else {
+        return true
+      }
     }
   },
   methods: {
@@ -81,6 +89,12 @@ export default {
         console.log(res)
         this.prod = res.data
       })
+    },
+    tosend () {
+      this.$router.push('/manger/send')
+    },
+    back () {
+      this.$router.back(-1)
     }
   },
   mounted () {
@@ -91,14 +105,18 @@ export default {
 <style lang="less" scoped>
 @import '../../../common/less/index.less';
 .container {
+  width: 100%;
+  margin: 65px auto;
+  max-width: 1280px;
   .head {
     text-align: left;
+    border-bottom: 1px solid rgba(92, 97, 92, .3);
     .left {
       padding: 10px 10px;
       border-right:  1px solid rgba(51, 112, 51, 0.2);
       .prodimg {
         width: 100%;
-        border: 1px solid rgba(92, 97, 92, .7);
+        border: 1px solid rgba(92, 97, 92, .3);
         border-radius: 15px;
       }
     }
@@ -139,11 +157,16 @@ export default {
     
   }
   .body {
+    .tit {
+      .leftborder;
+      margin: 20px 0;
+    }
     .md {
       min-width: 100%;
       min-height: 3000px;
       width: 100%;
       height: 100%;
+      z-index: 0;
     }
   }
 }

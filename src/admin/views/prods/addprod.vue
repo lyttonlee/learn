@@ -36,6 +36,9 @@
         <el-switch v-model="addprod.selling"></el-switch>
       </el-form-item>
       
+      <el-form-item label="售卖时间" prop="selltime">
+        <el-input v-model="addprod.selltime" placeholder="请请输入商品售卖时间，月份或全年"></el-input>
+      </el-form-item>
       
       <el-form-item label="商品简介" prop="desc">
         <el-input type="textarea" v-model="addprod.desc" placeholder="请请输入商品简介"></el-input>
@@ -107,6 +110,13 @@ export default {
             message: '请输入商品简介',
             trigger: 'blur'
           }
+        ],
+        selltime: [
+          {
+            required: true,
+            message: '商品售卖时间段是必须的！',
+            trigger: 'blur'
+          }
         ]
       }
     }
@@ -159,7 +169,8 @@ export default {
             type: this.addprod.type,
             typename: this.addprod.typename,
             selling: this.addprod.selling,
-            info: this.addprod.info
+            info: this.addprod.info,
+            selltime: this.addprod.selltime
           }
           NewProd(addprodpar).then(res => {
             // console.log(res)

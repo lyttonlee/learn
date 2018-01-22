@@ -12,6 +12,10 @@
             :key="item.productclass">
             <img class="hvr-bob" :src="item.image" >
           </router-link>
+          <div class="onpic">
+            <p v-if="item.selling" class="hot">热销中</p>
+            <p v-else class="nhot">未上市</p>
+          </div>
           <h3>{{item.name}}</h3>
           <p class="intro">{{item.desc}}</p>
           <router-link 
@@ -19,8 +23,8 @@
             :key="item.typename">
             <p class="link">了解详情...</p>
           </router-link>
-          <p class="sellnum">累计发货<span>{{item.productsells}}</span>件</p>
-          <p class="price">全国包邮价<span :class="old">{{item.price}}</span><span class="textOld" v-if="sender">{{item.price * sender.zhekou * 0.1}}</span>元</p>
+          <p class="sellnum">历史销量:<span>{{item.sellnum}}</span></p>
+          <p class="price">全国包邮价:<span :class="old">{{item.price}}</span><span class="textOld" v-if="sender">￥{{item.price * sender.zhekou * 0.1}}</span></p>
           <!-- <el-input-number size="mini" v-model="addnum"></el-input-number> -->
         </el-col> 
       </template>
@@ -121,6 +125,7 @@ a:hover {
   line-height: 60px;
 }
 .main {
+  position: relative;
   .item {
     margin: 25px 10px;
     /* background: #f2f3f2; */
@@ -128,6 +133,27 @@ a:hover {
     border-top: 1px solid #ccc; 
     /* border: 1px solid #ccc; */
     border-radius: 15px;
+    .onpic {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      opacity: .7;
+      .hot {
+        background: #bb4945;
+        color: rgb(231, 228, 228);
+        margin: 0;
+        padding: 5px 12px;
+        border-radius: 15px;
+        display: inline-block;
+      }
+      .nhot {
+        background: #dad7d5;
+        color: rgb(61, 57, 57);
+        margin: 0;
+        padding: 5px 12px;
+        display: inline-block;
+      }
+    }
     img {
       width: 90%;
       padding: 10px;

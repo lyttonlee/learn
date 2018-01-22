@@ -28,7 +28,7 @@
           <el-form-item label="商品名" prop="sendprod">
             <el-select v-model="sendprod.sendprod" placeholder="请选择商品">
               <template v-for="item in prods">
-                <el-option :label="item.name" :value="item.name" :key="item.type"></el-option>
+                <el-option :label="item.name" :value="item.name" :key="item.name"></el-option>
               </template>
             </el-select>
           </el-form-item>
@@ -472,14 +472,24 @@ export default {
     },
     // 模拟完成支付后的提交
     testpay () {
-      let ids = []
+      let pars = []
       for (let i = 0; i < this.multipleSelection.length; i++) {
         let id = this.multipleSelection[i]._id
-        ids.push(id)
+        let prodname = this.multipleSelection[i].sendprod
+        pars.push({
+          id: id,
+          name: prodname
+        })
       }
-      console.log(ids)
-      UpdateSends(ids).then(res => {
+      console.log(pars)
+      UpdateSends(pars).then(res => {
         console.log(res)
+        this.$notify({
+          title: '成功！',
+          type: 'success',
+          message: res.data.msg,
+          offset: 200
+        })
         this.paydialog = false
         this.multipleSelection = []
         // 更新待发货数据
@@ -494,7 +504,11 @@ export default {
       return this.$store.state.user
     },
     prods () {
-      return this.$store.state.prods
+      let allprods = this.$store.state.prods
+      let cprods = allprods.filter(p => {
+        return p.selling === true
+      })
+      return cprods
     },
     sender () {
       return this.$store.getters.sender

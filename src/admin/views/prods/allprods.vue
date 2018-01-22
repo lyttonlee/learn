@@ -91,7 +91,10 @@
         <el-form-item label="是否上架">
           <el-switch v-model="editprod.selling"></el-switch>
         </el-form-item>
-        
+
+        <el-form-item label="售卖时间" prop="selltime">
+          <el-input v-model="editprod.selltime" placeholder="请请输入商品售卖时间，月份或全年"></el-input>
+        </el-form-item>
         
         <el-form-item label="商品简介" prop="desc">
           <el-input type="textarea" v-model="editprod.desc" placeholder="请请输入商品简介"></el-input>
@@ -168,6 +171,13 @@ export default {
           {
             required: true,
             message: '请输入商品简介',
+            trigger: 'blur'
+          }
+        ],
+        selltime: [
+          {
+            required: true,
+            message: '商品售卖时间段是必须的！',
             trigger: 'blur'
           }
         ]
@@ -319,7 +329,8 @@ export default {
             typename: this.editprod.typename,
             selling: this.editprod.selling,
             desc: this.editprod.desc,
-            info: this.editprod.info
+            info: this.editprod.info,
+            selltime: this.editprod.selltime
           }
           console.log(updatedParams)
           EditProd(updatedParams).then(res => {

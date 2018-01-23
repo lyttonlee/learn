@@ -19,21 +19,6 @@
     </el-col>
     <!-- 右边主要内容 -->
     <el-col :span="18">
-      <!-- 搜索框 -->
-      <el-input 
-      type="text"
-      class="el-input"
-      placeholder="请输入商品名"
-      v-model="searchName">
-      <i slot="prefix" class="el-input__icon el-icon-search"></i>
-      </el-input>
-      <el-button 
-        type="primary"
-        :disabled="disabled"
-        @click="search"
-        :loading="loading">
-        搜索
-      </el-button>
       <!-- 商品列表渲染的地方 -->
       <transition name="el-zoom-in-center">
         <router-view :key="key"></router-view>
@@ -45,7 +30,6 @@
 </template>
 <script>
 import {GetProducts} from '../../api/adminApi'
-import {SearchProductList} from '../../api/api'
 export default {
   data () {
     return {
@@ -58,13 +42,6 @@ export default {
   computed: {
     key () {
       return this.$route.params.class + new Date()
-    },
-    disabled () {
-      if (this.searchName === '') {
-        return true
-      } else {
-        return false
-      }
     }
   },
   methods: {
@@ -77,28 +54,6 @@ export default {
         }
         res.data.products.unshift(addtype)
         this.productclass = res.data.products
-      })
-    },
-    // 搜索商品
-    search () {
-      this.loading = true
-      let searchparams = this.searchName
-      SearchProductList(searchparams).then(res => {
-        this.loading = false
-        if (res.data.code === 200) {
-          this.$router.push({
-            path: '/product/search',
-            query: {name: this.searchName}
-          })
-        } else {
-          this.$notify({
-            title: '很抱歉',
-            message: res.data.msg,
-            type: 'warning',
-            offset: 200
-          })
-          this.$router.push('/product/all')
-        }
       })
     }
   },

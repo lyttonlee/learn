@@ -89,7 +89,7 @@ export default {
           }
           // 调用axios登录接口
           AdminLogin(LoginParams).then(res => {
-            console.log(res)
+            // console.log(res)
             this.logining = false
             // 根据返回的code判断是否成功
             let {code, msg, adminer} = res.data
@@ -108,7 +108,7 @@ export default {
               // 在这里挂上，官方说的分发，管理员登录的action
               this.$store.dispatch('adminlogin')
               // 跳转到后端首页
-              this.$router.push('/admin')
+              this.$router.push('/admin/mangesends/submitsends')
             }
             this.LoginForm.username = ''
             this.LoginForm.password = ''

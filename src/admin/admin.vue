@@ -8,14 +8,16 @@
       </el-col>
       <!-- 管理员 -->
       <el-col :span="16">
-        <el-dropdown>
-          <img class="avatar" :src="adminer.avatar" alt="">
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click.native="toset">设置</el-dropdown-item>
-            <el-dropdown-item @click.native="logout" divided>退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <p class="adminname">{{adminer.name}}</p>
+        <div class="adminer">
+          <el-dropdown>
+            <img class="avatar" :src="adminer.avatar" alt="">
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item >{{adminer.name}}</el-dropdown-item>
+              <el-dropdown-item @click.native="toset">设置</el-dropdown-item>
+              <el-dropdown-item @click.native="logout" divided>退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
       </el-col>
     </el-row>
     <!-- 内容区 -->
@@ -84,6 +86,12 @@ export default {
         })
       })
     }
+  },
+  mounted () {
+    this.$store.dispatch('products')
+    this.$store.dispatch('sendsed')
+    this.$store.dispatch('users')
+    this.$store.dispatch('prods')
   }
 }
 </script>
@@ -100,23 +108,21 @@ export default {
     top: 0;
     left: 0;
     z-index: 1;
+    .adminer {
+      text-align: right;
+      margin-right: 30px;
+      .avatar {
+        text-align: right !important;
+        margin: 0 15px;
+        width: 60px;
+        height: 60px;
+        border-radius: 30px;
+      }
+    }
     .logo {
       margin: 0 5px;
       width: 60px;
       height: 60px;
-    }
-    .avatar {
-      margin: 0 15px;
-      width: 60px;
-      height: 60px;
-      border-radius: 30px;
-      float: right;
-    }
-    .adminname {
-      float: right;
-      font-size: 20px;
-      margin-top: 20px;
-      color: @color;
     }
   }
   .main {
@@ -128,6 +134,9 @@ export default {
         bottom: 0;
         background: rgb(255, 255, 255);
         .el-menu-item {
+          text-align: center;
+          padding: 0 !important;
+          padding-left: 0 !important;
           color: rgb(134, 165, 9);
           &:hover {
             background: @color;

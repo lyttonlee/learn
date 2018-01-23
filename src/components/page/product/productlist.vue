@@ -1,5 +1,22 @@
 <template>
   <div>
+    <div class="serch">
+      <!-- 搜索框 -->
+      <el-input 
+      type="text"
+      class="el-input"
+      placeholder="请输入商品名"
+      v-model="searchName">
+      <i slot="prefix" class="el-input__icon el-icon-search"></i>
+      </el-input>
+      <el-button 
+        type="primary"
+        :disabled="disabled"
+        @click="search"
+        :loading="loading">
+        搜索
+      </el-button>
+    </div>
     <div class="title">
       <h1 v-text="$route.params.class"></h1>
     </div>
@@ -25,7 +42,6 @@
           </router-link>
           <p class="sellnum">历史销量:<span>{{item.sellnum}}</span></p>
           <p class="price">全国包邮价:<span :class="old">{{item.price}}</span><span class="textOld" v-if="sender">￥{{item.price * sender.zhekou * 0.1}}</span></p>
-          <!-- <el-input-number size="mini" v-model="addnum"></el-input-number> -->
         </el-col> 
       </template>
     </el-row>
@@ -46,47 +62,17 @@ import {GetProds} from '../../../api/adminApi'
 export default {
   data () {
     return {
-      productlist: [],
-      addnum: 0
+      productlist: [],  // 商品列表
+      searchName: '',
+      loading: false
     }
   },
   methods: {
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
-    }
-  },
-  computed: {
-    sender () {
-      return this.$store.getters.sender
     },
-    old () {
-      if (this.sender) {
-        return 'textThr'
-      } else {
-        return 'textOld'
-      }
-    }
-  },
-  mounted () {
-    if (this.$route.query.name) {
-      // 获取查询列表
-      // console.log(this.$route.query.name)
-      let searchparams = this.$route.query.name
-      SearchProductList(searchparams).then(res => {
-        // console.log(res)
-        if (res.data.code === 200) {
-          this.productlist = res.data.searchRes
-        } else {
-          this.$notify({
-            title: '很抱歉',
-            message: res.data.msg,
-            type: 'warning',
-            offset: 200
-          })
-          this.$router.push('/product/all')
-        }
-      })
-    } else {
+    // 获取商品
+    getprods () {
       // 获取分类列表
       let params = null
       if (this.$route.params.class === '全部商品') {
@@ -102,12 +88,73 @@ export default {
         // console.log(res)
         this.productlist = res.data.prods
       })
+    },
+    // 搜索商品
+    search () {
+      this.loading = true
+      let searchparams = {
+        name: this.searchName
+      }
+      SearchProductList(searchparams).then(res => {
+        this.loading = false
+        // console.log(res)
+        if (res.data.length === 0) {
+          this.$notify({
+            title: '很抱歉',
+            message: '没有搜索到符合的商品！',
+            type: 'warning',
+            offset: 200
+          })
+          this.searchName = ''
+        } else {
+          this.$notify({
+            title: '成功',
+            message: '共搜索到' + res.data.length + '件商品',
+            type: 'success',
+            offset: 200
+          })
+          this.productlist = res.data
+          this.searchName = ''
+        }
+      })
     }
+  },
+  computed: {
+    sender () {
+      return this.$store.getters.sender
+    },
+    old () {
+      if (this.sender) {
+        return 'textThr'
+      } else {
+        return 'textOld'
+      }
+    },
+    disabled () {
+      if (this.searchName === '') {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
+  mounted () {
+    this.getprods()
   }
 }
 </script>
 <style lang="less" scoped>
 @import '../../../common/css/hover.css';
+@import '../../../common/less/index.less';
+.serch {
+  margin: 20px 10px;
+  .el-input {
+    width: 70%;
+  }
+  .el-button {
+    width: 28%;
+  }
+}
 a {
   text-decoration: none;
   color: #999;

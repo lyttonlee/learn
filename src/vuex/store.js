@@ -2,17 +2,19 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 // import
 import {GetSended} from '../api/api'
-import {GetProds, GetProducts} from '../api/adminApi'
+import {GetProds, GetProducts, GetUsers, Sendsed} from '../api/adminApi'
 import {dateArray} from '../common/js/common'
 
 Vue.use(Vuex)
 // 创建基本状态
 const state = {
-  user: JSON.parse(sessionStorage.getItem('user')) || '',
-  sended: [],
-  adminer: JSON.parse(sessionStorage.getItem('adminer')) || '',
-  products: [],
-  prods: []
+  user: JSON.parse(sessionStorage.getItem('user')) || '', // 登录用户
+  sended: [], // 个人已发货订单
+  adminer: JSON.parse(sessionStorage.getItem('adminer')) || '', // 登录的管理员
+  products: [], // 所有商品分类
+  prods: [], // 所有商品
+  sendsed: [], // 所有已发货订单
+  users: [] // 所有注册用户
 }
 // 创建改变状态的方法
 const mutations = {
@@ -56,10 +58,46 @@ const mutations = {
     GetProds({type: 'all'}).then(res => {
       state.prods = res.data.prods
     })
+  },
+  // 获取所有正在发货订单
+  SENDSED (state) {
+    // 获取所有正在发货订单
+    Sendsed().then(res => {
+      state.sendsed = res.data.sendsed
+    })
+  },
+  // 获取所有用户
+  ALLUSERS (state) {
+    GetUsers({type: 'all'}).then(res => {
+      // console.log(res)
+      state.users = res.data.users
+    })
   }
 }
 // getters
 const getters = {
+  // 最近7天发货统计
+  sevensend: state => {
+    let sendnum = []
+    for (let i = 0; i < dateArray.length; i++) {
+      let nums = state.sendsed.filter(num => {
+        return num.senddate === dateArray[i]
+      })
+      sendnum.push(nums.length)
+    }
+    return sendnum
+  },
+  // 最近7天新增用户统计
+  sevenuser: state => {
+    let sendnum = []
+    for (let i = 0; i < dateArray.length; i++) {
+      let nums = state.users.filter(num => {
+        return num.date === dateArray[i]
+      })
+      sendnum.push(nums.length)
+    }
+    return sendnum
+  },
   // 用户最近7天发货数量
   sendedlast: state => {
     let sendnum = []
@@ -130,6 +168,39 @@ const getters = {
     }
     // console.log(sendedall)
     return sendedall
+  },
+  // 总发货分类统计
+  sortsend: state => {
+    let sendedall = []
+    for (let i = 0; i < state.products.length; i++) {
+      let nums = state.sendsed.filter(num => {
+        return num.sendtype === state.products[i].name
+      })
+      sendedall.push({
+        value: nums.length,
+        name: state.products[i].name
+      })
+    }
+    // console.log(sendedall)
+    return sendedall
+  },
+  // 管理首页基础信息
+  admininit: state => {
+    // 方法
+    let sellingnum = state.prods.filter(num => {
+      return num.selling === true
+    })
+    let init = {
+      sendedtotal: state.sendsed.length,
+      sendedyes: '',
+      prepay: '',
+      preprint: '',
+      userstotal: state.users.length,
+      usersyes: '',
+      prodstotal: state.prods.length,
+      prodsselling: sellingnum.length
+    }
+    return init
   }
 }
 // 创建驱动actions可以使得mutations得以启动
@@ -162,6 +233,14 @@ const actions = {
   // 商品
   prods ({commit}) {
     commit('PRODS')
+  },
+  // 所有非待发货订单
+  sendsed ({commit}) {
+    commit('SENDSED')
+  },
+  // 所有用户
+  users ({commit}) {
+    commit('ALLUSERS')
   }
 }
 

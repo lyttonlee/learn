@@ -92,6 +92,8 @@ export default {
     this.$store.dispatch('sendsed')
     this.$store.dispatch('users')
     this.$store.dispatch('prods')
+    this.$store.dispatch('sendsing')
+    this.$store.dispatch('sendspay')
   }
 }
 </script>

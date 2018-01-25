@@ -15,13 +15,20 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
   text-align: center;
   color: #2c3e50;
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+    font-family: sans-serif, 'Avenir', Helvetica, Arial;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 .container {
   width: 100%;

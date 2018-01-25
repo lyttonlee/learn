@@ -99,7 +99,10 @@ export default {
   methods: {
     // 获取所有正在发货订单
     getsendsing () {
-      Sendsing().then(res => {
+      let pars = {
+        sendstatus: '正在发货'
+      }
+      Sendsing(pars).then(res => {
         this.sendsing = res.data.sendsing
       })
     },

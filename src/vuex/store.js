@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 // import
 import {GetSended} from '../api/api'
-import {GetProds, GetProducts, GetUsers, Sendsed} from '../api/adminApi'
+import {GetProds, GetProducts, GetUsers, Sendsed, Sendsing} from '../api/adminApi'
 import {dateArray} from '../common/js/common'
 
 Vue.use(Vuex)
@@ -14,7 +14,9 @@ const state = {
   products: [], // 所有商品分类
   prods: [], // 所有商品
   sendsed: [], // 所有已发货订单
-  users: [] // 所有注册用户
+  users: [], // 所有注册用户
+  sendsing: [], // 所有待打印订单
+  sendspay: [] // 所有待用户付款订单
 }
 // 创建改变状态的方法
 const mutations = {
@@ -71,6 +73,18 @@ const mutations = {
     GetUsers({type: 'all'}).then(res => {
       // console.log(res)
       state.users = res.data.users
+    })
+  },
+  // 所有待用户付款订单
+  SENDSPAY (state) {
+    Sendsing({sendstatus: '待发货'}).then(res => {
+      state.sendspay = res.data.sendsing
+    })
+  },
+  // 所有待打印订单
+  SENDSING (state) {
+    Sendsing({sendstatus: '正在发货'}).then(res => {
+      state.sendsing = res.data.sendsing
     })
   }
 }
@@ -190,13 +204,19 @@ const getters = {
     let sellingnum = state.prods.filter(num => {
       return num.selling === true
     })
+    let sendyes = state.sendsed.filter(yes => {
+      return yes.senddate === dateArray[6]
+    })
+    let useryes = state.users.filter(yes => {
+      return yes.date === dateArray[6]
+    })
     let init = {
       sendedtotal: state.sendsed.length,
-      sendedyes: '',
-      prepay: '',
-      preprint: '',
+      sendedyes: sendyes.length,
+      prepay: state.sendspay.length,
+      preprint: state.sendsing.length,
       userstotal: state.users.length,
-      usersyes: '',
+      usersyes: useryes.length,
       prodstotal: state.prods.length,
       prodsselling: sellingnum.length
     }
@@ -241,6 +261,14 @@ const actions = {
   // 所有用户
   users ({commit}) {
     commit('ALLUSERS')
+  },
+  // 所有待发货订单
+  sendsing ({commit}) {
+    commit('SENDSING')
+  },
+  // 所有待用户付款订单
+  sendspay ({commit}) {
+    commit('SENDSPAY')
   }
 }
 

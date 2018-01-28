@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 // import
 import {GetSended} from '../api/api'
-import {GetProds, GetProducts, GetUsers, Sendsed, Sendsing} from '../api/adminApi'
+import {GetProds, GetProducts, GetUsers, Sendsed, Sendsing, GetOption} from '../api/adminApi'
 import {dateArray} from '../common/js/common'
 
 Vue.use(Vuex)
@@ -16,7 +16,8 @@ const state = {
   sendsed: [], // 所有已发货订单
   users: [], // 所有注册用户
   sendsing: [], // 所有待打印订单
-  sendspay: [] // 所有待用户付款订单
+  sendspay: [], // 所有待用户付款订单
+  siteoption: {} // 网站基本信息
 }
 // 创建改变状态的方法
 const mutations = {
@@ -85,6 +86,12 @@ const mutations = {
   SENDSING (state) {
     Sendsing({sendstatus: '正在发货'}).then(res => {
       state.sendsing = res.data.sendsing
+    })
+  },
+  //  网站基本信息
+  SITEOPTION (state) {
+    GetOption().then(res => {
+      state.siteoption = res.data.Option[0]
     })
   }
 }
@@ -269,6 +276,10 @@ const actions = {
   // 所有待用户付款订单
   sendspay ({commit}) {
     commit('SENDSPAY')
+  },
+  // 网站基本信息
+  getsiteoption ({commit}) {
+    commit('SITEOPTION')
   }
 }
 

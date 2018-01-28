@@ -6,3 +6,6 @@ table {
     font-size: 2px;
   }
 }
+.el-menu {
+  border-right: none; 
+}

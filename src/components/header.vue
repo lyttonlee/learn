@@ -3,7 +3,7 @@
     <el-row class="header">
       <!-- 左边logo -->
       <el-col :span="4" class="logo">
-        <img @click="tohome" src="../assets/logo.png" alt="">
+        <img @click="tohome" :src="siteoption.logo" alt="">
       </el-col>
       <!-- 中间导航区域 -->
       <el-col class="main" :span="16">
@@ -88,7 +88,7 @@
       </el-col>
       <!-- 中间logo -->
       <el-col :span="8" class="logo">
-        <img @click="tohome" src="../assets/logo.png" alt="">
+        <img @click="tohome" :src="siteoption.logo" alt="">
       </el-col>
       <!-- 右边用户信息以及登陆注册 -->
       <el-col :span="8" class="user">
@@ -178,6 +178,9 @@
     computed: {
       user () {
         return this.$store.state.user
+      },
+      siteoption () {
+        return this.$store.state.siteoption
       }
     }
     // mounted () {
@@ -197,6 +200,7 @@
 <style lang="less" scoped>
 @import url('//at.alicdn.com/t/font_465635_xtywpub7k93k57b9.css');
 @import '../common/less/index.less';
+@import '../common/css/init.css';
   .header {
     width: 100%;
     height: 60px;
@@ -212,7 +216,7 @@
     }
     .logo {
       img {
-        width: 60px;
+        width: 100%;
         height: 60px;
         cursor: pointer;
       }
@@ -260,7 +264,7 @@
           &:hover {
             color: #333;
           }
-          .menu {
+          .el-menu {
             border-right: none !important;
           }
         }
@@ -268,7 +272,7 @@
       }
       .logo {
         img {
-          width: 60px;
+          width: 100%;
           height: 60px;
           cursor: pointer;
         }

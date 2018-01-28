@@ -22,6 +22,9 @@ export default {
     components: {
       HeaderLy,
       FooterLy
+    },
+    mounted () {
+      this.$store.dispatch('getsiteoption')
     }
 }
 </script>

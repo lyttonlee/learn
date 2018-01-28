@@ -1,27 +1,33 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+// 引入公共组件
+import Login from '@/components/login'
+import Regin from '@/components/regin'
+import AdminLogin from '@/admin/views/adminlogin'
+import Page404 from '@/components/404'
 // 引入前端组件
 import Home from '@/components/home'
 import ConHome from '@/components/con-home'
-import Login from '@/components/login'
-import Regin from '@/components/regin'
-import Page404 from '@/components/404'
 import Products from '@/components/page/products'
 import FAQ from '@/components/page/FAQ'
+import News from '@/components/page/news'
 import Manger from '@/components/page/manger'
+import NewsContent from '@/components/page/newscontent'
+// 工作台子组件
 import My from '@/components/page/manger/my'
 import Send from '@/components/page/manger/send'
 import MyHistory from '@/components/page/manger/history'
+// 商品子组件
 import ProductList from '@/components/page/product/productlist'
 import ProductContent from '@/components/page/product/productcontent'
 // 引入后端管理组件
 import Admin from '@/admin/admin'
-import AdminLogin from '@/admin/views/adminlogin'
 import AdminHome from '@/admin/views/adminhome'
 import MangerAdmin from '@/admin/views/mangeradmin'
 import MangerProds from '@/admin/views/mangerprods'
 import MangerSends from '@/admin/views/mangersends'
 import MangerUser from '@/admin/views/mangeruser'
+import SiteOption from '@/admin/views/siteoption'
 // 引入后端子组件
 // 商品类组件
 import AddType from '@/admin/views/prods/addtype'
@@ -33,6 +39,10 @@ import NewAdminer from '@/admin/views/adminer/newadminer'
 // 发货管理类子组件
 import SubmitSends from '@/admin/views/sends/submitsends'
 import HasSends from '@/admin/views/sends/hassends'
+// 网站设置类子组件
+import SetOption from '@/admin/views/siteoption/setoption'
+import SetAbout from '@/admin/views/siteoption/setabout'
+import NewSetAbout from '@/admin/views/siteoption/newsetoption'
 Vue.use(Router)
 
 export default new Router({
@@ -70,20 +80,54 @@ export default new Router({
           component: ProductContent
         },
         {
+          path: '/news/:date',
+          hidden: true,
+          component: NewsContent
+        },
+        {
           path: '/FAQ',
           name: '文档',
           component: FAQ
         },
         {
+          path: '/news',
+          name: '动态',
+          component: News
+        },
+        {
           path: '/manger',
           name: '工作台',
           redirect: '/manger/my',
+          meta: {
+            requireUser: true
+          },
           component: Manger,
           hasChild: true,
           children: [
-            {path: '/manger/my', name: '我的信息', component: My},
-            {path: '/manger/send', name: '发货管理', component: Send},
-            {path: '/manger/history', name: '发货记录', component: MyHistory}
+            {
+              path: '/manger/my',
+              meta: {
+                requireUser: true
+              },
+              name: '我的信息',
+              component: My
+            },
+            {
+              path: '/manger/send',
+              name: '发货管理',
+              meta: {
+                requireUser: true
+              },
+              component: Send
+            },
+            {
+              path: '/manger/history',
+              name: '发货记录',
+              meta: {
+                requireUser: true
+              },
+              component: MyHistory
+            }
           ]
         }
       ]
@@ -184,7 +228,7 @@ export default new Router({
         // 管理员账户管理
         {
           path: '/admin/mangeadmin',
-          name: '管理员账户',
+          name: '管理人员',
           meta: {
             requireAdminer: true
           },
@@ -206,6 +250,42 @@ export default new Router({
                 requireAdminer: true
               },
               component: NewAdminer
+            }
+          ]
+        },
+        // 网站管理
+        {
+          path: '/admin/siteoption',
+          name: '网站设置',
+          component: SiteOption,
+          meta: {
+            requireAdminer: true
+          },
+          redirect: '/admin/siteoption/setoption',
+          children: [
+            {
+              path: '/admin/siteoption/setoption',
+              name: '网站基本设置',
+              component: SetOption,
+              meta: {
+                requireAdminer: true
+              }
+            },
+            {
+              path: '/admin/siteoption/setabout',
+              name: '关于我们',
+              component: SetAbout,
+              meta: {
+                requireAdminer: true
+              }
+            },
+            {
+              path: '/admin/siteoption/newsetabout',
+              name: '添加新内容',
+              component: NewSetAbout,
+              meta: {
+                requireAdminer: true
+              }
             }
           ]
         }

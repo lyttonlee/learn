@@ -1,15 +1,25 @@
 <template>
 <el-row  class="footer">
   <el-col :span="8">
-    <img class="logo" src="../assets/logo.png" alt="">
+    <img class="logo" :src="siteoption.logo" alt="">
   </el-col>
   <el-col :span="16">
     <p class="copy">Copyright © 2015-2018.会理县未济网络科技有限公司.All Rights Reserved.</p>
-    <p class="beian">ICP备案号：蜀ICP备17008055号</p>
+    <p class="beian">ICP备案号：{{siteoption.beian}}</p>
   </el-col>
 </el-row>
 
 </template>
+<script>
+export default {
+  computed: {
+    siteoption () {
+      return this.$store.state.siteoption
+    }
+  }
+}
+</script>
+
 <style lang="less" scoped>
 @import '../common/less/index.less';
 .footer {

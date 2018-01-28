@@ -83,3 +83,31 @@ export const UpdateSends = params => {
 export const Sendsed = params => {
   return axios.get(`${base}/admin/sendsed`, {params: params})
 }
+// 创建网站设置
+export const NewOption = params => {
+  return axios.post(`${base}/admin/siteoption`, params)
+}
+// 获取网站设置
+export const GetOption = params => {
+  return axios.get(`${base}/admin/siteoption`, {params: params})
+}
+// 更新网站基本设置
+export const SiteOption = params => {
+  return axios.put(`${base}/admin/siteoption`, params)
+}
+// 新增关于我们
+export const NewAbout = params => {
+  return axios.post(`${base}/admin/about`, params)
+}
+// 修改关于我们
+export const EditAbout = params => {
+  return axios.put(`${base}/admin/about`, params)
+}
+// 删除关于我们
+export const DeleteAbout = params => {
+  return axios.delete(`${base}/admin/about`, {params: params})
+}
+// 获取关于我们
+export const GetAbout = params => {
+  return axios.get(`${base}/admin/about`, {params: params})
+}

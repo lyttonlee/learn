@@ -43,7 +43,12 @@ router.beforeEach((to, from, next) => {
   }
   let user = store.state.user
   let adminer = store.state.adminer
-  if (!user && (to.path === '/manger/my' || to.path === '/manger/send' || to.path === '/manger/history')) {
+  // if (!user && (to.path === '/manger/my' || to.path === '/manger/send' || to.path === '/manger/history')) {
+  //   next({ path: '/login' })
+  // } else {
+  //   next()
+  // }
+  if (!user && to.meta.requireUser) {
     next({ path: '/login' })
   } else {
     next()

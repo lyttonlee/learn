@@ -3,14 +3,14 @@
     <div class="head">
       <h3>{{this.$route.name}}</h3>
     </div>
-    <!-- 网站设置路由 -->
-    <div class="sitemenu">
+    <!-- 菜单 -->
+    <div class="menu">
       <el-menu
         mode="horizontal"
         :default-active="$router.path"
         router>
           <el-menu-item 
-            v-for="item in $router.options.routes[1].children[7].children"
+            v-for="item in $router.options.routes[1].children[6].children"
             :key="item.path"
             :index="item.path">
             {{item.name}}
@@ -32,7 +32,7 @@ export default {
   .head {
     .leftborder
   }
-  .sitemenu {
+  .menu {
     margin: 0 15px;
   }
 }

@@ -111,3 +111,15 @@ export const DeleteAbout = params => {
 export const GetAbout = params => {
   return axios.get(`${base}/admin/about`, {params: params})
 }
+// 新增新闻
+export const NewNews = params => {
+  return axios.post(`${base}/admin/news`, params)
+}
+// 修改新闻
+export const EditNews = params => {
+  return axios.put(`${base}/admin/news`, params)
+}
+// 获取新闻
+export const GetNews = params => {
+  return axios.get(`${base}/admin/news`, {params: params})
+}

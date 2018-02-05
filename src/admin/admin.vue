@@ -135,6 +135,7 @@ export default {
         top: 65px;
         bottom: 0;
         background: rgb(255, 255, 255);
+        box-shadow: 1px 0 1px @color;
         .el-menu-item {
           text-align: center;
           padding: 0 !important;

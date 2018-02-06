@@ -56,7 +56,7 @@
         
         <el-dropdown trigger="click">
           <div class="topmenu">
-            <i class="myicon iconfont icon-category"></i>
+            <i class="iconfont icon-ego-caidan"></i>
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
@@ -115,14 +115,6 @@
 </template>
 <script>
   export default {
-    // ...
-    data () {
-      return {
-        // logined: false,
-        // Username: '',
-        // Useravatar: ''
-      }
-    },
     methods: {
       // 给用户一点提示
       handleSelect (key) {
@@ -183,22 +175,10 @@
         return this.$store.state.siteoption
       }
     }
-    // mounted () {
-    //   // 从sessionStorage取出用户数据
-    //   let user = sessionStorage.getItem('user')
-    //   // 判断用户数据是否存在
-    //   if (user) {
-    //     // 如果用户存在就变为登录状态显示用户信息
-    //     this.logined = true
-    //     user = JSON.parse(user)
-    //     this.Username = user.name
-    //     this.Useravatar = user.avatar
-    //   }
-    // }
   }
 </script>
 <style lang="less" scoped>
-@import url('//at.alicdn.com/t/font_465635_xtywpub7k93k57b9.css');
+@import '../common/css/icon.css';
 @import '../common/less/index.less';
 @import '../common/css/init.css';
   .header {
@@ -257,12 +237,11 @@
           line-height: 60px;
           .iconfont {
             font-size: 36px;
-            font-weight: bold;
             padding: 0 10px;
             // border: 1px solid #999;
           }
           &:hover {
-            color: #333;
+            color: @color;
           }
           .el-menu {
             border-right: none !important;

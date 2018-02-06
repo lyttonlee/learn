@@ -110,7 +110,10 @@ export default {
     }
     .text-color {
       color: @color;
-      font-size: 16px;
+      font-size: 1rem;
+      @media screen and (max-width: 768px) {
+        font-size: .8rem;
+      }
     }
   }
 }

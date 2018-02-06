@@ -30,27 +30,21 @@
     <div class="news">
       <h2>最新动态</h2>
       <el-row class="items">
-        <el-col class="item" :span="6" :xs="24">
-          <img class="img" src="../common/img/1.jpg" alt="">
-          <p class="date">2018-1-25</p>
-          <p class="title">七牛云获工信部CDN牌照 融合CDN优势凸显 助力中国企业无缝出</p>
+        <template v-for="item in news">
+          <el-col class="item" :key="item._id" :span="8" :xs="24">
+          <router-link :to="'/news/' + item._id" :key="item._id">
+            <img class="img" :src="item.img" alt="">
+          </router-link>
+          <p class="date">{{item.date}}</p>
+          <p class="title">{{item.title}}</p>
         </el-col>
-        <el-col class="item" :span="6" :xs="24">
-          <img class="img" src="../common/img/1.jpg" alt="">
-          <p class="date">2018-1-25</p>
-          <p class="title">七牛云获工信部CDN牌照 融合CDN优势凸显 助力中国企业无缝出</p>
-        </el-col>
-        <el-col class="item" :span="6" :xs="24">
-          <img class="img" src="../common/img/1.jpg" alt="">
-          <p class="date">2018-1-25</p>
-          <p class="title">七牛云获工信部CDN牌照 融合CDN优势凸显 助力中国企业无缝出</p>
-        </el-col>
+        </template>
       </el-row>
     </div>
   </div>
 </template>
 <script>
-import {GetAbout} from '../api/adminApi'
+import {GetAbout, GetNews} from '../api/adminApi'
 export default {
   // ..
   data () {
@@ -71,16 +65,27 @@ export default {
     }
   },
   methods: {
-    // 获取内容
+    // 获取about
     getabouts () {
       GetAbout().then(res => {
-        console.log(res)
+        // console.log(res)
         this.abouts = res.data
+      })
+    },
+    // 获取新闻
+    getnews () {
+      let par = {
+        limit: 3
+      }
+      GetNews(par).then(res => {
+        // console.log(res)
+        this.news = res.data
       })
     }
   },
   mounted () {
     this.getabouts()
+    this.getnews()
     this.$store.dispatch('sendsed')
     this.$store.dispatch('users')
   }
@@ -148,7 +153,7 @@ export default {
     max-width: 1280px;
     margin: 30px auto;
     .item {
-      margin: 0 30px;
+      padding: 0 10px;
       text-align: left;
       @media screen and (max-width: 768px) {
         margin: 0;
@@ -156,6 +161,7 @@ export default {
       }
       .img {
         width: 100%;
+        cursor: pointer;
       }
       .date {
         color: @p-color;
@@ -168,6 +174,7 @@ export default {
       }
       &:hover {
         box-shadow: 0 1px 1px @color;
+        border-top: 1px solid @color; 
       }
     }
   }

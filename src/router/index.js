@@ -88,7 +88,7 @@ export default new Router({
           component: ProductContent
         },
         {
-          path: '/news/:date',
+          path: '/news/:id',
           hidden: true,
           component: NewsContent
         },

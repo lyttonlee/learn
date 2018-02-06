@@ -1,17 +1,5 @@
 import axios from 'axios'
-import store from '../vuex/store'
-// http request 拦截器
-axios.interceptors.request.use(
-  config => {
-    if (store.state.adminer !== '') {  // 判断是否存在token，如果存在的话，则每个http header都加上token
-      config.headers.Authorization = `token ${store.state.adminer}`
-    }
-    return config
-  },
-  err => {
-    return Promise.reject(err)
-  }
-)
+
 // dev
 let base = '/learn'
 // // build
@@ -122,4 +110,19 @@ export const EditNews = params => {
 // 获取新闻
 export const GetNews = params => {
   return axios.get(`${base}/admin/news`, {params: params})
+}
+// 帮助文档
+const NewFaq = params => {
+  return axios.post(`${base}/admin/faq`, params)
+}
+const EditFaq = params => {
+  return axios.put(`${base}/admin/faq`, params)
+}
+const GetFaq = params => {
+  return axios.get(`${base}/admin/faq`, {params: params})
+}
+export {
+  NewFaq,
+  EditFaq,
+  GetFaq
 }

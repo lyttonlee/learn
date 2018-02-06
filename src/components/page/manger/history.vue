@@ -100,12 +100,15 @@ export default {
 .data {
   .el-table {
     .table-expand {
-      font-size: 0;
-      .el-form-item {
-        color: @color;
-        width: 30%;
-        @media screen and (max-width: 768px) {
-          width: 100%;
+      // font-size: 0;
+      .el-form {
+        font-size: 1rem;
+        .el-form-item {
+          color: @color;
+          width: 30%;
+          @media screen and (max-width: 768px) {
+            width: 100%;
+          }
         }
       }
     }

@@ -35,11 +35,6 @@
           </div>
           <h3>{{item.name}}</h3>
           <p class="intro">{{item.desc}}</p>
-          <router-link 
-            :to="'/product/'+item.type+'/'+item.name"
-            :key="item.typename">
-            <p class="link">了解详情...</p>
-          </router-link>
           <p class="sellnum">历史销量:<span>{{item.sellnum}}</span></p>
           <p class="price">全国包邮价:<span :class="old">{{item.price}}</span><span class="textOld" v-if="sender">￥{{item.price * sender.zhekou * 0.1}}</span></p>
         </el-col> 

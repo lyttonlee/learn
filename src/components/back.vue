@@ -17,8 +17,13 @@ export default {
 <style lang="less" scoped>
   .back {
     width: 100%;
+    margin: 10px 0;
     .el-button {
       width: 100%;
+      font-size: 1rem;
+      @media screen and (max-width: 768px) {
+        font-size: .7rem;
+      }
     }
   }
 </style>

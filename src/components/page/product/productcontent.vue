@@ -127,7 +127,7 @@ export default {
         padding: 5px 10px;
         border: 1px solid rgba(196, 190, 190, .4);
         border-radius: 5px;
-        font-size: 14px;
+        // font-size: 14px;
         .yprice {
           color: red;
           font-size: 20px;
@@ -157,16 +157,19 @@ export default {
     
   }
   .body {
+    height: auto;
     .tit {
       .leftborder;
       margin: 20px 0;
     }
     .md {
       min-width: 100%;
-      min-height: 3000px;
-      width: 100%;
-      height: 100%;
+      min-height: 100%;
       z-index: 0;
+      font-size: 1rem;
+      @media screen and (max-width: 768px) {
+        font-size: .7rem;
+      }
     }
   }
 }

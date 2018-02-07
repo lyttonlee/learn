@@ -52,7 +52,7 @@
     <el-row class="header-phone">
       <!-- 左边menu -->
       
-      <el-col class="main" :span="8">
+      <el-col class="main" :span="4">
         
         <el-dropdown trigger="click">
           <div class="topmenu">
@@ -87,7 +87,7 @@
         
       </el-col>
       <!-- 中间logo -->
-      <el-col :span="8" class="logo">
+      <el-col :span="12" class="logo">
         <img @click="tohome" :src="siteoption.logo" alt="">
       </el-col>
       <!-- 右边用户信息以及登陆注册 -->

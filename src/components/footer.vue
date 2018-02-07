@@ -28,8 +28,14 @@ export default {
   background: #fff;
   z-index: 10;
   .logo {
-    width: 80px;
-    height: 80px;
+    width: 240px;
+    height: 60px;
+    margin: 10px 0 0 0;
+    @media screen and (max-width:768px) {
+      width: 100%;
+      height: 45px;
+      margin: 15px 0 0 0;
+    }
   }
 }
 </style>

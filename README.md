@@ -16,7 +16,7 @@
 
 ![index](http://github.com/lyttonlee/learn/raw/master/static/index.gif)
 
-![1](http://github.com/lyttonlee/pic/raw/master/1.png)
+![image](https://github.com/lyttonlee/pic/blob/master/1.png?raw=true)
 
 ![index.gif](http://github.com/lyttonlee/pic/raw/master/index.gif)
 

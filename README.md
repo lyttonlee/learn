@@ -14,26 +14,55 @@
 
 首页
 
-![index](http://github.com/lyttonlee/learn/raw/master/static/index.gif)
-
 ![image](https://github.com/lyttonlee/pic/blob/master/1.png?raw=true)
 
-![index.gif](http://github.com/lyttonlee/pic/raw/master/index.gif)
+![index.gif](https://github.com/lyttonlee/pic/blob/master/index.gif?raw=true)
 
-## Build Setup
+## 使用
+#### 本项目使用前后端分离
+1、 在本地安装mongodb
+
+2、 clone 服务端代码到本地
+
+[服务端server](https://github.com/lyttonlee/express-server-for-learn.git)
 
 ``` bash
-# install dependencies
-npm install
+# clone server
+git clone https://github.com/lyttonlee/express-server-for-learn.git
 
-# serve with hot reload at localhost:8080
-npm run dev || npm start
+# install
+npm i
 
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
+# start
+npm start
 ```
+3、 clone 前端代码到本地
+
+``` bash
+# clone clent
+git clone https://github.com/lyttonlee/learn.git
+
+# install
+npm i
+
+# start
+npm start
+# 或者
+npm run dev
+
+# build
+npm run build
+```
+
+4、 注意
+> 如果要打包后测试，请将api中的
+```
+let base = '/learn'
+改为
+let base = ''
+```
+
+
+
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

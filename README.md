@@ -14,7 +14,7 @@
 
 首页
 
-![index.gif](http://upload-images.jianshu.io/upload_images/7983800-557b99d6680f5e38.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![index](http://github.com/lyttonlee/learn/raw/master/static/index.gif)
 
 ## Build Setup
 

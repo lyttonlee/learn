@@ -16,6 +16,10 @@
 
 ![index](http://github.com/lyttonlee/learn/raw/master/static/index.gif)
 
+![1](http://github.com/lyttonlee/pic/raw/master/1.png)
+
+![index.gif](http://github.com/lyttonlee/pic/raw/master/index.gif)
+
 ## Build Setup
 
 ``` bash

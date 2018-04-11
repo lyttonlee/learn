@@ -94,7 +94,7 @@ export default {
       this.$router.push('/manger/send')
     },
     back () {
-      this.$router.back(-1)
+      this.$router.go(-1)
     }
   },
   mounted () {
@@ -157,14 +157,15 @@ export default {
     
   }
   .body {
-    height: auto;
     .tit {
       .leftborder;
       margin: 20px 0;
     }
     .md {
       min-width: 100%;
-      min-height: 100%;
+      // height: 100%;
+      display: inline;
+      min-height: auto;
       z-index: 0;
       font-size: 1rem;
       @media screen and (max-width: 768px) {

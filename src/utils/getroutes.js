@@ -1,57 +1,3 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-// 引入公共组件
-import Login from '@/components/login'
-import Regin from '@/components/regin'
-import AdminLogin from '@/admin/views/adminlogin'
-import Page404 from '@/components/404'
-// 引入前端组件
-import Home from '@/components/home'
-import ConHome from '@/components/con-home'
-import Products from '@/components/page/products'
-import FAQ from '@/components/page/FAQ'
-import News from '@/components/page/news'
-import Manger from '@/components/page/manger'
-import NewsContent from '@/components/page/newscontent'
-// 工作台子组件
-import My from '@/components/page/manger/my'
-import Send from '@/components/page/manger/send'
-import MyHistory from '@/components/page/manger/history'
-// 商品子组件
-import ProductList from '@/components/page/product/productlist'
-import ProductContent from '@/components/page/product/productcontent'
-// 引入后端管理组件
-import Admin from '@/admin/admin'
-import AdminHome from '@/admin/views/adminhome'
-import MangerAdmin from '@/admin/views/mangeradmin'
-import MangerProds from '@/admin/views/mangerprods'
-import MangerSends from '@/admin/views/mangersends'
-import MangerUser from '@/admin/views/mangeruser'
-import SiteOption from '@/admin/views/siteoption'
-import MangeNews from '@/admin/views/mangernews'
-import MangeFAQ from '@/admin/views/mangerFAQ'
-// 引入后端子组件
-// 商品类组件
-import AddType from '@/admin/views/prods/addtype'
-import AddProd from '@/admin/views/prods/addprod'
-import AllProds from '@/admin/views/prods/allprods'
-// 管理员类子组件
-import AllAdminer from '@/admin/views/adminer/alladminer'
-import NewAdminer from '@/admin/views/adminer/newadminer'
-// 发货管理类子组件
-import SubmitSends from '@/admin/views/sends/submitsends'
-import HasSends from '@/admin/views/sends/hassends'
-// 新闻动态子组件
-import AllNews from '@/admin/views/news/allnews'
-import AddNews from '@/admin/views/news/addnews'
-// 帮助文档子组件
-import AddFAQ from '@/admin/views/FAQ/addFAQ'
-import AllFAQ from '@/admin/views/FAQ/allFAQ'
-// 网站设置类子组件
-import SetOption from '@/admin/views/siteoption/setoption'
-import SetAbout from '@/admin/views/siteoption/setabout'
-import NewSetAbout from '@/admin/views/siteoption/newsetoption'
-Vue.use(Router)
 const routes = [
   // 前段页面路由
   {
@@ -376,4 +322,22 @@ const routes = [
     component: Page404
   }
 ]
-export default new Router({ routes: routes })
+console.log(1)
+class GetRoutes {
+  constructor (routes) {
+    // ..
+    this.routes = routes
+  }
+  routepart (attr, val) {
+    const route = this.routes.some(r => {
+      return r.attr === val
+    })
+    // routechild = route.children.some()
+    return new Promise((resolve, reject) => {
+      resolve(route)
+    })
+  }
+}
+const GR = new GetRoutes(routes)
+const res = GR.routepart({type: 'client'})
+console.log(res)

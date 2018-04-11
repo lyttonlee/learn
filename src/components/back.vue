@@ -9,7 +9,7 @@ export default {
   // ..
   methods: {
     back () {
-      this.$router.back(-1)
+      this.$router.go(-1)
     }
   }
 }

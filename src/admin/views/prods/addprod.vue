@@ -10,7 +10,7 @@
         <el-input v-model.number="addprod.price" placeholder="请输入商品价格"></el-input>
       </el-form-item>
       <el-form-item label="商品主图" prop="image">
-        <el-upload
+        <!-- <el-upload
           class="prod-image"
           action="/learn/upload"
           :show-file-list="false"
@@ -18,7 +18,8 @@
           :before-upload="beforeUpload">
           <img v-if="imageUrl" :src="imageUrl" class="cur-image">
           <i v-else class="el-icon-plus prod-uploader-icon"></i>
-        </el-upload>
+        </el-upload> -->
+        <qiniu-upload ref="qnupload"></qiniu-upload>
       </el-form-item>
       <el-form-item label="商品类别" prop="typename">
         <el-select v-model="addprod.typename" placeholder="请选择商品类别">
@@ -164,7 +165,7 @@ export default {
             // 另一种写法
             name: this.addprod.name,
             price: this.addprod.price,
-            image: this.imageUrl,
+            image: this.$refs.qnupload.imageUrl,
             desc: this.addprod.desc,
             type: this.addprod.type,
             typename: this.addprod.typename,
@@ -172,6 +173,7 @@ export default {
             info: this.addprod.info,
             selltime: this.addprod.selltime
           }
+          console.log(addprodpar)
           NewProd(addprodpar).then(res => {
             // console.log(res)
             this.$notify({
@@ -209,26 +211,6 @@ export default {
     },
     $imgDel (pos) {
       delete this.img_file[pos]
-    },
-    // 获取商品主图上传成功后返回的图片
-    handleSuccess (res, file) {
-      // console.log('res', res)
-      // console.log('file', file)
-      // this.imageUrl = URL.createObjectURL(file.raw)
-      this.imageUrl = res
-    },
-    // 商品主图再上传前对文件进行判断
-    beforeUpload (file) {
-      const isPIC = file.type === 'image/jpeg' || 'image/png'
-      const isLt5M = file.size / 1024 / 1024 < 5
-
-      if (!isPIC) {
-        this.$message.error('上传图片只能是 JPG或PNG 格式!')
-      }
-      if (!isLt5M) {
-        this.$message.error('上传图片大小不能超过 5MB!')
-      }
-      return isPIC && isLt5M
     }
   },
   mounted () {

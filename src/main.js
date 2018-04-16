@@ -12,6 +12,12 @@ import store from './vuex/store'
 // 引入mavon-editor
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+// 引入axios
+import axios from 'axios'
+// 引入moment
+import moment from 'moment'
+// 引入七牛云上传组件
+import qiniuUpload from './utils/uploadUi'
 // 引入fastclick
 // import FastClick from 'fastclick'
 // 引入echarts,最好是按需引入
@@ -19,11 +25,12 @@ import 'mavon-editor/dist/css/index.css'
 // 引入mock并初始化
 // import Mock from './data/mock'
 // Mock.init()
-
+Vue.component('qiniu-upload', qiniuUpload)
 Vue.use(ElementUi)
 Vue.use(Vuex)
 Vue.use(mavonEditor)
-// Vue.prototype.$echarts = ECharts
+Vue.prototype.$axios = axios
+Vue.prototype.$moment = moment
 // FastClick.attach(document.body)
 
 Vue.config.productionTip = false

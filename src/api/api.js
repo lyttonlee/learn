@@ -12,6 +12,10 @@ export const ReginUser = params => {
 export const LoginUser = params => {
   return axios.get(`${base}/login`, {params: params})
 }
+// 获取七牛云上传token
+export const GetQiniuUpToken = params => {
+  return axios.get(`${base}/gettoken`, {params: params})
+}
 // 上传图片接口
 export const UploadFile = params => {
   return axios({

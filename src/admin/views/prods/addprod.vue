@@ -19,7 +19,7 @@
           <img v-if="imageUrl" :src="imageUrl" class="cur-image">
           <i v-else class="el-icon-plus prod-uploader-icon"></i>
         </el-upload> -->
-        <qiniu-upload ref="qnupload"></qiniu-upload>
+        <qiniu-upload width="200" height="200" fontSize="40" ref="qnupload"></qiniu-upload>
       </el-form-item>
       <el-form-item label="商品类别" prop="typename">
         <el-select v-model="addprod.typename" placeholder="请选择商品类别">
@@ -46,7 +46,8 @@
       </el-form-item>
 
       <el-form-item label="商品详情" prop="info">
-        <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="addprod.info"></mavon-editor>
+        <!-- <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="addprod.info"></mavon-editor> -->
+        <md-upload ref="newmd"></md-upload>
       </el-form-item>
 
       <el-form-item>
@@ -56,7 +57,7 @@
   </div>
 </template>
 <script>
-import {UploadFile} from '../../../api/api'
+// import {UploadFile} from '../../../api/api'
 import {GetProducts, NewProd} from '../../../api/adminApi'
 export default {
   data () {
@@ -170,10 +171,10 @@ export default {
             type: this.addprod.type,
             typename: this.addprod.typename,
             selling: this.addprod.selling,
-            info: this.addprod.info,
+            info: this.$refs.newmd.mdinfo,
             selltime: this.addprod.selltime
           }
-          console.log(addprodpar)
+          // console.log(addprodpar)
           NewProd(addprodpar).then(res => {
             // console.log(res)
             this.$notify({
@@ -194,23 +195,6 @@ export default {
           })
         }
       })
-    },
-    // mavoneditor图片上传并替换地址
-    // 绑定@imgAdd event
-    $imgAdd (pos, $file) {
-      // 第一步.将图片上传到服务器.
-      let formdata = new FormData()
-      formdata.append('file', $file)
-      UploadFile(formdata)
-      .then(url => {
-        // console.log(url)
-        // console.log(this.addprod.info)
-        // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
-        this.$refs.md.$img2Url(pos, url.data)
-      })
-    },
-    $imgDel (pos) {
-      delete this.img_file[pos]
     }
   },
   mounted () {

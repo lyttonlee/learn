@@ -8,7 +8,7 @@
           <el-input v-model="weboption.sitename" placeholder="请输入网站名"></el-input>
         </el-form-item>
         <el-form-item label="首页banner">
-          <el-upload
+          <!-- <el-upload
             class="banner"
             action="/learn/upload"
             :show-file-list="false"
@@ -16,7 +16,8 @@
             :before-upload="beforeUpload">
             <img v-if="banner" :src="banner" class="cur-image">
             <i v-else class="el-icon-plus uploader-icon"></i>
-          </el-upload>
+          </el-upload> -->
+          <qiniu-upload :key="banner" :url="banner" width="600" height="210" ref="upbanner" fontSize="50"></qiniu-upload>
         </el-form-item>
         
         <el-form-item label="备案号">
@@ -24,7 +25,7 @@
         </el-form-item>
 
         <el-form-item label="logo">
-          <el-upload
+          <!-- <el-upload
             class="logo"
             action="/learn/upload"
             :show-file-list="false"
@@ -32,11 +33,12 @@
             :before-upload="beforeUpload">
             <img v-if="logo" :src="logo" class="cur-image">
             <i v-else class="el-icon-plus uploader-icon"></i>
-          </el-upload>
+          </el-upload> -->
+          <qiniu-upload :key="logo" :url="logo" width="210" height="60" ref="uplogo" fontSize="20"></qiniu-upload>
         </el-form-item>
 
         <el-form-item label="公众号二维码">
-          <el-upload
+          <!-- <el-upload
             class="er"
             action="/learn/upload"
             :show-file-list="false"
@@ -44,7 +46,8 @@
             :before-upload="beforeUpload">
             <img v-if="erweima" :src="erweima" class="cur-image">
             <i v-else class="el-icon-plus uploader-icon"></i>
-          </el-upload>
+          </el-upload> -->
+          <qiniu-upload :key="erweima" :url="erweima" width="120" height="120" ref="uper" fontSize="15"></qiniu-upload>
         </el-form-item>
 
         <el-form-item>
@@ -72,34 +75,13 @@ export default {
     }
   },
   methods: {
-    bannerSuccess (res, file) {
-      this.banner = res
-    },
-    logoSuccess (res, file) {
-      this.logo = res
-    },
-    erSuccess (res, file) {
-      this.erweima = res
-    },
-    beforeUpload (file) {
-      const isPIC = file.type === 'image/jpeg' || 'image/png'
-      const isLt5M = file.size / 1024 / 1024 < 5
-
-      if (!isPIC) {
-        this.$message.error('上传图片只能是 JPG或PNG 格式!')
-      }
-      if (!isLt5M) {
-        this.$message.error('上传图片大小不能超过 5MB!')
-      }
-      return isPIC && isLt5M
-    },
     newoption () {
       let newpars = {
         sitename: this.weboption.sitename,
         beian: this.weboption.beian,
-        banner: this.banner,
-        logo: this.logo,
-        erweima: this.erweima
+        banner: this.$refs.upbanner.imageUrl,
+        logo: this.$refs.uplogo.imageUrl,
+        erweima: this.$refs.uper.imageUrl
       }
       NewOption(newpars).then(res => {
         console.log(res)
@@ -111,9 +93,9 @@ export default {
         id: this.weboption._id,
         sitename: this.weboption.sitename,
         beian: this.weboption.beian,
-        banner: this.banner,
-        logo: this.logo,
-        erweima: this.erweima
+        banner: this.$refs.upbanner.imageUrl,
+        logo: this.$refs.uplogo.imageUrl,
+        erweima: this.$refs.uper.imageUrl
       }
       SiteOption(pars).then(res => {
         console.log(res)

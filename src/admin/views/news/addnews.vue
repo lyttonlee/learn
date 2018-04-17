@@ -8,7 +8,7 @@
           <el-input v-model="addnews.title" placeholder="请输入标题"></el-input>
         </el-form-item>
         <el-form-item label="标题图片">
-          <el-upload
+          <!-- <el-upload
             class="img"
             action="/learn/upload"
             :show-file-list="false"
@@ -16,7 +16,8 @@
             :before-upload="beforeUpload">
             <img v-if="img" :src="img" class="cur-image">
             <i v-else class="el-icon-plus uploader-icon"></i>
-          </el-upload>
+          </el-upload> -->
+          <qiniu-upload width="300" height="200" fontSize="50" ref="newsupload"></qiniu-upload>
         </el-form-item>
         <el-form-item label="新闻内容" prop="info">
           <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="addnews.info"></mavon-editor>
@@ -73,32 +74,12 @@ export default {
     $imgDel (pos) {
       delete this.img_file[pos]
     },
-    // 获取商品主图上传成功后返回的图片
-    imgSuccess (res, file) {
-      // console.log('res', res)
-      // console.log('file', file)
-      // this.imageUrl = URL.createObjectURL(file.raw)
-      this.img = res
-    },
-    // 商品主图再上传前对文件进行判断
-    beforeUpload (file) {
-      const isPIC = file.type === 'image/jpeg' || 'image/png'
-      const isLt5M = file.size / 1024 / 1024 < 5
-
-      if (!isPIC) {
-        this.$message.error('上传图片只能是 JPG或PNG 格式!')
-      }
-      if (!isLt5M) {
-        this.$message.error('上传图片大小不能超过 5MB!')
-      }
-      return isPIC && isLt5M
-    },
     AddNews () {
       this.$refs.addnews.validate(valid => {
         if (valid) {
           let par = {
             title: this.addnews.title,
-            img: this.img,
+            img: this.$refs.newsupload.imageUrl,
             info: this.addnews.info
           }
           NewNews(par).then(res => {

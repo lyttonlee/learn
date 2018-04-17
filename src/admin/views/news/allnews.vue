@@ -34,13 +34,13 @@
         </el-table-column>
       </el-table>
       <!-- 修改新闻 -->
-      <el-dialog title="修改新闻" :visible.sync="dialogFormVisible">
+      <el-dialog title="修改新闻" :visible.sync="dialogFormVisible" width="90%">
         <el-form ref="editnews" label-position="top" :rules="addnewsRules" :model="editnews">
           <el-form-item label="新闻标题" prop="title">
             <el-input v-model="editnews.title" placeholder="请输入标题"></el-input>
           </el-form-item>
           <el-form-item label="标题图片">
-            <el-upload
+            <!-- <el-upload
               class="img"
               action="/learn/upload"
               :show-file-list="false"
@@ -48,7 +48,8 @@
               :before-upload="beforeUpload">
               <img v-if="img" :src="img" class="cur-image">
               <i v-else class="el-icon-plus uploader-icon"></i>
-            </el-upload>
+            </el-upload> -->
+            <qiniu-upload :key="img" :url="img" width="300" height="200" fontSize="50" ref="newsupload"></qiniu-upload>
           </el-form-item>
           <el-form-item label="新闻内容" prop="info">
             <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="editnews.info"></mavon-editor>
@@ -116,26 +117,6 @@ export default {
     $imgDel (pos) {
       delete this.img_file[pos]
     },
-    // 获取商品主图上传成功后返回的图片
-    imgSuccess (res, file) {
-      // console.log('res', res)
-      // console.log('file', file)
-      // this.imageUrl = URL.createObjectURL(file.raw)
-      this.img = res
-    },
-    // 商品主图再上传前对文件进行判断
-    beforeUpload (file) {
-      const isPIC = file.type === 'image/jpeg' || 'image/png'
-      const isLt5M = file.size / 1024 / 1024 < 5
-
-      if (!isPIC) {
-        this.$message.error('上传图片只能是 JPG或PNG 格式!')
-      }
-      if (!isLt5M) {
-        this.$message.error('上传图片大小不能超过 5MB!')
-      }
-      return isPIC && isLt5M
-    },
     // 退出修改
     exitEdit () {
       this.dialogFormVisible = false
@@ -148,7 +129,7 @@ export default {
             id: this.editnews._id,
             title: this.editnews.title,
             info: this.editnews.info,
-            img: this.img
+            img: this.$refs.newsupload.imageUrl
           }
           EditNews(updatedParams).then(res => {
             this.$notify({

@@ -3,31 +3,49 @@
   <div class="upload">
     <el-upload
       class="qnuploader"
+      :style="initwd"
       :action= domain
       :http-request = upqiniu
       :show-file-list="false"
       :before-upload="beforeUpload">
-      <img v-if="imageUrl" :src="imageUrl" class="upload-img">
-      <i v-else class="el-icon-plus uploader-icon"></i>
+      <img v-if="imageUrl" :src="imageUrl" class="upload-img" :style="initwd">
+      <i v-else class="el-icon-plus uploader-icon" :style="initsize"></i>
     </el-upload>
   </div>
 </template>
 <script>
 import {GetQiniuUpToken} from '../api/api'
 export default {
+  props: ['width', 'height', 'fontSize', 'url'],
   data () {
     return {
-      imageUrl: '',
+      imageUrl: this.url,
       // 七牛云的上传地址，根据自己所在地区选择，我这里是华南区
       domain: '',
       // 这是七牛云空间的外链默认域名
       qiniuaddr: ''
     }
   },
+  computed: {
+    initwd () {
+      return {
+        width: this.width + 'px' || '200px',
+        height: this.height + 'px' || '200px'
+      }
+    },
+    initsize () {
+      return {
+        width: this.width + 'px' || '200px',
+        height: this.height + 'px' || '200px',
+        fontSize: this.fontSize + 'px' || '40px',
+        lineHeight: this.height + 'px' || '200px'
+      }
+    }
+  },
   methods: {
     // 上传文件到七牛云
     upqiniu (req) {
-      console.log(req)
+      // console.log(req)
       const config = {
         headers: {'Content-Type': 'multipart/form-data'}
       }
@@ -53,7 +71,7 @@ export default {
         // 获取到凭证之后再将文件上传到七牛云空间
         this.$axios.post(this.qiniuaddr, formdata, config).then(res => {
           this.imageUrl = 'http://' + this.domain + '/' + res.data.key
-          console.log(this.imageUrl)
+          // console.log(this.imageUrl)
         })
       })
     },
@@ -77,8 +95,8 @@ export default {
   width: 100%;
   margin: 0 auto;
   .qnuploader {
-    width: 200px;
-    height: 200px;
+    // width: 200px;
+    // height: 200px;
     border: 2px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
@@ -89,16 +107,16 @@ export default {
     }
   }
   .upload-img {
-    width: 200px;
-    height: 200px;
+    // width: 200px;
+    // height: 200px;
     display: block;
   }
   .uploader-icon {
-    font-size: 40px;
+    // font-size: 40px;
     color: #8c939d;
-    width: 200px;
-    height: 200px;
-    line-height: 200px;
+    // width: 200px;
+    // height: 200px;
+    // line-height: 200px;
     text-align: center;
   }
 }

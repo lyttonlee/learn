@@ -7,7 +7,7 @@
           <el-input v-model="newabout.title" placeholder="请输入标题"></el-input>
         </el-form-item>
         <el-form-item label="图片300*300">
-          <el-upload
+          <!-- <el-upload
             class="img"
             action="/learn/upload"
             :show-file-list="false"
@@ -15,7 +15,8 @@
             :before-upload="beforeUpload">
             <img v-if="img" :src="img" class="cur-image">
             <i v-else class="el-icon-plus uploader-icon"></i>
-          </el-upload>
+          </el-upload> -->
+          <qiniu-upload ref="upabout" :key="img" width="300" height="300" fontSize="45"></qiniu-upload>
         </el-form-item>
         
         <el-form-item label="内容" prop="subtext">
@@ -71,21 +72,6 @@ export default {
     }
   },
   methods: {
-    imgSuccess (res, file) {
-      this.img = res
-    },
-    beforeUpload (file) {
-      const isPIC = file.type === 'image/jpeg' || 'image/png'
-      const isLt1M = file.size / 1024 / 1024 < 1
-
-      if (!isPIC) {
-        this.$message.error('上传图片只能是 JPG或PNG 格式!')
-      }
-      if (!isLt1M) {
-        this.$message.error('上传图片大小不能超过 1MB!')
-      }
-      return isPIC && isLt1M
-    },
     addabout () {
       console.log('new')
       this.$refs.newabout.validate(valid => {
@@ -94,7 +80,7 @@ export default {
           let pars = {
             title: this.newabout.title,
             subtext: this.newabout.subtext,
-            img: this.img
+            img: this.$refs.upabout.imageUrl
           }
           NewAbout(pars).then(res => {
             console.log(res)

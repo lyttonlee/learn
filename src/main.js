@@ -18,6 +18,7 @@ import axios from 'axios'
 import moment from 'moment'
 // 引入七牛云上传组件
 import qiniuUpload from './utils/uploadUi'
+import mdUpload from './utils/mdupload'
 // 引入fastclick
 // import FastClick from 'fastclick'
 // 引入echarts,最好是按需引入
@@ -26,6 +27,7 @@ import qiniuUpload from './utils/uploadUi'
 // import Mock from './data/mock'
 // Mock.init()
 Vue.component('qiniu-upload', qiniuUpload)
+Vue.component('md-upload', mdUpload)
 Vue.use(ElementUi)
 Vue.use(Vuex)
 Vue.use(mavonEditor)

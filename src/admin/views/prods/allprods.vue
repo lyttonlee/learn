@@ -57,7 +57,7 @@
       </el-table>
     </div>
     <!-- 编辑商品 -->
-    <el-dialog title="编辑商品" :visible.sync="dialogFormVisible">
+    <el-dialog title="编辑商品" :visible.sync="dialogFormVisible" width="90%">
       <el-form ref="editprod" :rules="prodrules" :model="editprod">
         <el-form-item label="商品名" prop="name">
           <el-input v-model="editprod.name" placeholder="请输入商品名"></el-input>
@@ -66,7 +66,7 @@
           <el-input v-model.number="editprod.price" placeholder="请输入商品价格"></el-input>
         </el-form-item>
         <el-form-item label="商品主图" prop="image">
-          <el-upload
+          <!-- <el-upload
             class="prod-image"
             action="/learn/upload"
             :show-file-list="false"
@@ -74,7 +74,8 @@
             :before-upload="beforeUpload">
             <img v-if="imageUrl" :src="imageUrl" class="cur-image">
             <i v-else class="el-icon-plus prod-uploader-icon"></i>
-          </el-upload>
+          </el-upload> -->
+          <qiniu-upload :key="imageUrl" :url="imageUrl" width="200" height="200" fontSize="40" ref="qnupload"></qiniu-upload>
         </el-form-item>
         <el-form-item label="商品类别" prop="typename">
           <el-select v-model="editprod.typename" placeholder="请选择商品类别">
@@ -101,7 +102,8 @@
         </el-form-item>
 
         <el-form-item label="商品详情" prop="info">
-          <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="editprod.info"></mavon-editor>
+          <!-- <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="editprod.info"></mavon-editor> -->
+          <md-upload :key="editprod.info" :info="editprod.info" ref="mdedit"></md-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -114,7 +116,7 @@
 </template>
 <script>
 import {GetProducts, GetProds, EditProd} from '../../../api/adminApi'
-import {UploadFile} from '../../../api/api'
+// import {UploadFile} from '../../../api/api'
 export default {
   // ..
   data () {
@@ -213,7 +215,7 @@ export default {
         name: this.prodName
       }
       GetProds(serchpar).then(res => {
-        console.log(res)
+        // console.log(res)
         if (res.data.prods.length > 0) {
           this.$notify({
             title: '成功',
@@ -273,44 +275,7 @@ export default {
       this.editprod = rowIndex
       this.imageUrl = rowIndex.image
       this.dialogFormVisible = true
-      // console.log(rowIndex)
-    },
-    // mavoneditor图片上传并替换地址
-    // 绑定@imgAdd event
-    $imgAdd (pos, $file) {
-      // 第一步.将图片上传到服务器.
-      let formdata = new FormData()
-      formdata.append('file', $file)
-      UploadFile(formdata)
-      .then(url => {
-        // console.log(url)
-        // console.log(this.addprod.info)
-        // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
-        this.$refs.md.$img2Url(pos, url.data)
-      })
-    },
-    $imgDel (pos) {
-      delete this.img_file[pos]
-    },
-    // 获取商品主图上传成功后返回的图片
-    handleSuccess (res, file) {
-      // console.log('res', res)
-      // console.log('file', file)
-      // this.imageUrl = URL.createObjectURL(file.raw)
-      this.imageUrl = res
-    },
-    // 商品主图再上传前对文件进行判断
-    beforeUpload (file) {
-      const isPIC = file.type === 'image/jpeg' || 'image/png'
-      const isLt5M = file.size / 1024 / 1024 < 5
-
-      if (!isPIC) {
-        this.$message.error('上传图片只能是 JPG或PNG 格式!')
-      }
-      if (!isLt5M) {
-        this.$message.error('上传图片大小不能超过 5MB!')
-      }
-      return isPIC && isLt5M
+      // console.log(this.imageUrl)
     },
     // 退出编辑商品
     exitEdit () {
@@ -324,15 +289,15 @@ export default {
             id: this.editprod._id,
             name: this.editprod.name,
             price: this.editprod.price,
-            image: this.imageUrl,
+            image: this.$refs.qnupload.imageUrl,
             type: this.editprod.type,
             typename: this.editprod.typename,
             selling: this.editprod.selling,
             desc: this.editprod.desc,
-            info: this.editprod.info,
+            info: this.$refs.mdedit.mdinfo,
             selltime: this.editprod.selltime
           }
-          console.log(updatedParams)
+          // console.log(updatedParams)
           EditProd(updatedParams).then(res => {
             this.$notify({
               title: '商品修改成功',
@@ -341,6 +306,7 @@ export default {
               offset: 100
             })
             this.dialogFormVisible = false
+            this.getallprods()
           })
         } else {
           this.$message({

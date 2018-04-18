@@ -20,7 +20,8 @@
           <qiniu-upload width="300" height="200" fontSize="50" ref="newsupload"></qiniu-upload>
         </el-form-item>
         <el-form-item label="新闻内容" prop="info">
-          <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="addnews.info"></mavon-editor>
+          <!-- <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="addnews.info"></mavon-editor> -->
+          <md-upload ref="newmd"></md-upload>
         </el-form-item>
         <el-form-item>
           <el-button type="danger" round @click="AddNews">确认添加</el-button>
@@ -31,7 +32,7 @@
   </div>
 </template>
 <script>
-import {UploadFile} from '../../../api/api'
+// import {UploadFile} from '../../../api/api'
 import {NewNews} from '../../../api/adminApi'
 export default {
   data () {
@@ -59,28 +60,13 @@ export default {
     }
   },
   methods: {
-    $imgAdd (pos, $file) {
-      // 第一步.将图片上传到服务器.
-      let formdata = new FormData()
-      formdata.append('file', $file)
-      UploadFile(formdata)
-      .then(url => {
-        // console.log(url)
-        // console.log(this.addprod.info)
-        // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
-        this.$refs.md.$img2Url(pos, url.data)
-      })
-    },
-    $imgDel (pos) {
-      delete this.img_file[pos]
-    },
     AddNews () {
       this.$refs.addnews.validate(valid => {
         if (valid) {
           let par = {
             title: this.addnews.title,
             img: this.$refs.newsupload.imageUrl,
-            info: this.addnews.info
+            info: this.$refs.newmd.mdinfo
           }
           NewNews(par).then(res => {
             console.log(res)

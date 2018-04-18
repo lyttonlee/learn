@@ -6,7 +6,7 @@
         <template slot="title">
           <h3><i class="myicon iconfont icon-wendabangzhu"></i>{{item.que}}</h3>
         </template>
-        <mavon-editor
+        <!-- <mavon-editor
           class="md"
           :value="item.ans"
           :subfield = "prop.subfield"
@@ -14,7 +14,8 @@
           :toolbarsFlag = "prop.toolbarsFlag"
           :editable="prop.editable"
           :scrollStyle="prop.scrollStyle"
-          ></mavon-editor>
+          ></mavon-editor> -->
+        <md-show class="md" :key="item.que" :mdvalue="item.ans"></md-show>
       </el-collapse-item>
     </el-collapse>
   </div>
@@ -28,19 +29,19 @@ export default {
       faq: []
     }
   },
-  computed: {
-    prop () {
-      let data = {
-        subfield: false,
-        default_open: 'preview',
-        editable: false,
-        // value: this.news.info,
-        toolbarsFlag: false,
-        scrollStyle: true
-      }
-      return data
-    }
-  },
+  // computed: {
+  //   prop () {
+  //     let data = {
+  //       subfield: false,
+  //       default_open: 'preview',
+  //       editable: false,
+  //       // value: this.news.info,
+  //       toolbarsFlag: false,
+  //       scrollStyle: true
+  //     }
+  //     return data
+  //   }
+  // },
   methods: {
     allfaq () {
       GetFaq().then(res => {

@@ -2,7 +2,7 @@
   <div class="container">
     <h2>{{news.title}}</h2>
     <p class="sub">发布时间：{{news.date}} | 发布者：{{news.author}}</p>
-    <mavon-editor
+    <!-- <mavon-editor
      class="md"
      :value="prop.value"
      :subfield = "prop.subfield"
@@ -10,7 +10,8 @@
      :toolbarsFlag = "prop.toolbarsFlag"
      :editable="prop.editable"
      :scrollStyle="prop.scrollStyle"
-     ></mavon-editor>
+     ></mavon-editor> -->
+     <md-show :key="news._id" :mdvalue="news.info"></md-show>
     <back></back>
   </div>
 </template>
@@ -24,19 +25,6 @@ export default {
   data () {
     return {
       news: {}
-    }
-  },
-  computed: {
-    prop () {
-      let data = {
-        subfield: false,
-        default_open: 'preview',
-        editable: false,
-        value: this.news.info,
-        toolbarsFlag: false,
-        scrollStyle: true
-      }
-      return data
     }
   },
   methods: {
@@ -64,14 +52,6 @@ export default {
   .sub {
     color: #8f8f8c;
     font-size: 12px;
-  }
-  .md {
-    min-height: 100%;
-    z-index: 0;
-    font-size: 1rem;
-    @media screen and (max-width: 768px) {
-      font-size: .7rem;
-    }
   }
 }
 </style>

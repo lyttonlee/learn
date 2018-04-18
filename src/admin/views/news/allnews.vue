@@ -52,7 +52,8 @@
             <qiniu-upload :key="img" :url="img" width="300" height="200" fontSize="50" ref="newsupload"></qiniu-upload>
           </el-form-item>
           <el-form-item label="新闻内容" prop="info">
-            <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="editnews.info"></mavon-editor>
+            <!-- <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="editnews.info"></mavon-editor> -->
+            <md-upload :key="editnews.info" :info="editnews.info" ref="mdedit"></md-upload>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -65,7 +66,7 @@
 </template>
 <script>
 import {GetNews, EditNews} from '../../../api/adminApi'
-import {UploadFile} from '../../../api/api'
+// import {UploadFile} from '../../../api/api'
 export default {
   data () {
     return {
@@ -102,21 +103,6 @@ export default {
       this.editnews = rowIndex
       this.img = rowIndex.img
     },
-    $imgAdd (pos, $file) {
-      // 第一步.将图片上传到服务器.
-      let formdata = new FormData()
-      formdata.append('file', $file)
-      UploadFile(formdata)
-      .then(url => {
-        // console.log(url)
-        // console.log(this.addprod.info)
-        // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
-        this.$refs.md.$img2Url(pos, url.data)
-      })
-    },
-    $imgDel (pos) {
-      delete this.img_file[pos]
-    },
     // 退出修改
     exitEdit () {
       this.dialogFormVisible = false
@@ -128,7 +114,7 @@ export default {
           const updatedParams = {
             id: this.editnews._id,
             title: this.editnews.title,
-            info: this.editnews.info,
+            info: this.$refs.mdedit.mdinfo,
             img: this.$refs.newsupload.imageUrl
           }
           EditNews(updatedParams).then(res => {

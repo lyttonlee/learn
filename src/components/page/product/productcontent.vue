@@ -28,7 +28,7 @@
    <!-- body -->
    <div class="body">
      <h4 class="tit">产品详情</h4>
-     <mavon-editor
+     <!-- <mavon-editor
      class="md"
      :value="prop.value"
      :subfield = "prop.subfield"
@@ -36,7 +36,8 @@
      :toolbarsFlag = "prop.toolbarsFlag"
      :editable="prop.editable"
      :scrollStyle="prop.scrollStyle"
-     ></mavon-editor>
+     ></mavon-editor> -->
+     <md-show :key="prod._id" :mdvalue="prod.info"></md-show>
    </div>
  </div>
 </template>
@@ -50,17 +51,6 @@ export default {
   },
   computed: {
     // ...
-    prop () {
-      let data = {
-        subfield: false,
-        default_open: 'preview',
-        editable: false,
-        value: this.prod.info,
-        toolbarsFlag: false,
-        scrollStyle: false
-      }
-      return data
-    },
     user () {
       return this.$store.getters.sender
     },
@@ -160,17 +150,6 @@ export default {
     .tit {
       .leftborder;
       margin: 20px 0;
-    }
-    .md {
-      min-width: 100%;
-      // height: 100%;
-      display: inline;
-      min-height: auto;
-      z-index: 0;
-      font-size: 1rem;
-      @media screen and (max-width: 768px) {
-        font-size: .7rem;
-      }
     }
   }
 }

@@ -26,14 +26,15 @@
         </el-table-column>
       </el-table>
       <!-- 修改帮助文档 -->
-      <el-dialog title="修改帮助文档" :visible.sync="dialogFormVisible">
+      <el-dialog title="修改帮助文档" :visible.sync="dialogFormVisible" width="90%">
         <el-form ref="editfaq" label-position="top" :model="editfaq">
           <el-form-item label="问题">
             <el-input v-model="editfaq.que" placeholder="请输入问题"></el-input>
           </el-form-item>
         
           <el-form-item label="答案">
-            <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="editfaq.ans"></mavon-editor>
+            <!-- <mavon-editor  ref="md" @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="editfaq.ans"></mavon-editor> -->
+            <md-upload :key="editfaq.ans" :info="editfaq.ans" ref="mdedit"></md-upload>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -46,7 +47,7 @@
 </template>
 <script>
 import {GetFaq, EditFaq} from '../../../api/adminApi'
-import {UploadFile} from '../../../api/api'
+// import {UploadFile} from '../../../api/api'
 export default {
   data () {
     return {
@@ -75,7 +76,7 @@ export default {
       const updatedParams = {
         id: this.editfaq._id,
         que: this.editfaq.que,
-        ans: this.editfaq.ans
+        ans: this.$refs.mdedit.mdinfo
       }
       EditFaq(updatedParams).then(res => {
         this.$notify({
@@ -87,22 +88,22 @@ export default {
         this.allfaq()
         this.dialogFormVisible = false
       })
-    },
-    $imgAdd (pos, $file) {
-      // 第一步.将图片上传到服务器.
-      let formdata = new FormData()
-      formdata.append('file', $file)
-      UploadFile(formdata)
-      .then(url => {
-        // console.log(url)
-        // console.log(this.addprod.info)
-        // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
-        this.$refs.md.$img2Url(pos, url.data)
-      })
-    },
-    $imgDel (pos) {
-      delete this.img_file[pos]
     }
+    // $imgAdd (pos, $file) {
+    //   // 第一步.将图片上传到服务器.
+    //   let formdata = new FormData()
+    //   formdata.append('file', $file)
+    //   UploadFile(formdata)
+    //   .then(url => {
+    //     // console.log(url)
+    //     // console.log(this.addprod.info)
+    //     // 第二步.将返回的url替换到文本原位置![...](./0) -> ![...](url)
+    //     this.$refs.md.$img2Url(pos, url.data)
+    //   })
+    // },
+    // $imgDel (pos) {
+    //   delete this.img_file[pos]
+    // }
   },
   mounted () {
     this.allfaq()

@@ -32,12 +32,12 @@
       <el-row class="items">
         <template v-for="item in news">
           <el-col class="item" :key="item._id" :span="8" :xs="24">
-          <router-link :to="'/news/' + item._id" :key="item._id">
-            <img class="img" :src="item.img" alt="">
-          </router-link>
-          <p class="date">{{item.date}}</p>
-          <p class="title">{{item.title}}</p>
-        </el-col>
+            <router-link :to="'/news/' + item._id" :key="item._id">
+              <img class="img" :src="item.img" alt="">
+            </router-link>
+            <p class="date">{{item.date}}</p>
+            <p class="title">{{item.title}}</p>
+          </el-col>
         </template>
       </el-row>
     </div>

@@ -40,6 +40,21 @@ export default {
         return callback()
       }
     }
+    let hasSameAdminerName = (rule, value, callback) => {
+      let base = 'learn'
+      let hasReginedPar = {
+        name: value
+      }
+      this.$axios.get(`${base}/admin/hasregined`, {params: hasReginedPar}).then(res => {
+        console.log(res)
+        let {hasRegined, msg} = res.data
+        if (hasRegined) {
+          return callback(new Error(msg))
+        } else {
+          return callback()
+        }
+      })
+    }
     return {
       addadminer: {
         name: '',
@@ -56,8 +71,12 @@ export default {
           },
           {
             min: 2,
-            max: 5,
-            message: '长度在 2 到 5 个字',
+            max: 7,
+            message: '长度在 2 到 7 个字',
+            trigger: 'blur'
+          },
+          {
+            validator: hasSameAdminerName,
             trigger: 'blur'
           }
         ],
@@ -106,6 +125,7 @@ export default {
                 type: 'success',
                 offset: 100
               })
+              this.$router.push('/admin')
             }
           })
         } else {

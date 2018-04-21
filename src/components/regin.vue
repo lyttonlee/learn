@@ -114,6 +114,21 @@ export default {
         callback()
       }
     }
+    let hasReginedUser = (rule, value, callback) => {
+      let base = 'learn'
+      let hasReginedPar = {
+        username: value
+      }
+      this.$axios.get(`${base}/hasregined`, {params: hasReginedPar}).then(res => {
+        console.log(res)
+        let {hasRegined, msg} = res.data
+        if (hasRegined) {
+          return callback(new Error(msg))
+        } else {
+          return callback()
+        }
+      })
+    }
     return {
       ReginForm: {
         username: '',
@@ -131,6 +146,11 @@ export default {
             max: 14,
             min: 3,
             message: '用户名是必须的，长度为3-14位',
+            trigger: 'blur'
+          },
+          {
+            required: true,
+            validator: hasReginedUser,
             trigger: 'blur'
           }
         ],

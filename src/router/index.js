@@ -152,7 +152,8 @@ const routes = [
       {
         path: '/admin',
         meta: {
-          requireAdminer: true
+          requireAdminer: true,
+          role: '发货员.管理员.商品管理员'
         },
         component: AdminHome,
         name: '管理首页'
@@ -162,7 +163,8 @@ const routes = [
         path: '/admin/mangeprods',
         name: '商品管理',
         meta: {
-          requireAdminer: true
+          requireAdminer: true,
+          role: '管理员.商品管理员'
         },
         component: MangerProds,
         redirect: '/admin/mangeprods/allprods',
@@ -198,7 +200,8 @@ const routes = [
         path: '/admin/mangesends',
         name: '订单管理',
         meta: {
-          requireAdminer: true
+          requireAdminer: true,
+          role: '发货员.管理员'
         },
         component: MangerSends,
         redirect: '/admin/mangesends/submitsends',
@@ -226,7 +229,8 @@ const routes = [
         path: '/admin/mangeuser',
         name: '用户管理',
         meta: {
-          requireAdminer: true
+          requireAdminer: true,
+          role: '管理员'
         },
         component: MangerUser
       },
@@ -264,7 +268,8 @@ const routes = [
         name: '新闻管理',
         component: MangeNews,
         meta: {
-          requireAdminer: true
+          requireAdminer: true,
+          role: '管理员'
         },
         redirect: '/admin/mangenews/allnews',
         children: [
@@ -369,6 +374,11 @@ const routes = [
     name: '',
     hidden: true,
     component: Regin
+  },
+  {
+    path: '/addadminer',
+    name: '添加管理员',
+    component: NewAdminer
   },
   {
     path: '*',

@@ -60,9 +60,9 @@ export default {
         username: [
           {
             required: true,
-            max: 4,
+            max: 7,
             min: 2,
-            message: '用户名是必须的，长度为2-4位的汉字',
+            message: '用户名是必须的，长度为2-7位的汉字',
             trigger: 'blur'
           }
         ],

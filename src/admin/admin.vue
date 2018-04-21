@@ -4,7 +4,7 @@
     <el-row class="header">
       <!-- logo -->
       <el-col :span="8">
-        <img class="logo" src="../assets/logo.png" alt="">
+        <img class="logo" src="../assets/logo-1.png" alt="">
       </el-col>
       <!-- 管理员 -->
       <el-col :span="16">
@@ -28,9 +28,10 @@
         <el-menu 
           class="admin-menu"
           :default-active="$router.path"
+          :key="$router.path"
           router>
             <el-menu-item 
-              v-for="item in $router.options.routes[1].children"
+              v-for="item in route"
               :key="item.path"
               :index="item.path">
               {{item.name}}
@@ -57,11 +58,28 @@ export default {
   computed: {
     adminer () {
       return this.$store.state.adminer
+    },
+    route () {
+      let route = this.$router.options.routes[1].children
+      let admin = this.$store.state.adminer
+      // 这里想写权限管理,但没想好怎么写
+      // let curRoute = route.filter(r => {
+      //   // console.log(r)
+      //   return r.meta.role === admin.role
+      // })
+      console.log(admin)
+      return route
     }
   },
   methods: {
     toset () {
-      console.log('to set')
+      let route = this.$router.options.routes[1].children
+      let admin = this.$store.state.adminer
+      let curRoute = route.filter(r => {
+        // console.log(r)
+        return r.meta.role === admin.role
+      })
+      console.log(curRoute)
     },
     // 管理员退出登录
     logout () {
@@ -123,7 +141,7 @@ export default {
     }
     .logo {
       margin: 0 5px;
-      width: 60px;
+      width: 210px;
       height: 60px;
     }
   }

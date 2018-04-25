@@ -8,9 +8,17 @@ let base = '/learn'
 export const AdminLogin = params => {
   return axios.get(`${base}/admin/login`, {params: params})
 }
+// 判断管理员是否被注册
+export const hasReginedAdminer = params => {
+  return axios.get(`${base}/admin/hasregined`, {params: params})
+}
 // 添加管理员接口
 export const NewAdminer = params => {
   return axios.post(`${base}/admin/newadminer`, params)
+}
+// 删除关于我们
+export const DeleteAdminer = params => {
+  return axios.delete(`${base}/admin/deleteadminer`, {params: params})
 }
 // 获取管理员
 export const GetAdminer = params => {

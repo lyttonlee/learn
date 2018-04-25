@@ -27,7 +27,7 @@
         <p></p>
         <el-menu 
           class="admin-menu"
-          :default-active="$router.path"
+          :default-active="$route.path"
           :key="$router.path"
           router>
             <el-menu-item 
@@ -60,26 +60,14 @@ export default {
       return this.$store.state.adminer
     },
     route () {
-      let route = this.$router.options.routes[1].children
-      let admin = this.$store.state.adminer
-      // 这里想写权限管理,但没想好怎么写
-      // let curRoute = route.filter(r => {
-      //   // console.log(r)
-      //   return r.meta.role === admin.role
-      // })
-      console.log(admin)
+      const route = this.$store.state.addRoutes[0].children
+      console.log(route)
       return route
     }
   },
   methods: {
     toset () {
-      let route = this.$router.options.routes[1].children
-      let admin = this.$store.state.adminer
-      let curRoute = route.filter(r => {
-        // console.log(r)
-        return r.meta.role === admin.role
-      })
-      console.log(curRoute)
+      console.log('curRoute')
     },
     // 管理员退出登录
     logout () {
@@ -92,7 +80,7 @@ export default {
         // 在这里挂上，官方说的分发，登出的action
         // 应该这样就行了把
         this.$store.dispatch('adminlogout')
-        this.$router.push('/adminer/login')
+        this.$router.push('/adminlogin')
         this.$message({
           type: 'danger',
           message: '退出成功!'

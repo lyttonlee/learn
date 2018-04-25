@@ -37,10 +37,13 @@
     <el-table-column
       min-width="20%"
       label="操作">
-       <template slot-scope="scope">
+      <template slot-scope="scope">
         <el-button
-          type="danger"
+          type="primary"
           @click="EditAdminer(scope.$index, scope.row)">修改</el-button>
+          <el-button
+          type="danger"
+          @click="deleteAdminer(scope.$index, scope.row)">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -52,10 +55,10 @@
       </el-form-item>
       <el-form-item prop="role">
         <el-select v-model="adminer.role" placeholder="请设置管理员角色">
-          <el-option label="超级管理员" value="超级管理员"></el-option>
-          <el-option label="管理员" value="管理员"></el-option>
-          <el-option label="发货员" value="发货员"></el-option>
-          <el-option label="商品管理员" value="商品管理员"></el-option>
+          <el-option label="超级管理员" value="superAdmin"></el-option>
+          <el-option label="管理员" value="admin"></el-option>
+          <el-option label="发货员" value="prodSender"></el-option>
+          <el-option label="商品管理员" value="prodManger"></el-option>
         </el-select>
       </el-form-item>
     </el-form>
@@ -69,7 +72,7 @@
   
 </template>
 <script>
-import {GetAdminer, EditAdminer} from '../../../api/adminApi'
+import {GetAdminer, EditAdminer, DeleteAdminer} from '../../../api/adminApi'
 export default {
   // ..
   data () {
@@ -87,8 +90,8 @@ export default {
           },
           {
             min: 2,
-            max: 5,
-            message: '长度在 2 到 5 个字',
+            max: 7,
+            message: '长度在 2 到 7 个字',
             trigger: 'blur'
           }
         ],
@@ -132,6 +135,33 @@ export default {
         this.adminerName = ''
       })
     },
+    // 删除管理员
+    deleteAdminer (row, rowIndex) {
+      // 获取要删除管理员的id
+      // console.log(rowIndex)
+      this.$confirm('此操作将会删除该管理员, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        DeleteAdminer({id: rowIndex._id}).then(res => {
+          this.$notify({
+            title: '删除成功！',
+            message: res.data.msg,
+            type: 'success',
+            offset: 100
+          })
+          this.getAllAdminers()
+        })
+      }).catch(() => {
+        this.$notify({
+          title: '提醒',
+          type: 'info',
+          message: '已取消删除',
+          offset: 200
+        })
+      })
+    },
     // 修改管理员
     EditAdminer (row, rowIndex) {
       // console.log(row, rowIndex)
@@ -167,17 +197,21 @@ export default {
           })
         }
       })
+    },
+    // 获取所有管理员
+    getAllAdminers () {
+      // 获取所有管理员
+      const adminparams = {
+        type: 'all'
+      }
+      GetAdminer(adminparams).then(res => {
+        // console.log(res)
+        this.adminers = res.data.adminers
+      })
     }
   },
   mounted () {
-    // 获取所有管理员
-    const adminparams = {
-      type: 'all'
-    }
-    GetAdminer(adminparams).then(res => {
-      // console.log(res)
-      this.adminers = res.data.adminers
-    })
+    this.getAllAdminers()
   }
 }
 </script>
@@ -211,8 +245,5 @@ export default {
       width: 100%;
     }
   }
-  
 }
 </style>
-
-

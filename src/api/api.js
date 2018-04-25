@@ -12,6 +12,10 @@ export const ReginUser = params => {
 export const LoginUser = params => {
   return axios.get(`${base}/login`, {params: params})
 }
+// 判断用户是否被注册
+export const hasReginedUser = params => {
+  return axios.get(`${base}/hasregined`, {params: params})
+}
 // 获取七牛云上传token
 export const GetQiniuUpToken = params => {
   return axios.get(`${base}/gettoken`, {params: params})

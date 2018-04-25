@@ -20,6 +20,7 @@ import moment from 'moment'
 import qiniuUpload from './utils/uploadUi'
 import mdUpload from './utils/mdupload'
 import mdShow from './utils/mdshow'
+import mangeMenu from './utils/mangemenu'
 // 引入fastclick
 // import FastClick from 'fastclick'
 // 引入echarts,最好是按需引入
@@ -30,6 +31,7 @@ import mdShow from './utils/mdshow'
 Vue.component('qiniu-upload', qiniuUpload)
 Vue.component('md-upload', mdUpload)
 Vue.component('md-show', mdShow)
+Vue.component('mange-menu', mangeMenu)
 Vue.use(ElementUi)
 Vue.use(Vuex)
 Vue.use(mavonEditor)
@@ -48,7 +50,8 @@ router.beforeEach((to, from, next) => {
     // this.$store.dispatch('logout')
     store.dispatch('logout')
   }
-  if (to.path === '/adminer/login') {
+  // 如果去管理员登录，那就先移除管理员adminer
+  if (to.path === '/adminlogin') {
     sessionStorage.removeItem('adminer')
     store.dispatch('logout')
   }
@@ -59,19 +62,32 @@ router.beforeEach((to, from, next) => {
   // } else {
   //   next()
   // }
+  // 如果用户没有登录且前往需要用户登录才能访问的页面，那就让他先登录
   if (!user && to.meta.requireUser) {
     next({ path: '/login' })
   } else {
     next()
   }
-  if (to.meta.requireAdminer) {
-    if (adminer !== '') {
-      next()
-    } else {
-      next({
-        path: '/adminer/login',
-        query: {redirect: to.fullPath}
+  if (to.path === '/admin' && !adminer) {
+    next({
+      path: '/adminlogin'
+      // query: {redirect: to.fullPath}
+    })
+  }
+  // 如果管理员已经登录
+  if (adminer) {
+    // 判断路由是否生成
+    if (store.state.addRoutes.length === 0) {
+      // 判断已登录的管理员权限
+      const role = adminer.role
+      console.log(role)
+      // 根据权限生成可访问的路由
+      store.dispatch('adminRoutes', {role}).then(() => {
+        // console.log(store.state.addRoutes)
+        router.addRoutes(store.state.addRoutes)
+        next({...to, replace: true})
       })
+      next()
     }
   }
 })

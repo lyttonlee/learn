@@ -13,10 +13,10 @@
       </el-form-item>
       <el-form-item prop="role">
         <el-select v-model="addadminer.role" placeholder="请设置管理员角色">
-          <el-option label="超级管理员" value="超级管理员"></el-option>
-          <el-option label="管理员" value="管理员"></el-option>
-          <el-option label="发货员" value="发货员"></el-option>
-          <el-option label="商品管理员" value="商品管理员"></el-option>
+          <el-option label="超级管理员" value="superAdmin"></el-option>
+          <el-option label="管理员" value="admin"></el-option>
+          <el-option label="发货员" value="prodSender"></el-option>
+          <el-option label="商品管理员" value="prodManger"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -27,11 +27,11 @@
   </div>
 </template>
 <script>
-import {NewAdminer} from '../../../api/adminApi'
+import {NewAdminer, hasReginedAdminer} from '../../../api/adminApi'
 export default {
   // ..
   data () {
-    let confirmpasswordCheck = (rule, value, callback) => {
+    const confirmpasswordCheck = (rule, value, callback) => {
       if (value === '') {
         return callback(new Error('密码是必须的'))
       } else if (value !== this.addadminer.password) {
@@ -40,13 +40,13 @@ export default {
         return callback()
       }
     }
-    let hasSameAdminerName = (rule, value, callback) => {
-      let base = 'learn'
-      let hasReginedPar = {
+    const hasSameAdminerName = (rule, value, callback) => {
+      // let base = 'learn'
+      const hasReginedPar = {
         name: value
       }
-      this.$axios.get(`${base}/admin/hasregined`, {params: hasReginedPar}).then(res => {
-        console.log(res)
+      hasReginedAdminer(hasReginedPar).then(res => {
+        // console.log(res)
         let {hasRegined, msg} = res.data
         if (hasRegined) {
           return callback(new Error(msg))

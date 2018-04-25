@@ -107,8 +107,15 @@ export default {
               sessionStorage.setItem('adminer', JSON.stringify(adminer))
               // 在这里挂上，官方说的分发，管理员登录的action
               this.$store.dispatch('adminlogin')
-              // 跳转到后端首页
-              this.$router.push('/admin/mangesends/submitsends')
+              // 这里感觉该有点什么
+              // 根据权限生成可访问的路由
+              const role = adminer.role
+              this.$store.dispatch('adminRoutes', {role}).then(() => {
+                // 添加该管理员可访问的路由
+                this.$router.addRoutes(this.$store.state.addRoutes)
+                // 跳转到后端首页
+                this.$router.push('/admin')
+              })
             }
             this.LoginForm.username = ''
             this.LoginForm.password = ''

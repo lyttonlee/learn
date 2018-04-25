@@ -4,6 +4,8 @@ import Vuex from 'vuex'
 import {GetSended} from '../api/api'
 import {GetProds, GetProducts, GetUsers, Sendsed, Sendsing, GetOption} from '../api/adminApi'
 import {dateArray} from '../common/js/common'
+import {constantRoutes} from '../router'
+import {asyncRoutes} from '../router/asyncRoutes'
 
 Vue.use(Vuex)
 // 创建基本状态
@@ -17,10 +19,17 @@ const state = {
   users: [], // 所有注册用户
   sendsing: [], // 所有待打印订单
   sendspay: [], // 所有待用户付款订单
-  siteoption: {} // 网站基本信息
+  siteoption: {}, // 网站基本信息
+  constantRoutes: constantRoutes,
+  addRoutes: []
 }
 // 创建改变状态的方法
 const mutations = {
+  // 动态添加管理员可访问路由
+  SET_ROUTES: (state, routes) => {
+    state.addRoutes = routes
+    state.constantRoutes = constantRoutes.concat(routes)
+  },
   // 用户登录
   LOGIN (state) {
     state.user = JSON.parse(sessionStorage.getItem('user'))
@@ -232,6 +241,36 @@ const getters = {
 }
 // 创建驱动actions可以使得mutations得以启动
 const actions = {
+  // 动态添加管理员路由
+  adminRoutes ({commit}, data) {
+    return new Promise(resolve => {
+      const role = data
+      console.log(role)
+      // 获取符合该管理员权限的路由
+      const notRoute = asyncRoutes[1]
+      const accessedRoutes = asyncRoutes.filter(r => {
+        if (role) {
+          if (r.children && r.children.length > 0) {
+            // console.log(r)
+            // console.log('............')
+            r.children = r.children.filter(child => {
+              const roles = child.meta.role
+              if (roles.some(v => v === role.role)) {
+                return child
+              }
+            })
+            return r
+          }
+        } else {
+          return false
+        }
+      })
+      accessedRoutes.push(notRoute)
+      console.log(accessedRoutes)
+      commit('SET_ROUTES', accessedRoutes)
+      resolve()
+    })
+  },
   // 用户登录
   // 这里先来一个驱动LOGIN的东西就叫login吧
   login ({commit}) {

@@ -88,13 +88,13 @@
 <script>
 import Back from '@/components/back'
 // 引入api接口
-import {ReginUser} from '../api/api'
+import {ReginUser, hasReginedUser} from '../api/api'
 export default {
   components: {
     Back
   },
   data () {
-    let confirmpasswordCheck = (rule, value, callback) => {
+    const confirmpasswordCheck = (rule, value, callback) => {
       if (value === '') {
         return callback(new Error('密码是必须的'))
       } else if (value !== this.ReginForm.password) {
@@ -103,7 +103,7 @@ export default {
         return callback()
       }
     }
-    let telCheck = (rule, value, callback) => {
+    const telCheck = (rule, value, callback) => {
       if (value === '') {
         return callback(new Error('电话号码是必须的'))
       } else if (!Number.isInteger(value)) {
@@ -114,13 +114,13 @@ export default {
         callback()
       }
     }
-    let hasReginedUser = (rule, value, callback) => {
-      let base = 'learn'
-      let hasReginedPar = {
+    const hasSameReginedUser = (rule, value, callback) => {
+      // let base = 'learn'
+      const hasReginedPar = {
         username: value
       }
-      this.$axios.get(`${base}/hasregined`, {params: hasReginedPar}).then(res => {
-        console.log(res)
+      hasReginedUser(hasReginedPar).then(res => {
+        // console.log(res)
         let {hasRegined, msg} = res.data
         if (hasRegined) {
           return callback(new Error(msg))
@@ -150,7 +150,7 @@ export default {
           },
           {
             required: true,
-            validator: hasReginedUser,
+            validator: hasSameReginedUser,
             trigger: 'blur'
           }
         ],

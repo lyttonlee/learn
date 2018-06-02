@@ -5,10 +5,10 @@
         <p></p>
         <div class="menu">
           <el-menu 
-          :default-active="$router.path"
+          :default-active="$route.path"
           router>
             <el-menu-item 
-              v-for="item in $router.options.routes[0].children[6].children"
+              v-for="item in $router.options.routes[0].children[7].children"
               :key="item.path"
               :index="item.path">
               {{item.name}}

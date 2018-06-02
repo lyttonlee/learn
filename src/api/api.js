@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 // dev
-let base = '/learn/api'
+// let base = '/learn/api'
 // // build
-// let base = '/api'
+let base = '/api'
 // 注册接口
 export const ReginUser = params => {
   return axios.post(`${base}/regin`, params)

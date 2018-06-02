@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 // dev
-let base = '/learn/api'
+// let base = '/learn/api'
 // // build
-// let base = '/api'
+let base = '/api'
 // 后台登录接口
 export const AdminLogin = params => {
   return axios.get(`${base}/admin/login`, {params: params})

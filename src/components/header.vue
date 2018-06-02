@@ -18,12 +18,12 @@
             </el-menu-item>
 
             <!-- 循环有children的路由 -->
-            <el-submenu v-else :index="route.path" :key="route.path">
+            <!-- <el-submenu v-else :index="route.path" :key="route.path">
               <template slot="title">{{ route.name }}</template>
               <el-menu-item v-for="child in route.children" :index="child.path" :key="child.path">
                 {{ child.name }}
               </el-menu-item>
-            </el-submenu>
+            </el-submenu> -->
 
           </template>
         </el-menu>
@@ -71,12 +71,12 @@
                   </el-menu-item>
 
                   <!-- 循环有children的路由 -->
-                  <el-submenu v-else :index="route.path" :key="route.path">
+                  <!-- <el-submenu v-else :index="route.path" :key="route.path">
                     <template slot="title">{{ route.name }}</template>
                     <el-menu-item v-for="child in route.children" :index="child.path" :key="child.path">
                       {{ child.name }}
                     </el-menu-item>
-                  </el-submenu>
+                  </el-submenu> -->
 
                 </template>
               </el-menu>

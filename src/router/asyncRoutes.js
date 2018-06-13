@@ -3,6 +3,7 @@ import Admin from '@/admin/admin'
 import AdminHome from '@/admin/views/adminhome'
 import MangerAdmin from '@/admin/views/mangeradmin'
 import MangerProds from '@/admin/views/mangerprods'
+// import MangerLocal from '@/admin/views/mangeLocal'
 import MangerSends from '@/admin/views/mangersends'
 import MangerUser from '@/admin/views/mangeruser'
 import SiteOption from '@/admin/views/siteoption'
@@ -30,6 +31,8 @@ import SetOption from '@/admin/views/siteoption/setoption'
 import SetAbout from '@/admin/views/siteoption/setabout'
 import NewSetAbout from '@/admin/views/siteoption/newsetoption'
 import Page404 from '@/components/404'
+// 路由懒加载
+const lazyAdmin = name => () => import(`@/admin/views/${name}`)
 // 需要验证权限才能访问的路由
 export const asyncRoutes = [
   // 后端页面路由
@@ -88,6 +91,35 @@ export const asyncRoutes = [
               requireAdminer: true
             },
             component: AddProd
+          }
+        ]
+      },
+      // 批发管理
+      {
+        path: '/admin/mangelocal',
+        name: '批发管理',
+        meta: {
+          requireAdminer: true,
+          role: ['superAdmin', 'admin', 'prodManger']
+        },
+        component: lazyAdmin('mangeLocal'),
+        redirect: '/admin/mangelocal/alllocalprods',
+        children: [
+          {
+            path: '/admin/mangelocal/alllocalprods',
+            name: '全部批发商品',
+            meta: {
+              requireAdminer: true
+            },
+            component: AllProds
+          },
+          {
+            path: '/admin/mangelocal/addlocalprod',
+            name: '新增批发商品',
+            meta: {
+              requireAdminer: true
+            },
+            component: lazyAdmin('localProds/newLocal')
           }
         ]
       },

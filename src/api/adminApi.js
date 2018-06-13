@@ -55,6 +55,19 @@ export const EditProd = params => {
   return axios.post(`${base}/admin/editprod`, params)
 }
 
+// 添加一个批发商品
+export const newLocalProd = params => {
+  return axios.post(`${base}/admin/newlocalprod`, params)
+}
+// 获取所有批发商品
+export const getAllLocalProds = params => {
+  return axios.get(`${base}/admin/getalllocalprods`, {params: params})
+}
+// 修改一个批发商品
+export const editLocalProd = params => {
+  return axios.put(`${base}/admin/editlocalprod`, params)
+}
+
 // 获取用户
 export const GetUsers = params => {
   return axios.get(`${base}/admin/getusers`, {params: params})

@@ -111,7 +111,7 @@ export const asyncRoutes = [
             meta: {
               requireAdminer: true
             },
-            component: AllProds
+            component: lazyAdmin('localProds/allLocalProds')
           },
           {
             path: '/admin/mangelocal/addlocalprod',

@@ -138,6 +138,14 @@ export default {
             })
             this.$refs.addprod.resetFields()
             this.$router.push('/admin/mangelocal/alllocalprods')
+          }).catch(err => {
+            console.error(err)
+            this.$notify({
+              title: '哎呀！好像出现问题了哦！',
+              type: 'error',
+              message: '请稍后再试',
+              offset: 200
+            })
           })
         } else {
           this.$notify({

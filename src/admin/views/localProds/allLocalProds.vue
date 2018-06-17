@@ -1,14 +1,5 @@
 <template>
   <div class="section">
-    <!-- 搜索商品 -->
-    <div class="serchprod">
-      <h4>搜索商品</h4>
-      <!-- 搜索框 -->
-      <el-input class="serch-input" v-model="prodName" placeholder="请输入确切的商品名">
-        <i slot="prefix" class="el-input__icon el-icon-search"></i>
-      </el-input>
-      <el-button class="serch-btn" @click="SerchProd" :disabled="disable" type="primary">搜索</el-button>
-    </div>
     <!-- 所有商品 -->
     <div class="allprod">
       <h4>所有商品</h4>
@@ -21,6 +12,11 @@
           min-width="40%">
         </el-table-column>
         <el-table-column
+          prop="sellnum"
+          label="总销量"
+          min-width="10%">
+        </el-table-column>
+        <el-table-column
           prop="price"
           label="价格"
           min-width="10%">
@@ -31,18 +27,6 @@
           min-width="20%">
           <template slot-scope="scope">
             <img class="table-image" :src="scope.row.image" alt="">
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="typename"
-          label="类型"
-          min-width="10%"
-          :filters="productsFilter"
-          :filter-method="filterType"
-          filter-placement="bottom-end">
-          <template slot-scope="scope">
-            <el-tag
-              close-transition>{{scope.row.typename}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column
@@ -66,35 +50,7 @@
           <el-input v-model.number="editprod.price" placeholder="请输入商品价格"></el-input>
         </el-form-item>
         <el-form-item label="商品主图" prop="image">
-          <!-- <el-upload
-            class="prod-image"
-            action="/learn/upload"
-            :show-file-list="false"
-            :on-success="handleSuccess"
-            :before-upload="beforeUpload">
-            <img v-if="imageUrl" :src="imageUrl" class="cur-image">
-            <i v-else class="el-icon-plus prod-uploader-icon"></i>
-          </el-upload> -->
           <qiniu-upload :key="imageUrl" :url="imageUrl" width="200" height="200" fontSize="40" ref="qnupload"></qiniu-upload>
-        </el-form-item>
-        <el-form-item label="商品类别" prop="typename">
-          <el-select v-model="editprod.typename" placeholder="请选择商品类别">
-            <template v-for="item in products">
-              <el-option :label="item.name" :value="item.name" :key="item.type"></el-option>
-            </template>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="商品类名">
-          <el-input v-model="editprod.type" disabled></el-input>
-        </el-form-item>
-        
-        <el-form-item label="是否上架">
-          <el-switch v-model="editprod.selling"></el-switch>
-        </el-form-item>
-
-        <el-form-item label="售卖时间" prop="selltime">
-          <el-input v-model="editprod.selltime" placeholder="请请输入商品售卖时间，月份或全年"></el-input>
         </el-form-item>
         
         <el-form-item label="商品简介" prop="desc">
@@ -115,24 +71,18 @@
   
 </template>
 <script>
-import {GetProducts, GetProds, EditProd} from '../../../api/adminApi'
-// import {UploadFile} from '../../../api/api'
+import {getAllLocalProds, editLocalProd} from '../../../api/adminApi'
 export default {
   // ..
   data () {
     return {
       prodName: '',
-      productsFilter: [],
       prods: [],
-      products: [],
       dialogFormVisible: false,
       imageUrl: '',
       editprod: {
         name: '',
         price: '',
-        type: '',
-        typename: '',
-        selling: '',
         desc: '',
         info: ''
       },
@@ -162,113 +112,23 @@ export default {
             trigger: 'blur'
           }
         ],
-        type: [
-          {
-            required: true,
-            message: '商品必须选择一个类别',
-            trigger: 'change'
-          }
-        ],
         desc: [
           {
             required: true,
             message: '请输入商品简介',
             trigger: 'blur'
           }
-        ],
-        selltime: [
-          {
-            required: true,
-            message: '商品售卖时间段是必须的！',
-            trigger: 'blur'
-          }
         ]
       }
     }
   },
-  computed: {
-    disable () {
-      if (this.prodName.length !== 0) {
-        return false
-      } else {
-        return true
-      }
-    }
-  },
-  watch: {
-    'editprod.typename': function (val) {
-      // console.log(val)
-      // console.log(this.products)
-      const CurProduct = this.products.filter(p => {
-        return p.name === this.editprod.typename
-      })
-      // console.log(CurProduct)
-      this.editprod.type = CurProduct[0].type
-      // console.log(this.addprod.type)
-    },
-    deep: true
-  },
   methods: {
-    // 搜索商品
-    SerchProd () {
-      let serchpar = {
-        name: this.prodName
-      }
-      GetProds(serchpar).then(res => {
-        // console.log(res)
-        if (res.data.prods.length > 0) {
-          this.$notify({
-            title: '成功',
-            type: 'success',
-            message: '共搜索到' + res.data.prods.length + '个商品',
-            offset: 200
-          })
-          this.prods = res.data.prods
-          this.prodName = ''
-        } else {
-          this.$notify({
-            title: '失败',
-            type: 'error',
-            message: '没有找到合适的商品,请检查商品名',
-            offset: 200
-          })
-          this.prodName = ''
-        }
-      })
-    },
-    // 获取所有商品类
-    getproducts () {
-      let productsPar = {
-        type: 'all'
-      }
-      GetProducts(productsPar).then(res => {
-        // console.log(res)
-        const Oproducts = res.data.products
-        this.products = res.data.products
-        for (let i = 0; i < Oproducts.length; i++) {
-          this.productsFilter.push({
-            text: Oproducts[i].name,
-            value: Oproducts[i].name
-          })
-        }
-        // console.log(this.productsFilter)
-      })
-    },
     // 获取所有商品
     getallprods () {
-      let allprospar = {
-        type: 'all'
-      }
-      GetProds(allprospar).then(res => {
-        // console.log(res)
-        this.prods = res.data.prods
+      getAllLocalProds().then(res => {
+        console.log(res)
+        this.prods = res.data
       })
-    },
-    // 通过商品类型过滤显示商品
-    filterType (value, row) {
-      // console.log('value', value)
-      // console.log('row', row)
-      return row.typename === value
     },
     // 编辑商品
     EditProd (row, rowIndex) {
@@ -290,15 +150,11 @@ export default {
             name: this.editprod.name,
             price: this.editprod.price,
             image: this.$refs.qnupload.imageUrl,
-            type: this.editprod.type,
-            typename: this.editprod.typename,
-            selling: this.editprod.selling,
             desc: this.editprod.desc,
-            info: this.$refs.mdedit.mdinfo,
-            selltime: this.editprod.selltime
+            info: this.$refs.mdedit.mdinfo
           }
           // console.log(updatedParams)
-          EditProd(updatedParams).then(res => {
+          editLocalProd(updatedParams).then(res => {
             this.$notify({
               title: '商品修改成功',
               message: res.data.name,
@@ -318,8 +174,6 @@ export default {
     }
   },
   mounted () {
-    // ..
-    this.getproducts()
     this.getallprods()
   }
 }

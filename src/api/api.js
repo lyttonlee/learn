@@ -37,6 +37,10 @@ export const GetProductList = params => {
 export const getLocalProds = params => {
   return axios.get(`${base}/querylocalprods`, {params: params})
 }
+// 获取批发商品
+export const getCulLocalprod = params => {
+  return axios.get(`${base}/cullocalprod`, {params: params})
+}
 // 添加待发货
 export const newPreSend = params => {
   return axios.post(`${base}/newpresend`, params)

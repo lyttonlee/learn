@@ -69,6 +69,11 @@ export const constantRoutes = [
         component: lazyComp('page/localProduct')
       },
       {
+        path: '/localproduct/:id',
+        hidden: true,
+        component: lazyComp('page/localProd')
+      },
+      {
         path: '/FAQ',
         name: '文档',
         component: FAQ

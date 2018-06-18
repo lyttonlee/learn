@@ -19,8 +19,10 @@
           <template v-for="item in localProds">
             <el-col :key="item._id" :span="6" :xs="12">
               <div class="item">
-                <img class="img" :src="item.image" alt="">
-                <h4>{{item.name}}</h4>
+                <router-link :to="`/localproduct/${item._id}`" :key="item._id">
+                  <img class="img" :src="item.image" alt="">
+                  <h4>{{item.name}}</h4>
+                </router-link>
                 <p>{{item.desc}}</p>
                 <p>{{item.price}}</p>
                 <p>{{item.sellnum}}</p>
@@ -112,6 +114,10 @@ export default {
     }
     .item {
       margin: 10px;
+      a {
+        text-decoration: none;
+        color: #222121;
+      }
       .img {
         width: 100%;
       }

@@ -10,7 +10,7 @@
             <h3 v-text="prod.name"></h3>
             <p v-text="prod.desc"></p>
             <div class="info">
-              <p class="price">价  格：<span :class="hasuser">￥{{prod.price}}</span></p>
+              <p class="price">价  格：<span :class="user ? 'nprice' : 'yprice'">￥{{prod.price}}</span></p>
               <p v-if="user">折扣价：<span class="yprice">￥{{prod.price * user.zhekou * 0.1}}</span></p>
               <p>历史销量：{{prod.sellnum}}</p>
               <div>
@@ -19,13 +19,12 @@
               </div>
             </div>
             <div class="action">
-              <el-button type="danger" @click="tosend">立刻去发货</el-button>
+              <el-button type="danger" @click="addToCart">添加到购物车</el-button>
               <el-button type="info" @click="back">返回浏览其它商品</el-button>
             </div>
           </el-col>
       </el-row>
     </div>
-    <p>我的喜欢{{stars}}</p>
     <!-- body -->
     <div class="body">
       <h4 class="tit">产品详情</h4>
@@ -36,7 +35,6 @@
 <script>
 import {getCulLocalprod} from '../../api/api'
 import {
-mapStmapState,
 mapMutations,
 mapGetters,
 mapActions,
@@ -48,46 +46,33 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['asyncAdd']),
+    ...mapMutations(['add']),
     getProd () {
       const par = {
         id: this.$route.params.id
       }
       getCulLocalprod(par).then(res => {
-        // console.log(res)
         this.prod = res.data
       })
     },
-    tosend () {
-      // this.$router.push('/manger/send')
-      // console.log(this.$store.commit('add', 5))
-      // this.$store.carShop.commit('add', 5)
-      // console.log(this.$store)
-      console.log(this.$store.state.carShopMoudule.stars)
-      // this.$store.commit('add', 5)
-      this.$store.dispatch('asyncAdd', {num: 10, time: 3000})
+    addToCart () {
+      const asyncParam = {num: 10, time: 1000}
+      const addParam = 3
+      this.asyncAdd(asyncParam)
+      this.add(addParam)
     },
     back () {
       this.$router.go(-1)
     }
   },
   computed: {
-    // ...
-    user () {
-      return this.$store.getters.sender
-    },
-    hasuser () {
-      if (this.user) {
-        return 'nprice'
-      } else {
-        return 'yprice'
-      }
-    },
-    stars () {
-      return this.$store.state.carShopMoudule.stars
-    }
+    ...mapState(['cart']),
+    ...mapGetters({
+      user: 'sender'
+    })
   },
   mounted () {
-    console.log(this.$route.params.id)
     this.getProd()
   }
 }

@@ -27,7 +27,7 @@ export default {
   methods: {
     getnews () {
       let par = {
-        limit: 12
+        limit: 6
       }
       GetNews(par).then(res => {
         // console.log(res)

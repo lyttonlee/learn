@@ -25,6 +25,7 @@
           </el-col>
       </el-row>
     </div>
+    <p>我的喜欢{{stars}}</p>
     <!-- body -->
     <div class="body">
       <h4 class="tit">产品详情</h4>
@@ -34,6 +35,12 @@
 </template>
 <script>
 import {getCulLocalprod} from '../../api/api'
+import {
+mapStmapState,
+mapMutations,
+mapGetters,
+mapActions,
+mapState} from 'vuex'
 export default {
   data () {
     return {
@@ -46,15 +53,18 @@ export default {
         id: this.$route.params.id
       }
       getCulLocalprod(par).then(res => {
-        console.log(res)
+        // console.log(res)
         this.prod = res.data
       })
     },
     tosend () {
       // this.$router.push('/manger/send')
-      console.log(this.$store.commit('add', 5))
+      // console.log(this.$store.commit('add', 5))
       // this.$store.carShop.commit('add', 5)
-      console.log(this.state.carShop.stars)
+      // console.log(this.$store)
+      console.log(this.$store.state.carShopMoudule.stars)
+      // this.$store.commit('add', 5)
+      this.$store.dispatch('asyncAdd', {num: 10, time: 3000})
     },
     back () {
       this.$router.go(-1)
@@ -71,6 +81,9 @@ export default {
       } else {
         return 'yprice'
       }
+    },
+    stars () {
+      return this.$store.state.carShopMoudule.stars
     }
   },
   mounted () {

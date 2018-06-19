@@ -6,6 +6,8 @@ import {GetProds, GetProducts, GetUsers, Sendsed, Sendsing, GetOption} from '../
 import {dateArray} from '../common/js/common'
 import {constantRoutes} from '../router'
 import {asyncRoutes} from '../router/asyncRoutes'
+// import carShop from './moudules/carShopMoudule'
+import modules from './moudules'
 
 Vue.use(Vuex)
 // 创建基本状态
@@ -326,5 +328,6 @@ export default new Vuex.Store({
   state,
   mutations,
   actions,
-  getters
+  getters,
+  modules
 })

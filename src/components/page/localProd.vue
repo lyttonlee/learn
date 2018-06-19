@@ -19,7 +19,7 @@
               </div>
             </div>
             <div class="action">
-              <el-button type="danger" @click="tosend" :disabled="disabled">立刻去发货</el-button>
+              <el-button type="danger" @click="tosend">立刻去发货</el-button>
               <el-button type="info" @click="back">返回浏览其它商品</el-button>
             </div>
           </el-col>
@@ -51,7 +51,10 @@ export default {
       })
     },
     tosend () {
-      this.$router.push('/manger/send')
+      // this.$router.push('/manger/send')
+      console.log(this.$store.commit('add', 5))
+      // this.$store.carShop.commit('add', 5)
+      console.log(this.state.carShop.stars)
     },
     back () {
       this.$router.go(-1)
@@ -67,13 +70,6 @@ export default {
         return 'nprice'
       } else {
         return 'yprice'
-      }
-    },
-    disabled () {
-      if (this.prod.selling) {
-        return false
-      } else {
-        return true
       }
     }
   },

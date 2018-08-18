@@ -3,6 +3,7 @@
     <div class="top">
       <Back></Back>
     </div>
+    <div id="wxlogin"></div>
     <el-form 
       :model="LoginForm" 
       ref="LoginForm" 
@@ -55,6 +56,7 @@
 <script>
 import Back from '@/components/back'
 import {LoginUser} from '../api/api'
+// import WxLogin from 'http://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js'
 export default {
   // ....
   components: {

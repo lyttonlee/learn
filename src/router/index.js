@@ -23,7 +23,7 @@ import ProductContent from '@/components/page/product/productcontent'
 // 添加新管理员
 import NewAdminer from '@/admin/views/adminer/newadminer'
 // lazyLoad components
-const lazyComp = name => () => import(`@/components/${name}`)
+// const lazyComp = name => () => import(`@/components/${name}`)
 Vue.use(Router)
 // 无需权限就可以访问的常时路由,其实就是前端路由
 export const constantRoutes = [
@@ -63,19 +63,20 @@ export const constantRoutes = [
         hidden: true,
         component: NewsContent
       },
-      {
-        path: '/localproduct',
-        name: '批发',
-        component: lazyComp('page/localProduct')
-      },
-      {
-        path: '/localproduct/:id',
-        hidden: true,
-        component: lazyComp('page/localProd')
-      },
+      // {
+      //   path: '/localproduct',
+      //   name: '批发',
+      //   component: lazyComp('page/localProduct')
+      // },
+      // {
+      //   path: '/localproduct/:id',
+      //   hidden: true,
+      //   component: lazyComp('page/localProd')
+      // },
       {
         path: '/FAQ',
         name: '文档',
+        hidden: true,
         component: FAQ
       },
       {

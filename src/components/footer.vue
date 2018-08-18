@@ -4,7 +4,7 @@
     <img class="logo" :src="siteoption.logo" alt="">
   </el-col>
   <el-col :span="16">
-    <p class="copy">Copyright © 2015-2018.会理县未济网络科技有限公司.All Rights Reserved.</p>
+    <p class="copy">Copyright © 2015-2018.会理县辰农农业开发有限公司.All Rights Reserved.</p>
     <p class="beian">ICP备案号：{{siteoption.beian}}</p>
   </el-col>
 </el-row>

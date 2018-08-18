@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="banner">
-      <img :src="siteoption.banner" alt="">
+      <img @click="toProduct" :src="siteoption.banner" alt="">
     </div>
     <div class="about">
       <h2>关于我们</h2>
@@ -21,12 +21,12 @@
         </template>
       </el-row>
     </div>
-    <div class="join">
+    <!-- <div class="join">
       <h2>使用微信扫一扫立刻成为代理商，开始赚钱</h2>
       <p class="desc">四川大凉山一品源已累计发货 <span class="hot"> {{sendsed}} </span> 余件</p>
       <p class="desc">合作代理商 <span class="hot">{{users}}</span> 余位,期待您的加入！</p>
       <img class="er" :src="siteoption.erweima" alt="">
-    </div>
+    </div> -->
     <div class="news">
       <h2>最新动态</h2>
       <el-row class="items">
@@ -81,6 +81,9 @@ export default {
         // console.log(res)
         this.news = res.data
       })
+    },
+    toProduct () {
+      this.$router.push('/product/全部商品')
     }
   },
   mounted () {
@@ -95,6 +98,7 @@ export default {
 @import '../common/less/index.less';
 .container {
   .banner {
+    cursor: pointer;
     img {
       width: 100%;
     }

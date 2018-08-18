@@ -8,7 +8,7 @@
           :default-active="$route.path"
           router>
             <el-menu-item 
-              v-for="item in $router.options.routes[0].children[8].children"
+              v-for="item in $router.options.routes[0].children[6].children"
               :key="item.path"
               :index="item.path">
               {{item.name}}
